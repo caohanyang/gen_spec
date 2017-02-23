@@ -28,11 +28,11 @@ public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
 	private CorpusController annieController;
-	private static String FILE_PATH = "corpus/www.yelp.com_developers_documentation_v3_business_search_phone.html";
+	private static String FILE_PATH = "file:corpus/phone.html";
 	
 	public static void main(String[] args) throws GateException, IOException {
         Gate.init();
-        
+
         // 1. create corpus
         Corpus corpus = Factory.newCorpus("Test HTML Corpus");
         // 2. create doc
