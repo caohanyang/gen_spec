@@ -3,10 +3,14 @@ package com.hanyang;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import gate.Annotation;
 import gate.AnnotationSet;
@@ -43,10 +47,13 @@ public class ExtractInformation {
         // 3. add doc
         corpus.add(docNew);
         
-        // 4. get all text
+        // 4. initial the specification
+        GenerateMain mainObject = new GenerateMain();
+        JSONObject swagger = mainObject.generateStructure();
+        // 5. get all text
         DocumentContent textAll = docNew.getContent();
         
-        // 4.1 search for the GET https
+        // 5.1 search for the GET https
         String strAll = textAll.toString();
         Pattern p = Pattern.compile("((get)|(post)|(del)|(put)|(patch)) http", Pattern.CASE_INSENSITIVE);
         Matcher matcher = p.matcher(strAll);
@@ -60,12 +67,12 @@ public class ExtractInformation {
         	Out.prln(str);
         }
         
-        // 5.1 get original markups
+        // 6.1 get original markups
         docNew.setMarkupAware(true);
        
         AnnotationSet annoOrigin = docNew.getAnnotations("Original markups");
         
-        // 5.2 get table annotation
+        // 6.2 get table annotation
         AnnotationSet annoTable = annoOrigin.get("table");
         
         Iterator tableIter = annoTable.iterator();
@@ -75,6 +82,19 @@ public class ExtractInformation {
         	Out.prln("==========TABLE =================");
         	Out.prln(txt);
         }
+        
+        // Test swagger
+        Out.prln(swagger);
+        FileWriter fileWriter = new FileWriter("swagger.json");
+		fileWriter.write(swagger.toString());
+		fileWriter.close();
+        
+        
+        
+        
+        
+        
+        
         
 //        // 5. save all the contents including original markups to xml
 //        String xmlFile = docNew.toXml();
