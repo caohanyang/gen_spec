@@ -32,7 +32,7 @@ public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
 	private CorpusController annieController;
-	private static String FILE_PATH = "file:corpus/phone.html";
+	private static String FILE_PATH = "file:corpus/www.instagram.com/www.instagram.com_developer_endpoints_users.html";
 	
 	public static void main(String[] args) throws GateException, IOException {
         Gate.init();
@@ -55,16 +55,32 @@ public class ExtractInformation {
         
         // 5.1 search for the GET https
         String strAll = textAll.toString();
-        Pattern p = Pattern.compile("((get)|(post)|(del)|(put)|(patch)) http", Pattern.CASE_INSENSITIVE);
+        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*)http");
         Matcher matcher = p.matcher(strAll);
         
-        if (matcher.find()) {
-        	String tmpStr = strAll.substring(matcher.start(), matcher.start() + 50);
-        	// 4.2 output the url action and address
-//        	String str = tmpStr.split(" ")[0] + " "+ tmpStr.split(" ")[1];
-        	String str = tmpStr.split("/n")[0];
-        	Out.prln("==========URL ADDRESS============");
-        	Out.prln(str);
+        while (matcher.find()) {
+        	String group = matcher.group();
+        	Out.prln(group);
+        	String tmpStr = strAll.substring(matcher.start(), matcher.start()+100);
+//        	Out.prln(strAll);
+        	Out.prln("========tmpSTR==============");
+        	Out.prln(tmpStr);
+            // match action        	
+        	Pattern action = Pattern.compile("((get)|(post)|(del)|(put)|(patch))", Pattern.CASE_INSENSITIVE);
+        	Matcher matcherAction = action.matcher(tmpStr);
+        	if(matcherAction.find()){
+        		String actionStr = tmpStr.split(" ")[0];
+        		Out.prln("==========REST Action============");
+        		Out.prln(action);
+        	}
+        	// match endpoint
+        	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
+        	Matcher endpointMatcher = endpoint.matcher(tmpStr);
+        	if(endpointMatcher.find()){
+        		String urlString = tmpStr.substring(endpointMatcher.start()).split(" ")[0];
+        		Out.prln("==========URL ADDRESS============");
+        		Out.prln(urlString);
+        	}
         }
         
         // 6.1 get original markups
