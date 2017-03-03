@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,9 +37,9 @@ public class ExtractInformation {
 	private CorpusController annieController;
 	private static String FILE_PATH = "file:corpus/www.instagram.com/www.instagram.com_developer_endpoints_users.html";
 	
-	public static void main(String[] args) throws GateException, IOException {
-        Gate.init();
-
+	public static void main(String[] args) throws GateException, IOException {		
+		Gate.init();
+        
         // 1. create corpus
         Corpus corpus = Factory.newCorpus("Test HTML Corpus");
         // 2. create doc
@@ -55,12 +58,16 @@ public class ExtractInformation {
         
         // 5.1 search for the GET https
         String strAll = textAll.toString();
-        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*)http");
+        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)http");
         Matcher matcher = p.matcher(strAll);
         
         while (matcher.find()) {
         	String group = matcher.group();
+        	Out.prln("=========group==============");
         	Out.prln(group);
+        	Out.prln(matcher.start());
+        	Out.prln(matcher.end());
+        	Out.prln("=========group==============");
         	String tmpStr = strAll.substring(matcher.start(), matcher.start()+100);
 //        	Out.prln(strAll);
         	Out.prln("========tmpSTR==============");
@@ -95,8 +102,8 @@ public class ExtractInformation {
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
         	String txt = gate.Utils.stringFor(docNew, anno);
-        	Out.prln("==========TABLE =================");
-        	Out.prln(txt);
+//        	Out.prln("==========TABLE =================");
+//        	Out.prln(txt);
         }
         
         // Test swagger
