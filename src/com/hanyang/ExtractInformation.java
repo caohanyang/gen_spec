@@ -58,33 +58,28 @@ public class ExtractInformation {
         
         // 5.1 search for the GET https
         String strAll = textAll.toString();
-        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)http");
+        // Fix 1: suppose the len(content between get and http) < 30
+        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.{0,30})http");
         Matcher matcher = p.matcher(strAll);
         
         while (matcher.find()) {
-        	String group = matcher.group();
-        	Out.prln("=========group==============");
-        	Out.prln(group);
-        	Out.prln(matcher.start());
-        	Out.prln(matcher.end());
-        	Out.prln("=========group==============");
-        	String tmpStr = strAll.substring(matcher.start(), matcher.start()+100);
-//        	Out.prln(strAll);
+        	// Fix 2: suppose the URL length < 100
+        	String matchStr = strAll.substring(matcher.start(), matcher.end()+100);
         	Out.prln("========tmpSTR==============");
-        	Out.prln(tmpStr);
+        	Out.prln(matchStr);
             // match action        	
         	Pattern action = Pattern.compile("((get)|(post)|(del)|(put)|(patch))", Pattern.CASE_INSENSITIVE);
-        	Matcher matcherAction = action.matcher(tmpStr);
+        	Matcher matcherAction = action.matcher(matchStr);
         	if(matcherAction.find()){
-        		String actionStr = tmpStr.split(" ")[0];
+        		String actionStr = matchStr.split(" ")[0];
         		Out.prln("==========REST Action============");
-        		Out.prln(action);
+        		Out.prln(actionStr);
         	}
         	// match endpoint
         	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
-        	Matcher endpointMatcher = endpoint.matcher(tmpStr);
+        	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
-        		String urlString = tmpStr.substring(endpointMatcher.start()).split(" ")[0];
+        		String urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
         		Out.prln("==========URL ADDRESS============");
         		Out.prln(urlString);
         	}
