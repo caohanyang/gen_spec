@@ -37,7 +37,7 @@ public class ExtractInformation {
 	private CorpusController annieController;
 	private static String FILE_PATH = "file:corpus/www.instagram.com/www.instagram.com_developer_endpoints_users.html";
 	
-	public static void main(String[] args) throws GateException, IOException {		
+	public static void main(String[] args) throws GateException, IOException, JSONException {		
 		Gate.init();
         
         // 1. create corpus
@@ -55,34 +55,41 @@ public class ExtractInformation {
         JSONObject swagger = mainObject.generateStructure();
         // 5. get all text
         DocumentContent textAll = docNew.getContent();
+//        Out.prln(textAll);
         
         // 5.1 search for the GET https
         String strAll = textAll.toString();
-        // Fix 1: suppose the len(content between get and http) < 30
-        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.{0,30})http");
+        // Fix 1: suppose the len(content between get and http) < 40
+        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.{0,40})http");
         Matcher matcher = p.matcher(strAll);
         
         while (matcher.find()) {
         	// Fix 2: suppose the URL length < 100
         	String matchStr = strAll.substring(matcher.start(), matcher.end()+100);
-        	Out.prln("========tmpSTR==============");
-        	Out.prln(matchStr);
+//        	Out.prln("========tmpSTR==============");
+//        	Out.prln(matchStr);
             // match action        	
         	Pattern action = Pattern.compile("((get)|(post)|(del)|(put)|(patch))", Pattern.CASE_INSENSITIVE);
         	Matcher matcherAction = action.matcher(matchStr);
+        	String actionStr=null, urlString=null;
         	if(matcherAction.find()){
-        		String actionStr = matchStr.split(" ")[0];
-        		Out.prln("==========REST Action============");
-        		Out.prln(actionStr);
+        		actionStr = matchStr.split(" ")[0];
+//        		Out.prln("==========REST Action============");
+//        		Out.prln(actionStr);
         	}
         	// match endpoint
         	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
         	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
-        		String urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
-        		Out.prln("==========URL ADDRESS============");
-        		Out.prln(urlString);
+        		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
+//        		Out.prln("==========URL ADDRESS============");
+//        		Out.prln(urlString);
         	}
+        	
+        	// Write into swagger
+        	ProcessMethod processMe = new ProcessMethod();
+        	processMe.generateDefault(swagger);
+        	processMe.addUrl(swagger, urlString, actionStr);
         }
         
         // 6.1 get original markups
@@ -104,7 +111,7 @@ public class ExtractInformation {
         // Test swagger
         Out.prln(swagger);
         FileWriter fileWriter = new FileWriter("swagger.json");
-		fileWriter.write(swagger.toString());
+		fileWriter.write(swagger.toString(4));
 		fileWriter.close();
         
         
