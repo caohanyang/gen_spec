@@ -1,11 +1,11 @@
 {
     "paths": {
-        "https://api.instagram.com/v1/users/{user-id}/media/recent/?access_token=ACCESS-TOKEN": {"GET": {}},
-        "https://api.instagram.com/v1/users/self/media/liked?access_token=ACCESS-TOKEN": {"GET": {}},
-        "https://api.instagram.com/v1/users/search?q=jack&access_token=ACCESS-TOKEN": {"GET": {}},
-        "https://api.instagram.com/v1/users/self/?access_token=ACCESS-TOKEN": {"GET": {}},
-        "https://api.instagram.com/v1/users/{user-id}/?access_token=ACCESS-TOKEN": {"GET": {}},
-        "https://api.instagram.com/v1/users/self/media/recent/?access_token=ACCESS-TOKEN": {"GET": {}}
+        "https://api.instagram.com/v1/users/{user-id}/media/recent/?access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters count Count of media to return.\nmax_id Return media earlier than this max_id.\nmin_id Return media later than this min_id.\naccess_token A valid access token.\n"}},
+        "https://api.instagram.com/v1/users/self/media/liked?access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters count Count of media to return.\naccess_token A valid access token.\nmax_like_id Return media liked before this id.\n"}},
+        "https://api.instagram.com/v1/users/search?q=jack&access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters q A query string.\ncount Number of users to return.\naccess_token A valid access token.\n"}},
+        "https://api.instagram.com/v1/users/self/?access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters access_token A valid access token.\n"}},
+        "https://api.instagram.com/v1/users/{user-id}/?access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters access_token A valid access token.\n"}},
+        "https://api.instagram.com/v1/users/self/media/recent/?access_token=ACCESS-TOKEN": {"GET": {"parameters": "Parameters count Count of media to return.\nmax_id Return media earlier than this max_id.\nmin_id Return media later than this min_id.\naccess_token A valid access token.\n"}}
     },
     "swagger": "2.0",
     "info": "This is the information of the API"

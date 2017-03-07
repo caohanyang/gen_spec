@@ -5,7 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,7 +64,8 @@ public class ExtractInformation {
         // Fix 1: suppose the len(content between get and http) < 40
         Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.{0,40})http");
         Matcher matcher = p.matcher(strAll);
-        
+        List<String> urlList = new ArrayList<String>();
+        String actionStr=null, urlString=null;
         while (matcher.find()) {
         	// Fix 2: suppose the URL length < 100
         	String matchStr = strAll.substring(matcher.start(), matcher.end()+100);
@@ -71,7 +74,7 @@ public class ExtractInformation {
             // match action        	
         	Pattern action = Pattern.compile("((get)|(post)|(del)|(put)|(patch))", Pattern.CASE_INSENSITIVE);
         	Matcher matcherAction = action.matcher(matchStr);
-        	String actionStr=null, urlString=null;
+        	
         	if(matcherAction.find()){
         		actionStr = matchStr.split(" ")[0];
 //        		Out.prln("==========REST Action============");
@@ -82,6 +85,7 @@ public class ExtractInformation {
         	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
         		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
+        		urlList.add(urlString);
 //        		Out.prln("==========URL ADDRESS============");
 //        		Out.prln(urlString);
         	}
@@ -103,9 +107,14 @@ public class ExtractInformation {
         Iterator tableIter = annoTable.iterator();
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
+            Out.prln(anno.getStartNode());
         	String txt = gate.Utils.stringFor(docNew, anno);
-//        	Out.prln("==========TABLE =================");
-//        	Out.prln(txt);
+        	ProcessParameter processPa = new ProcessParameter();
+        	if (processPa.isParaTable(txt)) {
+        		Out.prln("==========TABLE =================");
+        		Out.prln(txt);
+        		processPa.generateParameter(swagger, txt, strAll, urlList, anno.getStartNode().getOffset(), actionStr);
+        	}
         }
         
         // Test swagger
