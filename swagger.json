@@ -2,32 +2,134 @@
   "paths": {
     "https://api.instagram.com/v1/users/{user-id}/media/recent/?access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters count Count of media to return.\nmax_id Return media earlier than this max_id.\nmin_id Return media later than this min_id.\naccess_token A valid access token.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "min_id",
+            "description": "Return media later than this min_id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "Return media earlier than this max_id.",
+            "type": "integer"
+          }
+        ]
       }
     },
     "https://api.instagram.com/v1/users/self/media/liked?access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters count Count of media to return.\naccess_token A valid access token.\nmax_like_id Return media liked before this id.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "max_like_id",
+            "description": "Return media liked before this id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
       }
     },
     "https://api.instagram.com/v1/users/search?q\u003djack\u0026access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters q A query string.\ncount Number of users to return.\naccess_token A valid access token.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "A query string.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Number of users to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
       }
     },
     "https://api.instagram.com/v1/users/self/?access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters access_token A valid access token.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
       }
     },
     "https://api.instagram.com/v1/users/{user-id}/?access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters access_token A valid access token.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
       }
     },
     "https://api.instagram.com/v1/users/self/media/recent/?access_token\u003dACCESS-TOKEN": {
       "GET": {
-        "parameters": "Parameters count Count of media to return.\nmax_id Return media earlier than this max_id.\nmin_id Return media later than this min_id.\naccess_token A valid access token.\n"
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "Return media earlier than this max_id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "min_id",
+            "description": "Return media later than this min_id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
       }
     }
   },

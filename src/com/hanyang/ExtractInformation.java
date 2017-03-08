@@ -108,23 +108,21 @@ public class ExtractInformation {
         AnnotationSet annoOrigin = docNew.getAnnotations("Original markups");
         
         // 6.2 get table annotation
-        AnnotationSet annoTable = annoOrigin.get("table");
+        AnnotationSet annoTable = annoOrigin.get("table");          
         
         Iterator tableIter = annoTable.iterator();
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
-            Out.prln(anno.getStartNode());
         	String txt = gate.Utils.stringFor(docNew, anno);
         	ProcessParameter processPa = new ProcessParameter();
         	if (processPa.isParaTable(txt)) {
         		Out.prln("==========TABLE =================");
         		Out.prln(txt);
-        		processPa.generateParameter(swagger, txt, strAll, urlList, anno.getStartNode().getOffset(), actionStr);
+        		processPa.generateParameter(swagger, txt, strAll, urlList, anno, docNew, actionStr);
         	}
         }
         
-        // Test swagger
-        Out.prln(swagger);
+        // Print pretty swagger
         FileWriter fileWriter = new FileWriter("swagger.json");
         String swString = swagger.toString();
         JsonParser parser = new JsonParser();
