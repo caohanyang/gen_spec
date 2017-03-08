@@ -1,6 +1,7 @@
 package com.hanyang;
 
 import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -32,6 +33,11 @@ import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 import gate.util.Out;
 import gate.util.persistence.PersistenceManager;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class ExtractInformation {
 
@@ -120,7 +126,14 @@ public class ExtractInformation {
         // Test swagger
         Out.prln(swagger);
         FileWriter fileWriter = new FileWriter("swagger.json");
-		fileWriter.write(swagger.toString(4));
+        String swString = swagger.toString();
+        JsonParser parser = new JsonParser();
+        JsonElement jelement = parser.parse(swString);
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(jelement);
+        
+		fileWriter.write(prettyJson);
 		fileWriter.close();
         
         
