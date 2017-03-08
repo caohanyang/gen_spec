@@ -3,8 +3,6 @@ package com.hanyang;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gate.util.Out;
-
 public class ProcessMethod {
    public JSONObject generateDefault (JSONObject swagger) throws JSONException{
 	

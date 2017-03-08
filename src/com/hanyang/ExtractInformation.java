@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.tika.Tika;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,12 +31,9 @@ import gate.DocumentContent;
 import gate.Factory;
 import gate.FeatureMap;
 import gate.Gate;
-import gate.annotation.AnnotationImpl;
-import gate.creole.ANNIEConstants;
-import gate.creole.SerialAnalyserController;
+import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
 import gate.util.Out;
-import gate.util.persistence.PersistenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,27 +43,41 @@ import com.google.gson.JsonParser;
 public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
-	private CorpusController annieController;
-	private static String FILE_PATH = "file:corpus/www.instagram.com/www.instagram.com_developer_endpoints_users.html";
+	private static String FOLDER_PATH = "corpus/www.instagram.com";
 	
-	public static void main(String[] args) throws GateException, IOException, JSONException {		
+	public static void main(String[] args) throws GateException, JSONException, IOException {		
 		Gate.init();
         
         // 1. create corpus
         Corpus corpus = Factory.newCorpus("Test HTML Corpus");
-        // 2. create doc
-        URL u = new URL(FILE_PATH);
-        FeatureMap params = Factory.newFeatureMap();
-        params.put("sourceUrl", u);
-        Document docNew = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
-        // 3. add doc
-        corpus.add(docNew);
+        File folder = new File(FOLDER_PATH);
+        File[] listFiles = folder.listFiles();
         
-        // 4. initial the specification
+        // 2. initial the specification
         GenerateMain mainObject = new GenerateMain();
         JSONObject swagger = mainObject.generateStructure();
+        
+        // 3. create doc
+        for (int i = 0; i < listFiles.length; i++) {
+        	String type = new Tika().detect(listFiles[i].getPath());
+        	// only detect html
+        	if (type.equals("text/html")) {
+        	  genOneUrl(listFiles[i].getPath(), corpus, swagger);
+        	}
+        }
+          
+	}
+
+	public static void genOneUrl(String path, Corpus corpus, JSONObject swagger) throws ResourceInstantiationException, JSONException, IOException {
+		URL u = Paths.get(path).toUri().toURL();
+        FeatureMap params = Factory.newFeatureMap();
+        params.put("sourceUrl", u);
+        Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
+        // 3. add doc
+        corpus.add(doc);
+        
         // 5. get all text
-        DocumentContent textAll = docNew.getContent();
+        DocumentContent textAll = doc.getContent();
 //        Out.prln(textAll);
         
         // 5.1 search for the GET https
@@ -103,9 +118,9 @@ public class ExtractInformation {
         }
         
         // 6.1 get original markups
-        docNew.setMarkupAware(true);
+        doc.setMarkupAware(true);
        
-        AnnotationSet annoOrigin = docNew.getAnnotations("Original markups");
+        AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
         
         // 6.2 get table annotation
         AnnotationSet annoTable = annoOrigin.get("table");          
@@ -113,12 +128,12 @@ public class ExtractInformation {
         Iterator tableIter = annoTable.iterator();
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
-        	String txt = gate.Utils.stringFor(docNew, anno);
+        	String txt = gate.Utils.stringFor(doc, anno);
         	ProcessParameter processPa = new ProcessParameter();
         	if (processPa.isParaTable(txt)) {
         		Out.prln("==========TABLE =================");
         		Out.prln(txt);
-        		processPa.generateParameter(swagger, txt, strAll, urlList, anno, docNew, actionStr);
+        		processPa.generateParameter(swagger, txt, strAll, urlList, anno, doc, actionStr);
         	}
         }
         
@@ -133,82 +148,8 @@ public class ExtractInformation {
         
 		fileWriter.write(prettyJson);
 		fileWriter.close();
-        
-        
-        
-        
-        
-        
-        
-        
-//        // 5. save all the contents including original markups to xml
-//        String xmlFile = docNew.toXml();
-//        FileWriter fw = new FileWriter("my.xml");
-//        fw.write(xmlFile);
-//        fw.close();
-//        
-//        // 6. get informations from xml file
-//        URL ux = new URL("file:///Users/hanyangcao/Documents/workspace/TestGate/temp/my.xml");
-//        FeatureMap paramsx = Factory.newFeatureMap();
-//        params.put("sourceUrl", ux);
-//        Document docXML = (Document) Factory.createResource("gate.corpora.DocumentImpl", paramsx);
-//        Out.prln(docXML.getAnnotations());
-        
-        
-        
-//        // 5. get all table Annotations
-//        // 5.1 initialise ANNIE (this may take several minutes)
-//        testG annie = new testG();
-//        annie.initAnnie();
-//        
-//        // 5.2 tell the pipeline about the corpus and run it
-//        annie.setCorpus(corpus);
-//        annie.execute();
-//        
-//        // 5.3 corpus iterator
-//        Iterator iter = corpus.iterator();
-//        int count = 0;
-//        
-//        while(iter.hasNext()) {
-//        	Document doc = (Document) iter.next();
-//        	AnnotationSet defaultAnnotSet = doc.getAnnotations();
-//        	
-//        	// 5.3.1 set table type
-//            String type = "table";
-//            
-//            // 5.3.3 get type annotations
-//            AnnotationSet tableSet = defaultAnnotSet.get(type);
-//        	Out.prln(defaultAnnotSet.getAllTypes());
-//     
-//        }
+		
 	}
 	
-	  /**
-	   * Initialise the ANNIE system. This creates a "corpus pipeline"
-	   * application that can be used to run sets of documents through
-	   * the extraction system.
-	   */
-	  public void initAnnie() throws GateException, IOException {
-	    Out.prln("Initialising ANNIE...");
-
-	    // load the ANNIE application from the saved state in plugins/ANNIE
-	    File pluginsHome = Gate.getPluginsHome();
-	    File anniePlugin = new File(pluginsHome, "ANNIE");
-	    File annieGapp = new File(anniePlugin, "ANNIE_with_defaults.gapp");
-	    annieController =
-	      (CorpusController) PersistenceManager.loadObjectFromFile(annieGapp);
-	    Out.prln("...ANNIE loaded");
-	  } // initAnnie()
-	  /** Tell ANNIE's controller about the corpus you want to run on */
-	  public void setCorpus(Corpus corpus) {
-	    annieController.setCorpus(corpus);
-	  } // setCorpus
-
-	  /** Run ANNIE */
-	  public void execute() throws GateException {
-	    Out.prln("Running ANNIE...");
-	    annieController.execute();
-	    Out.prln("...ANNIE complete");
-	  } // execute()
 
 }

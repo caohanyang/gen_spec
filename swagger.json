@@ -1,12 +1,12 @@
 {
   "paths": {
-    "https://api.instagram.com/v1/users/{user-id}/media/recent/?access_token\u003dACCESS-TOKEN": {
+    "https://api.instagram.com/v1/locations/{location-id}?access_token\u003dACCESS-TOKEN": {
       "GET": {
         "parameters": [
           {
             "in": "query",
-            "name": "min_id",
-            "description": "Return media later than this min_id.",
+            "name": "max_id",
+            "description": "Return media after this max_id.",
             "type": "integer"
           },
           {
@@ -17,14 +17,20 @@
           },
           {
             "in": "query",
-            "name": "count",
-            "description": "Count of media to return.",
+            "name": "min_id",
+            "description": "Return media before this min_id.",
             "type": "integer"
-          },
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/media/shortcode/D?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
           {
             "in": "query",
-            "name": "max_id",
-            "description": "Return media earlier than this max_id.",
+            "name": "access_token",
+            "description": "A valid access token.",
             "type": "integer"
           }
         ]
@@ -54,19 +60,93 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/users/search?q\u003djack\u0026access_token\u003dACCESS-TOKEN": {
+    "https://api.instagram.com/v1/tags/{tag-name}/media/recent?access_token\u003dACCESS-TOKEN": {
       "GET": {
         "parameters": [
           {
             "in": "query",
-            "name": "q",
-            "description": "A query string.",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_tag_id",
+            "description": "Return media after this max_tag_id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "min_tag_id",
+            "description": "Return media before this min_tag_id.",
             "type": "integer"
           },
           {
             "in": "query",
             "name": "count",
-            "description": "Number of users to return.",
+            "description": "Count of tagged media to return.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/media/{media-id}/likes?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/self/requested-by?access_token\u003dACCESS-TOKEN": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      },
+      "GET": {}
+    },
+    "https://api.instagram.com/v1/users/{user-id}/?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/self/follows?access_token\u003dACCESS-TOKEN": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      },
+      "get": {}
+    },
+    "https://api.instagram.com/v1/tags/search?q\u003dsnowy\u0026access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "A valid tag name without a leading #. (eg. snowy, nofilter)",
             "type": "integer"
           },
           {
@@ -78,21 +158,15 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/users/self/?access_token\u003dACCESS-TOKEN": {
+    "https://api.instagram.com/v1/media/{media-id}/comments?access_token\u003dACCESS-TOKEN": {
       "GET": {
         "parameters": [
           {
             "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
+            "name": "text",
+            "description": "Text to post as a comment on the media object as specified in media-id.",
             "type": "integer"
-          }
-        ]
-      }
-    },
-    "https://api.instagram.com/v1/users/{user-id}/?access_token\u003dACCESS-TOKEN": {
-      "GET": {
-        "parameters": [
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -127,6 +201,187 @@
             "in": "query",
             "name": "access_token",
             "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/locations/search?lat\u003d48.858844\u0026lng\u003d2.294351\u0026access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "distance",
+            "description": "Default is 500m (distance\u003d500), max distance is 750.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lng",
+            "description": "Longitude of the center search coordinate. If used, lat is required.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "facebook_places_id",
+            "description": "Returns a location mapped off of a Facebook places id. If used, lat and lng are not required.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the center search coordinate. If used, lng is required.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/tags/{tag-name}?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/self/followed-by?access_token\u003dACCESS-TOKEN": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      },
+      "GET": {}
+    },
+    "https://api.instagram.com/v1/users/{user-id}/media/recent/?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "min_id",
+            "description": "Return media later than this min_id.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "Return media earlier than this max_id.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/search?q\u003djack\u0026access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "A query string.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Number of users to return.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/media/{media-id}?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/{user-id}/relationship?access_token\u003dACCESS-TOKEN": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/users/self/?access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://api.instagram.com/v1/media/search?lat\u003d48.858844\u0026lng\u003d2.294351\u0026access_token\u003dACCESS-TOKEN": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lng",
+            "description": "Longitude of the center search coordinate. If used, lat is required.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the center search coordinate. If used, lng is required.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "distance",
+            "description": "Default is 1km (distance\u003d1000), max distance is 5km.",
             "type": "integer"
           }
         ]
