@@ -17,22 +17,28 @@ import gate.Document;
 import gate.util.Out;
 
 public class ProcessParameter {
-   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<String> urlList, Annotation anno, Document doc, String action) throws JSONException{
-	//1. generate the urlMap to link the url and it's location in the text
-	Map<String, Integer> urlLocation = genUrlLocation(fullText, urlList);
-	//2. find the nearest url for one parameter
-	String url = matchURL(paraStr, fullText, urlLocation, anno.getStartNode().getOffset());
-	Out.prln(paraStr + "   match   "+ url);
+   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc) throws JSONException{
+//	//1. generate the urlMap to link the url and it's location in the text
+//	Map<String, Integer> urlLocation = genUrlLocation(fullText, infoJson);
+//	//2. find the nearest url for one parameter
+//	String url = matchURL(paraStr, fullText, urlLocation, anno.getStartNode().getOffset());
+//	String action = matchAction(paraStr, fullText, actionLocation, anno.getStartNode().getOffset());
+//	Out.prln(paraStr + "   match   "+ url + "action: " + action);
 	//3. write parameters in the swagger
-	swagger = addParameter(swagger, paraStr, url, action, anno, doc);
+	swagger = addParameter(swagger, paraStr, infoJson, anno, doc, fullText);
 	//4. write document
 //	Out.prln(tableDocument);
 	return swagger;
    }
    
    
-   public JSONObject addParameter(JSONObject swagger, String paraStr, String url, String action, Annotation anno, Document doc) throws JSONException {
+   public JSONObject addParameter(JSONObject swagger, String paraStr, List<JSONObject> infoJson, Annotation anno, Document doc, String fullText) throws JSONException {
+	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset());
+	   String url = sectionJson.getString("url");
+	   String action = sectionJson.getString("action");
+	   
 	   JSONObject urlObject = swagger.getJSONObject("paths").getJSONObject(url);
+	   //1. find the action
 	   JSONObject paraAll = new JSONObject();
 	   // parser the parameters
 	   JSONArray paraArray = parseParameter(paraStr, anno, doc);
@@ -82,17 +88,23 @@ public class ProcessParameter {
 	   
    }
    
-   public String matchURL(String paraStr, String fullText, Map<String, Integer> urlLocation, Long paraLocation) {
-		int minimumDistance = Integer.MAX_VALUE;
-		String matchUrl = null;
-		for (Entry<String, Integer> entry: urlLocation.entrySet()){
-			// search the nearest url in the prevois context 
-			if ((paraLocation - entry.getValue() < minimumDistance) && (paraLocation - entry.getValue() > 0) ) {
-				minimumDistance = (int) (paraLocation - entry.getValue());
-				matchUrl = entry.getKey();
+   public JSONObject matchURL(String paraStr, String fullText, List<JSONObject> infoJson, Long paraLocation) throws JSONException {
+		JSONObject sectionObject = new JSONObject();
+	    int minimumDistance = Integer.MAX_VALUE;
+		for (JSONObject it: infoJson){
+			JSONObject entry = it.getJSONObject("url");
+			Iterator keys = entry.keys();
+			if (keys.hasNext()) {
+				String key = (String) keys.next();
+				// search the nearest url in the prevois context 
+				if ((paraLocation - entry.getInt(key) < minimumDistance) && (paraLocation - entry.getInt(key) > 0) ) {
+					minimumDistance = (int) (paraLocation - entry.getInt(key));
+					sectionObject.put("action", it.getJSONObject("action").keys().next());
+					sectionObject.put("url", key);
+				}
 			}
 		}
-		return matchUrl;
+		return sectionObject;
 	}
 
 	public boolean isParaTable(String txt) {

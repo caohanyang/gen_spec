@@ -10,8 +10,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,49 +77,73 @@ public class ExtractInformation {
         // 3. add doc
         corpus.add(doc);
         
-        // 5. get all text
+        // 4. get all text
         DocumentContent textAll = doc.getContent();
-        Out.prln(textAll);
-        
+//        Out.prln(textAll);
+        // 5. initial swagger
+        ProcessMethod processMe = new ProcessMethod();
+    	processMe.generateDefault(swagger);
+    	
         // 5.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
         Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)http");
-        Matcher matcher = p.matcher(strAll);
-        List<String> urlList = new ArrayList<String>();
+        Matcher matcher = p.matcher(strAll); 
         String actionStr=null, urlString=null;
+        List<JSONObject> infoJson = new ArrayList<JSONObject>();
+        
         while (matcher.find()) {
+        	JSONObject sectionJson = new JSONObject();
+        	int startIndex = matcher.start();
+            Out.prln("start: " + matcher.start());
+            Out.prln("end:   " + matcher.end());
         	// Fix 2: suppose the URL length < 100
         	String matchStr = strAll.substring(matcher.start(), matcher.end()+100);
-        	Out.prln("========tmpSTR==============");
+        	Out.prln("========matchSTR==============");
         	Out.prln(matchStr);
-        	// tmpSTR may contain a lot of get/post/del/put
-            // match reversed action        	
+            
+        	// match reversed action        	
         	Pattern action = Pattern.compile("((teg)|(tsop)|(led)|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
         	// match the reversed string, from right to left
         	Matcher matcherAction = action.matcher(new StringBuilder(matchStr).reverse());
         	// find the first match
         	if(matcherAction.find()){
         		//find the action which is nearest to http
+        		Out.prln("matchStart： "+matcherAction.start());
+        		Out.prln("==========real Action============");
+        		int acOffset = matchStr.length() - matcherAction.start() - 4;
+        		int acLocation = startIndex + acOffset;
+        		Out.prln(strAll.substring(acLocation, matcher.end()));
         		Out.prln("==========REST Action============");
         		actionStr = new StringBuilder(matcherAction.group(1)).reverse().toString();
+        		JSONObject acJson = new JSONObject();
+        		acJson.put(actionStr, acLocation);
+        		sectionJson.put("action", acJson);
+        		
         		Out.prln(actionStr);
         	}
         	// match endpoint
         	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
         	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
+        		Out.prln("urlStart： "+ endpointMatcher.start());
+        		int uLocation = startIndex + endpointMatcher.start();
         		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
-        		urlList.add(urlString);
-//        		Out.prln("==========URL ADDRESS============");
-//        		Out.prln(urlString);
+        		Out.prln("==========real ADDRESS============");
+        		Out.prln(strAll.substring(uLocation, uLocation + 100));
+        		Out.prln("==========URL ADDRESS============");
+        		Out.prln(urlString);
+        		JSONObject urJson = new JSONObject();
+        		urJson.put(urlString, uLocation);
+        		sectionJson.put("url", urJson);
         	}
         	
         	// Write into swagger
-        	ProcessMethod processMe = new ProcessMethod();
-        	processMe.generateDefault(swagger);
         	processMe.addUrl(swagger, urlString, actionStr);
+        	infoJson.add(sectionJson);
         }
+        
+        Out.prln(swagger.toString());
         
         // 6.1 get original markups
         doc.setMarkupAware(true);
@@ -135,7 +161,7 @@ public class ExtractInformation {
         	if (processPa.isParaTable(txt)) {
         		Out.prln("==========TABLE =================");
         		Out.prln(txt);
-        		processPa.generateParameter(swagger, txt, strAll, urlList, anno, doc, actionStr);
+        		processPa.generateParameter(swagger, txt, strAll, infoJson, anno, doc);
         	}
         }
         

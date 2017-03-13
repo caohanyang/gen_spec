@@ -3,6 +3,8 @@ package com.hanyang;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import gate.util.Out;
+
 public class ProcessMethod {
    public JSONObject generateDefault (JSONObject swagger) throws JSONException{
 	
@@ -15,6 +17,8 @@ public class ProcessMethod {
    
    public JSONObject addUrl (JSONObject swagger, String url, String action) throws JSONException {
 	   JSONObject urlObject =  swagger.getJSONObject("paths");
+	   Out.prln("-----------action-------------");
+	   Out.prln(action);
 	   JSONObject actionObject = new JSONObject();
 	   actionObject.put(action, new JSONObject());
 	   
