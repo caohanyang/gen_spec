@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.Corpus;
-import gate.CorpusController;
 import gate.Document;
 import gate.DocumentContent;
 import gate.Factory;
@@ -78,28 +77,31 @@ public class ExtractInformation {
         
         // 5. get all text
         DocumentContent textAll = doc.getContent();
-//        Out.prln(textAll);
+        Out.prln(textAll);
         
         // 5.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
-        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.{0,40})http");
+        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)http");
         Matcher matcher = p.matcher(strAll);
         List<String> urlList = new ArrayList<String>();
         String actionStr=null, urlString=null;
         while (matcher.find()) {
         	// Fix 2: suppose the URL length < 100
         	String matchStr = strAll.substring(matcher.start(), matcher.end()+100);
-//        	Out.prln("========tmpSTR==============");
-//        	Out.prln(matchStr);
-            // match action        	
-        	Pattern action = Pattern.compile("((get)|(post)|(del)|(put)|(patch))", Pattern.CASE_INSENSITIVE);
-        	Matcher matcherAction = action.matcher(matchStr);
-        	
+        	Out.prln("========tmpSTR==============");
+        	Out.prln(matchStr);
+        	// tmpSTR may contain a lot of get/post/del/put
+            // match reversed action        	
+        	Pattern action = Pattern.compile("((teg)|(tsop)|(led)|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
+        	// match the reversed string, from right to left
+        	Matcher matcherAction = action.matcher(new StringBuilder(matchStr).reverse());
+        	// find the first match
         	if(matcherAction.find()){
-        		actionStr = matchStr.split(" ")[0];
-//        		Out.prln("==========REST Action============");
-//        		Out.prln(actionStr);
+        		//find the action which is nearest to http
+        		Out.prln("==========REST Action============");
+        		actionStr = new StringBuilder(matcherAction.group(1)).reverse().toString();
+        		Out.prln(actionStr);
         	}
         	// match endpoint
         	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
