@@ -44,6 +44,7 @@ import com.google.gson.JsonParser;
 public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
+	// corpus/www.instagram.com  dev.twitter.co
 	private static String FOLDER_PATH = "corpus/www.instagram.com";
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
@@ -66,6 +67,13 @@ public class ExtractInformation {
         	  genOneUrl(listFiles[i].getPath(), corpus, swagger);
         	}
         }
+        
+        //prune swagger
+        ProcessBaseUrl processBa = new ProcessBaseUrl();
+        swagger = processBa.handleBaseUrl(swagger);
+        
+        // write to file
+        writeSwagger(swagger);
           
 	}
 
@@ -113,7 +121,7 @@ public class ExtractInformation {
         		Out.prln("==========real Action============");
         		int acOffset = matchStr.length() - matcherAction.start() - 4;
         		int acLocation = startIndex + acOffset;
-        		Out.prln(strAll.substring(acLocation, matcher.end()));
+//        		Out.prln(strAll.substring(acLocation, matcher.end()));
         		Out.prln("==========REST Action============");
         		actionStr = new StringBuilder(matcherAction.group(1)).reverse().toString();
         		JSONObject acJson = new JSONObject();
@@ -163,10 +171,13 @@ public class ExtractInformation {
         		Out.prln(txt);
         		processPa.generateParameter(swagger, txt, strAll, infoJson, anno, doc);
         	}
-        }
-        
-        // Print pretty swagger
-        FileWriter fileWriter = new FileWriter("swagger.json");
+        }      
+		
+	}
+	
+	public static void writeSwagger(JSONObject swagger) throws IOException {
+		// Print pretty swagger
+        FileWriter fileWriter = new FileWriter(FOLDER_PATH + "/swagger.json");
         String swString = swagger.toString();
         JsonParser parser = new JsonParser();
         JsonElement jelement = parser.parse(swString);
@@ -176,8 +187,6 @@ public class ExtractInformation {
         
 		fileWriter.write(prettyJson);
 		fileWriter.close();
-		
 	}
-	
 
 }
