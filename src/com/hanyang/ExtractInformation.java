@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -44,8 +45,9 @@ import com.google.gson.JsonParser;
 public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
-	// corpus/www.instagram.com  dev.twitter.co
+	// corpus/www.instagram.com  dev.twitter.com
 	private static String FOLDER_PATH = "corpus/www.instagram.com";
+	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
 		Gate.init();
@@ -95,7 +97,8 @@ public class ExtractInformation {
         // 5.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
-        Pattern p = Pattern.compile("(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)http");
+        String regexAll = "(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)"+ SCHEME_PATTERN.get(0);
+        Pattern p = Pattern.compile(regexAll);
         Matcher matcher = p.matcher(strAll); 
         String actionStr=null, urlString=null;
         List<JSONObject> infoJson = new ArrayList<JSONObject>();
@@ -131,7 +134,8 @@ public class ExtractInformation {
         		Out.prln(actionStr);
         	}
         	// match endpoint
-        	Pattern endpoint = Pattern.compile("http", Pattern.CASE_INSENSITIVE);
+        	String regexHttp = SCHEME_PATTERN.get(0);
+        	Pattern endpoint = Pattern.compile(regexHttp, Pattern.CASE_INSENSITIVE);
         	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
         		Out.prln("urlStart： "+ endpointMatcher.start());

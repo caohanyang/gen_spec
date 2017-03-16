@@ -1,0 +1,1305 @@
+{
+  "basePath": "/1.1",
+  "paths": {
+    "/collections/entries.json": {
+      "GET": {}
+    },
+    "HTTP 404 will be thrown.": {
+      "POST": {}
+    },
+    "/lists/destroy.json": {
+      "POST": {}
+    },
+    "HTTP 403 error.": {
+      "POST": {}
+    },
+    "/friendships/incoming.json": {
+      "GET": {}
+    },
+    "/statuses/show/210462857140252672.json": {
+      "GET": {}
+    },
+    "HTTP Response Codes ¶": {
+      "GET": {}
+    },
+    "/lists/list.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional The screen name of the user for whom to return results for. Helpful for disambiguating when a valid screen name is also a user ID. noradio",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "reverse",
+            "description": "optional Set this to true if you would like owned lists to be returned first. See description above for information on how this parameter works. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional The ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name. Note: : Specifies the ID of the user to get lists from. Helpful for disambiguating when a valid user ID is also a valid screen name. 12345",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/friendships/update.json": {
+      "POST": {}
+    },
+    "/blocks/list.json": {
+      "GET": {}
+    },
+    "/saved_searches/destroy/62353170.json": {
+      "POST": {}
+    },
+    "HTTP 200 upon success.": {
+      "POST": {}
+    },
+    "/friendships/outgoing.json": {
+      "GET": {}
+    },
+    "HTTP/1.1 Host: api.twitter.com User-Agent: Go http package Content-Length: 15532 Authorization: OAuth oa": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "place_id",
+            "description": "optional A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode. df51dec6f4ee2b2c",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "media[]",
+            "description": "required Up to max_media_per_upload files may be specified in the request, each named media[] . Supported image formats are PNG, JPG and GIF, including animated GIFs of up to 3MB . This data must be either the raw image bytes or encoded as base64. Note : Request the GET help / configuration endpoint to get the current max_media_per_upload and photo_size_limit values.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "in_reply_to_status_id",
+            "description": "optional The ID of an existing status that the update is in reply to. Note : This parameter will be ignored unless the author of the tweet this parameter references is mentioned within the status text. Therefore, you must include @username , where username is the author of the referenced tweet, within the update.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "required The text of your status update. URL encode as necessary. t.co link wrapping may affect character counts if the post contains URLs. You must additionally account for the characters_reserved_per_media per uploaded media, additionally accounting for space characters in between finalized URLs. Note : Request the GET help / configuration endpoint to get the current characters_reserved_per_media and max_media_per_upload values.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "description": "optional The longitude of the location this tweet refers to. The valid ranges for longitude is -180.0 to +180.0 (East is positive) inclusive. This parameter will be ignored if outside that range, not a number, geo_enabled is disabled, or if there not a corresponding lat parameter. -122.400612831116",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "display_coordinates",
+            "description": "optional Whether or not to put a pin on the exact coordinates a tweet has been sent from. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "possibly_sensitive",
+            "description": "optional Set to true for content which may not be suitable for every audience.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "optional The latitude of the location this tweet refers to. This parameter will be ignored unless it is inside the range -90.0 to +90.0 (North is positive) inclusive. It will also be ignored if there isn’t a corresponding long parameter. 37.7821120598956",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/users/suggestions.json": {
+      "GET": {}
+    },
+    "/favorites/create.json": {
+      "POST": {}
+    },
+    "/account/update_profile_banner.json": {
+      "POST": {}
+    },
+    "/collections/destroy.json": {
+      "POST": {}
+    },
+    "/account/settings.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "end_sleep_time",
+            "description": "optional The hour that sleep time should end if it is enabled. The value for this parameter should be provided in ISO8601 format (i.e. 00-23). The time is considered to be in the same timezone as the user’s time_zone setting. 13",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "trend_location_woeid",
+            "description": "optional The Yahoo! Where On Earth ID to use as the user’s default trend location. Global information is available by using 1 as the WOEID. The woeid must be one of the locations returned by [node:59]. 1",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start_sleep_time",
+            "description": "optional The hour that sleep time should begin if it is enabled. The value for this parameter should be provided in ISO8601 format (i.e. 00-23). The time is considered to be in the same timezone as the user’s time_zone setting. 13",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "time_zone",
+            "description": "optional The timezone dates and times should be displayed in for the user. The timezone must be one of the Rails TimeZone names. Europe/Copenhagen Pacific/Tongatapu",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "description": "optional The language which Twitter should render in for this user. The language must be specified by the appropriate two letter ISO 639-1 representation. Currently supported languages are provided by this endpoint . it en es",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "sleep_time_enabled",
+            "description": "optional When set to true , t or 1 , will enable sleep time for the user. Sleep time is the time when push or SMS notifications should not be sent to the user. true",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/saved_searches/list.json": {
+      "GET": {}
+    },
+    "/account/update_profile_background_image.json": {
+      "POST": {}
+    },
+    "/collections/create.json": {
+      "POST": {}
+    },
+    "/help/languages.json": {
+      "GET": {}
+    },
+    "/trends/closest.json": {
+      "GET": {}
+    },
+    "/statuses/destroy/240854986559455234.json": {
+      "POST": {}
+    },
+    "/geo/place.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "required The name a place is known as. Twitter%20HQ",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "description": "required The longitude the place is located at. The valid ranges for longitude is -180.0 to +180.0 (East is positive) inclusive. This parameter will be ignored if outside that range, if it is not a number, if geo_enabled is disabled, or if there not a corresponding lat parameter. -122.400612831116",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "description": "required The token found in the response from geo/similar_places. 36179c9bf78835898ebf521c1defd4be",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "callback",
+            "description": "optional If supplied, the response will use the JSONP format with a callback of the given name.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "contained_within",
+            "description": "required The place_id within which the new place can be found. Try and be as close as possible with the containing place. For example, for a room in a building, set the contained_within as the building place_id . 247f43d441defc03",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "required The latitude the place is located at. This parameter will be ignored unless it is inside the range -90.0 to +90.0 (North is positive) inclusive. It will also be ignored if there isn’t a corresponding long parameter. 37.7821120598956",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "attribute:street_address",
+            "description": "optional This parameter searches for places which have this given street address. There are other well-known, and application specific attributes available. Custom attributes are also permitted. Learn more here . 795%20Folsom%20St",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/geo/reverse_geocode.json": {
+      "GET": {}
+    },
+    "/direct_messages/destroy.json": {
+      "POST": {}
+    },
+    "/lists/members/destroy": {
+      "POST": {}
+    },
+    "/users/suggestions/twitter.json": {
+      "GET": {}
+    },
+    "/collections/entries/add.json": {
+      "POST": {}
+    },
+    "/lists/subscriptions.json": {
+      "GET": {}
+    },
+    "/geo/search.json": {
+      "GET": {}
+    },
+    "/help/privacy.json": {
+      "GET": {}
+    },
+    "/statuses/retweet/243149503589400576.json": {
+      "POST": {}
+    },
+    "https://curator.twitter.com/broadcast/1/projects": {
+      "GET": {}
+    },
+    "/lists/show.json": {
+      "GET": {}
+    },
+    "/lists/members.json": {
+      "GET": {}
+    },
+    "/followers/list.json": {
+      "GET": {}
+    },
+    "https://curator.twitter.com/broadcast/1/projects?auth\u003d\u003cauth_token\u003e\u0026limit\u003d25": {
+      "GET": {}
+    },
+    "https://upload.twitter.com/1.1/media/upload.json": {
+      "POST": {}
+    },
+    "/friendships/show.json": {
+      "GET": {}
+    },
+    "/collections/list.json": {
+      "GET": {}
+    },
+    "/statuses/show.json": {
+      "GET": {}
+    },
+    "HTTP 429 will be returned if this limit has been hit.": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The numerical ID of the desired status. 123",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/trends/place.json": {
+      "GET": {}
+    },
+    "HTTP 404 will be served instead. This method can be used instead of string manipulation on the profile_b": {
+      "GET": {}
+    },
+    "/statuses/update.json": {
+      "POST": {}
+    },
+    "/collections/entries/remove.json": {
+      "POST": {}
+    },
+    "/saved_searches/show/9569704.json": {
+      "GET": {}
+    },
+    "/statuses/retweets/:id.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The numerical ID of the desired status. 123",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "optional Specifies the number of records to retrieve. Must be less than or equal to 100. 5",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/lists/subscribers.json": {
+      "GET": {}
+    },
+    "/users/profile_banner.json": {
+      "GET": {}
+    },
+    "/saved_searches/show/:id.json": {
+      "GET": {}
+    },
+    "/statuses/retweet/241259202004267009.json": {
+      "POST": {}
+    },
+    "/friends/list.json": {
+      "GET": {}
+    },
+    "/users/report_spam.json": {
+      "POST": {}
+    },
+    "/lists/statuses.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "optional Specifies the number of results to retrieve per “page.”",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "since_id",
+            "description": "optional Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional Entities are ON by default in API 1.1, each tweet includes a node called “entities”. This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. You can omit entities from the result by using include_entities\u003dfalse",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "optional Returns results with an ID less than (that is, older than) or equal to the specified ID.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_rts",
+            "description": "optional When set to either true , t or 1 , the list timeline will contain native retweets (if they exist) in addition to the standard stream of tweets. The output format of retweeted tweets is identical to the representation you see in home_timeline.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "HTTP 403 will be returned if this limit as been hit.": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The numerical ID of the desired status. 123",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/saved_searches/create.json": {
+      "POST": {}
+    },
+    "/statuses/home_timeline.json": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "optional Returns results with an ID less than (that is, older than) or equal to the specified ID. 54321",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "exclude_replies",
+            "description": "optional This parameter will prevent replies from appearing in the returned timeline. Using exclude_replies with the count parameter will mean you will receive up-to count Tweets — this is because the count parameter retrieves that many Tweets before filtering out retweets and replies. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "optional Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20. The value of count is best thought of as a limit to the number of tweets to return because suspended or deleted content is removed after the count has been applied. 5",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each Tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "since_id",
+            "description": "optional Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available. 12345",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional The entities node will not be included when set to false . false",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      },
+      "GET": {}
+    },
+    "/geo/id/df51dec6f4ee2b2c.json": {
+      "GET": {}
+    },
+    "/lists/members/destroy.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional The screen name of the user for whom to remove from the list. Helpful for disambiguating when a valid screen name is also a user ID.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "optional You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional The ID of the user to remove from the list. Helpful for disambiguating when a valid user ID is also a valid screen name.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "optional The numerical id of the list.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/users/lookup.json": {
+      "POST": {}
+    },
+    "/favorites/list.json": {
+      "GET": {}
+    },
+    "/direct_messages/show.json": {
+      "GET": {}
+    },
+    "https\" : \"https://twimg0-a.akamaihd.net/profile_background_images/656927849/miyt9dpjz77sc0w3d4vj.png\" , ": {
+      "get": {}
+    },
+    "/help/tos.json": {
+      "GET": {}
+    },
+    "/lists/subscribers/destroy.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https://t.co/9S8YO69xzf (disclaimer, this was not posted via the API).\" , \"source\" : \"web\" , \"truncated\"": {
+      "post": {}
+    },
+    "/friendships/create.json": {
+      "POST": {}
+    },
+    "/trends/available.json": {
+      "GET": {}
+    },
+    "/users/suggestions/:slug/members.json": {
+      "GET": {}
+    },
+    "/statuses/retweets_of_me.json": {
+      "GET": {}
+    },
+    "https://publish.twitter.com/oembed?url\u003dhttps%3A%2F%2Ftwitter.com%2FInterior%2Fstatus%2F50718593862021939": {
+      "GET": {}
+    },
+    "/lists/members/destroy_all.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional A comma separated list of screen names, up to 100 are allowed in a single request.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional A comma separated list of user IDs, up to 100 are allowed in a single request.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/lists/ownerships.json": {
+      "GET": {}
+    },
+    "/geo/create.json": {
+      "POST": {}
+    },
+    "/direct_messages.json": {
+      "del": {}
+    },
+    "/mutes/users/destroy.json": {
+      "POST": {}
+    },
+    "/collections/show.json": {
+      "GET": {}
+    },
+    "/direct_messages/sent.json": {
+      "del": {}
+    },
+    "/statuses/mentions_timeline.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "optional Specifies the number of Tweets to try and retrieve, up to a maximum of 200. The value of count is best thought of as a limit to the number of tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts\u003d1 when using this API method.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "optional Returns results with an ID less than (that is, older than) or equal to the specified ID. 54321",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional The entities node will not be included when set to false . false",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "since_id",
+            "description": "optional Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available. 12345",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/mutes/users/list.json": {
+      "GET": {}
+    },
+    "/direct_messages/new.json": {
+      "POST": {}
+    },
+    "/friendships/no_retweets/ids.json": {
+      "GET": {}
+    },
+    "/friendships/lookup.json": {
+      "GET": {}
+    },
+    "https://publish.twitter.com/oembed": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "description": "optional Request returned HTML and a rendered Tweet in the specified Twitter language supported by embedded Tweets . fr",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "hide_tweet",
+            "description": "optional Applies to video type only. Set to 1 or true to link directly to the Tweet URL instead of displaying a Tweet overlay when a viewer clicks on the Twitter bird logo. 1",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "description": "required The URL of the Tweet to be embedded. To embed the Tweet at https://twitter.com/Interior/status/507185938620219395 , use: https%3A%2F%2Ftwitter.com%Interior%2Fstatus%2F507185938620219395",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "hide_thread",
+            "description": "optional When set to true , t or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "related",
+            "description": "optional A comma-separated list of Twitter usernames related to your content. This value will be forwarded to Tweet action intents if a viewer chooses to reply, like, or retweet the embedded Tweet. twitterapi,twitter",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "widget_type",
+            "description": "optional Set to video to return a Twitter Video embed for the given Tweet. video",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "hide_media",
+            "description": "optional When set to true , t or 1 links in a Tweet are not expanded to photo, video, or link previews. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "maxwidth",
+            "description": "optional The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive. A supplied value under or over the allowed range will be returned as the minimum or maximum supported width respectively; the reset width value will be reflected in the returned width property. Note that Twitter does not support the oEmbed maxheight parameter. Tweets are fundamentally text, and are therefore of unpredictable height that cannot be scaled like an image or video. Relatedly, the oEmbed response will not provide a value for height . Implementations that need consistent heights for Tweets should refer to the hide_thread and hide_media parameters below. 325",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "align",
+            "description": "optional Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element. Valid values are left , right , center , and none . Defaults to none , meaning no alignment styles are specified for the Tweet. center",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "omit_script",
+            "description": "optional When set to true , t or 1 the \u003cscript\u003e responsible for loading widgets.js will not be returned. Your webpages should include their own reference to widgets.js for use across all Twitter widgets including Embedded Tweets . true",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "http://a0.twimg.com/images/themes/theme1/bg.png\" , \"statuses_count\" : 3333 , \"friends_count\" : 31 , \"fol": {
+      "get": {}
+    },
+    "/statuses/retweets/509457288717819904.json": {
+      "GET": {}
+    },
+    "/account/verify_credentials.json": {
+      "GET": {}
+    },
+    "HTTP 200 OK response code and a representation of the requesting user if authentication was successful; ": {
+      "GET": {}
+    },
+    "/statuses/retweeters/ids.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The numerical ID of the desired status. 327473909412814850",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "stringify_ids",
+            "description": "optional Many programming environments will not consume Tweet ids due to their size. Provide this option to have ids returned as strings instead. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "description": "semi-optional\nCauses the list of IDs to be broken into pages of no more than 100 IDs at a time. The number of IDs returned is not guaranteed to be 100 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See our cursor docs for more information.\n\nWhile this method supports the cursor parameter, the entire result set can be returned in a single cursored collection. Using the count parameter with this method will not provide segmented cursors for use with this parameter.\n12893764510938",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "https\" : \"https://si0.twimg.com/profile_background_images/656927849/miyt9dpjz77sc0w3d4vj.png\" , \"statuse": {
+      "get": {}
+    },
+    "/lists/subscribers/show.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "required The ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "required The screen name of the user for whom to return results for. Helpful for disambiguating when a valid screen name is also a user ID.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "skip_status",
+            "description": "optional When set to either true , t or 1 statuses will not be included in the returned user objects.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional When set to either true , t or 1 , each tweet will include a node called “entities”. This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. While entities are opt-in on timelines at present, they will be made a default component of output in the future. See Tweet Entities for more details.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/geo/id/:place_id.json": {
+      "GET": {}
+    },
+    "HTTP 403 may be returned, though for performance reasons you may get a 200 OK message even if the friend": {
+      "get": {}
+    },
+    "/blocks/destroy.json": {
+      "POST": {}
+    },
+    "/users/show.json": {
+      "GET": {}
+    },
+    "/collections/entries/move.json": {
+      "POST": {}
+    },
+    "/statuses/user_timeline.json": {
+      "GET": {}
+    },
+    "/saved_searches/destroy/:id.json": {
+      "POST": {}
+    },
+    "/help/configuration.json": {
+      "GET": {}
+    },
+    "/mutes/users/create.json": {
+      "POST": {}
+    },
+    "/lists/create.json": {
+      "POST": {}
+    },
+    "/users/search.json": {
+      "GET": {}
+    },
+    "/followers/ids.json": {
+      "GET": {}
+    },
+    "/account/update_profile_image.json": {
+      "POST": {}
+    },
+    "/users/suggestions/:slug.json": {
+      "GET": {}
+    },
+    "/mutes/users/ids.json": {
+      "GET": {}
+    },
+    "https:\\/\\/twitter.com\\/privacy. If we make a change to this policy that, in our sole discretion, is mate": {
+      "del": {}
+    },
+    "/statuses/destroy/:id.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "trim_user",
+            "description": "optional When set to either true , t or 1 , each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The numerical ID of the desired status. 123",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "HTTP 4xx Bad Request.": {
+      "POST": {}
+    },
+    "/favorites/destroy.json": {
+      "POST": {}
+    },
+    "http://twitter.com/settings/security) page to control who sees your Content). You should only provide Co": {
+      "post": {}
+    },
+    "/statuses/lookup.json": {
+      "GET": {}
+    },
+    "/lists/members/show.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "required The ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "skip_status",
+            "description": "optional When set to either true , t or 1 statuses will not be included in the returned user objects.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "required The screen name of the user for whom to return results for. Helpful for disambiguating when a valid screen name is also a user ID.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional When set to either true , t or 1 , each tweet will include a node called “entities”. This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. While entities are opt-in on timelines at present, they will be made a default component of output in the future. See Tweet Entities for more details.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/lists/update.json": {
+      "POST": {}
+    },
+    "/collections/update.json": {
+      "POST": {}
+    },
+    "/friendships/destroy.json": {
+      "POST": {}
+    },
+    "/application/rate_limit_status.json": {
+      "GET": {}
+    },
+    "/friends/ids.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional The screen name of the user for whom to return results for. noradio",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "stringify_ids",
+            "description": "optional Many programming environments will not consume our Tweet ids due to their size. Provide this option to have ids returned as strings instead. More about Twitter IDs . true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "description": "semi-optional\nCauses the list of connections to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See Using cursors to navigate collections for more information.\n12893764510938",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional The ID of the user for whom to return results for. 12345",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "optional Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request. The value of count is best thought of as a limit to the number of results to return. When using the count parameter with this method, it is wise to use a consistent count value across all requests to the same user’s collection. Usage of this parameter is encouraged in environments where all 5,000 IDs constitutes too large of a response. 2048",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "http://a0.twimg.com/images/themes/theme1/bg.png\" , \"default_profile_image\" : false , \"friends_count\" : 3": {
+      "get": {}
+    },
+    "http://twitter.com/apirules) for how ecosystem partners can interact with your Content. These rules exis": {
+      "post": {}
+    },
+    "/collections/entries/curate.json": {
+      "POST": {}
+    },
+    "/lists/memberships.json": {
+      "GET": {}
+    },
+    "/users/suggestions/funny/members.json": {
+      "GET": {}
+    },
+    "/account/update_profile.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional The entities node will not be included when set to false . false",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "description": "optional A description of the user owning the account. Maximum of 160 characters. Flipped my wig at age 22 and it never grew back. Also: I work at Twitter.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "description": "optional URL associated with the profile. Will be prepended with “ http:// ” if not present. Maximum of 100 characters. http://project.ioni.st",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "profile_link_color",
+            "description": "optional Sets a hex value that controls the color scheme of links used on the authenticating user’s profile page on twitter.com. This must be a valid hexadecimal value, and may be either three or six characters (ex: F00 or FF0000). This parameter replaces the deprecated (and separate) update_profile_colors API method. 0000FF",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "skip_status",
+            "description": "optional When set to either true , t or 1 statuses will not be included in the returned user objects.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "location",
+            "description": "optional The city or country describing where the user of the account is located. The contents are not normalized or geocoded in any way. Maximum of 30 characters. San Francisco CA",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "optional Full name associated with the profile. Maximum of 20 characters. Marcel Molina",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/blocks/create.json": {
+      "POST": {}
+    },
+    "/search/tweets.json": {
+      "GET": {}
+    },
+    "/lists/members/create_all.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "owner_id",
+            "description": "optional The user ID of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional A comma separated list of screen names, up to 100 are allowed in a single request.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required You can identify a list by its slug instead of its numerical id. If you decide to do so, note that you’ll also have to specify the list owner using the owner_id or owner_screen_name parameters.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "owner_screen_name",
+            "description": "optional The screen name of the user who owns the list being requested by a slug .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional A comma separated list of user IDs, up to 100 are allowed in a single request.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "list_id",
+            "description": "required The numerical id of the list.",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/account/remove_profile_banner.json": {
+      "POST": {}
+    },
+    "/blocks/ids.json": {
+      "GET": {}
+    },
+    "/lists/subscribers/create.json": {
+      "POST": {}
+    },
+    "/friendships/outgoing.format": {
+      "GET": {}
+    },
+    "/lists/members/create.json": {
+      "POST": {}
+    }
+  },
+  "host": "api.twitter.com",
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": "This is the information of the API"
+}
