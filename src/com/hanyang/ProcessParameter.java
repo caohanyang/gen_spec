@@ -18,21 +18,7 @@ import gate.util.Out;
 
 public class ProcessParameter {
    public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc) throws JSONException{
-//	//1. generate the urlMap to link the url and it's location in the text
-//	Map<String, Integer> urlLocation = genUrlLocation(fullText, infoJson);
-//	//2. find the nearest url for one parameter
-//	String url = matchURL(paraStr, fullText, urlLocation, anno.getStartNode().getOffset());
-//	String action = matchAction(paraStr, fullText, actionLocation, anno.getStartNode().getOffset());
-//	Out.prln(paraStr + "   match   "+ url + "action: " + action);
-	//3. write parameters in the swagger
-	swagger = addParameter(swagger, paraStr, infoJson, anno, doc, fullText);
-	//4. write document
-//	Out.prln(tableDocument);
-	return swagger;
-   }
-   
-   
-   public JSONObject addParameter(JSONObject swagger, String paraStr, List<JSONObject> infoJson, Annotation anno, Document doc, String fullText) throws JSONException {
+	   
 	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset());
 	   String url = sectionJson.getString("url");
 	   String action = sectionJson.getString("action");
@@ -47,7 +33,8 @@ public class ProcessParameter {
 	   
 	   return swagger;
    }
-
+   
+   
    public JSONArray parseParameter(String paraStr, Annotation anno, Document doc) throws JSONException{
 	   JSONArray paraArray = new JSONArray();
 	   Long startOffset = anno.getStartNode().getOffset();
@@ -107,8 +94,15 @@ public class ProcessParameter {
 		return sectionObject;
 	}
 
-	public boolean isParaTable(String txt) {
-		if (Pattern.compile(Pattern.quote("parameter"), Pattern.CASE_INSENSITIVE).matcher(txt).find()) {
+	public boolean isParaTable(String txt, Annotation anno, String strAll) {
+		// not only check "parameter" in the table text
+		// but also need to check text just before the table
+		// maybe in the table maybe doesn't contain str "parameter"
+		
+		// find previous text
+		int tableLocation = anno.getStartNode().getOffset().intValue();
+		String appendTableText = strAll.substring(tableLocation - 20,  anno.getEndNode().getOffset().intValue());
+		if (Pattern.compile("parameter", Pattern.CASE_INSENSITIVE).matcher(appendTableText).find()) {
 			return true;
 		}
 		return false;

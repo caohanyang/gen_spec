@@ -46,7 +46,7 @@ public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com  dev.twitter.com
-	private static String FOLDER_PATH = "corpus/www.instagram.com";
+	private static String FOLDER_PATH = "corpus/dev.twitter.com";
 	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
@@ -168,12 +168,12 @@ public class ExtractInformation {
         Iterator tableIter = annoTable.iterator();
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
-        	String txt = gate.Utils.stringFor(doc, anno);
+        	String tableText = gate.Utils.stringFor(doc, anno);
         	ProcessParameter processPa = new ProcessParameter();
-        	if (processPa.isParaTable(txt)) {
+        	if (processPa.isParaTable(tableText, anno, strAll)) {
         		Out.prln("==========TABLE =================");
-        		Out.prln(txt);
-        		processPa.generateParameter(swagger, txt, strAll, infoJson, anno, doc);
+        		Out.prln(tableText);
+        		processPa.generateParameter(swagger, tableText, strAll, infoJson, anno, doc);
         	}
         }      
 		

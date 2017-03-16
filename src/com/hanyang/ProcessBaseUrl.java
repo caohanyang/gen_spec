@@ -28,9 +28,13 @@ public class ProcessBaseUrl {
    }
 
    public String combineUrl(List<String> urlList) {
+	    //If it contains only url, return it
+	    if(urlList.size() == 1) return urlList.get(0);
+	    
 	    //First find the common part for most of the string
 	    // Step 1 most frequence
 	    Map<String, Integer> allFrequency = new HashMap<String, Integer>();
+	    
 	    for (int i = 0; i < urlList.size(); i++) {
 	    	// for a string , find the most frequence match common string
 	    	Map<String, Integer> tmpFrequency = new HashMap<String, Integer>();
@@ -62,6 +66,7 @@ public class ProcessBaseUrl {
 	    
 	    // Step 2 most length
 	    String basePath = "http";
+	    Out.prln(allFrequency);
 	    for (Map.Entry<String, Integer> entry: allFrequency.entrySet()) {
 	    	if (entry.getKey().length() > basePath.length()) {
 	    		basePath = entry.getKey().toString();
