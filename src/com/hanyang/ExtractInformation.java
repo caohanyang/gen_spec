@@ -121,7 +121,7 @@ public class ExtractInformation {
         	if(matcherAction.find()){
         		//find the action which is nearest to http
         		Out.prln("matchStart： "+matcherAction.start());
-        		Out.prln("==========real Action============");
+//        		Out.prln("==========real Action============");
         		int acOffset = matchStr.length() - matcherAction.start() - 4;
         		int acLocation = startIndex + acOffset;
 //        		Out.prln(strAll.substring(acLocation, matcher.end()));
@@ -140,7 +140,11 @@ public class ExtractInformation {
         	if(endpointMatcher.find()){
         		Out.prln("urlStart： "+ endpointMatcher.start());
         		int uLocation = startIndex + endpointMatcher.start();
-        		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0];
+        		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0].trim();
+        		// handle url, make it short and clean
+        		if (urlString.contains("?")) {
+        			urlString = urlString.split("\\?")[0].trim();
+        		}
         		Out.prln("==========real ADDRESS============");
         		Out.prln(strAll.substring(uLocation, uLocation + 100));
         		Out.prln("==========URL ADDRESS============");

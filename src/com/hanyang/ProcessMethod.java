@@ -17,7 +17,7 @@ public class ProcessMethod {
    
    public JSONObject addUrl (JSONObject swagger, String url, String action) throws JSONException {
 	   JSONObject urlObject =  swagger.getJSONObject("paths");
-	   Out.prln("-----------action-------------");
+	   Out.prln("---------match--action-------------");
 	   Out.prln(action);
 	   JSONObject actionObject = new JSONObject();
 	   actionObject.put(action, new JSONObject());
