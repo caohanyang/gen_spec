@@ -1,11 +1,7 @@
 {
   "basePath": "/1.1",
   "paths": {
-    "https://t.co/9S8YO69xzf (disclaimer, this was not posted via the API).\" , \"source\" : \"web\" , \"truncated\"": {
-      "post": {}
-    },
     "/friendships/create.json": {
-      "POST": {},
       "get": {
         "parameters": [
           {
@@ -72,7 +68,6 @@
       }
     },
     "/lists/destroy.json": {
-      "POST": {},
       "Del": {
         "parameters": [
           {
@@ -107,9 +102,6 @@
           }
         ]
       }
-    },
-    "/trends/available.json": {
-      "GET": {}
     },
     "/users/suggestions/:slug/members.json": {
       "GET": {
@@ -249,9 +241,6 @@
         ]
       }
     },
-    "/statuses/show/210462857140252672.json": {
-      "GET": {}
-    },
     "/lists/ownerships.json": {
       "GET": {
         "parameters": [
@@ -288,11 +277,7 @@
         ]
       }
     },
-    "/geo/create.json": {
-      "POST": {}
-    },
     "/direct_messages.json": {
-      "GET": {},
       "del": {
         "parameters": [
           {
@@ -388,9 +373,6 @@
         ]
       }
     },
-    "https\" : \"https://si0.twimg.com/profile_background_images/656927849/miyt9dpjz77sc0w3d4vj.png\" , \"statuses": {
-      "get": {}
-    },
     "/collections/show.json": {
       "GET": {
         "parameters": [
@@ -475,9 +457,6 @@
         ]
       }
     },
-    "/saved_searches/destroy/62353170.json": {
-      "POST": {}
-    },
     "/statuses/mentions_timeline.json": {
       "GET": {
         "parameters": [
@@ -521,7 +500,6 @@
       }
     },
     "/direct_messages/sent.json": {
-      "GET": {},
       "del": {
         "parameters": [
           {
@@ -563,37 +541,6 @@
         ]
       }
     },
-    "/direct_messages/new.json": {
-      "POST": {},
-      "del": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "user_id",
-            "description": "optional The ID of the user who should receive the direct message. Helpful for disambiguating when a valid user ID is also a valid screen name. 12345",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "screen_name",
-            "description": "optional The screen name of the user who should receive the direct message. Helpful for disambiguating when a valid screen name is also a user ID. noradio",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "text",
-            "description": "required The text of your direct message. Be sure to URL encode as necessary, and keep the message under 140 characters. Meet me behind the cafeteria after school",
-            "type": "integer"
-          }
-        ]
-      }
-    },
     "/mutes/users/list.json": {
       "GET": {
         "parameters": [
@@ -624,8 +571,35 @@
         ]
       }
     },
-    "/friendships/outgoing.json": {
-      "GET": {}
+    "/direct_messages/new.json": {
+      "del": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user_id",
+            "description": "optional The ID of the user who should receive the direct message. Helpful for disambiguating when a valid user ID is also a valid screen name. 12345",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "screen_name",
+            "description": "optional The screen name of the user who should receive the direct message. Helpful for disambiguating when a valid screen name is also a user ID. noradio",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "text",
+            "description": "required The text of your direct message. Be sure to URL encode as necessary, and keep the message under 140 characters. Meet me behind the cafeteria after school",
+            "type": "integer"
+          }
+        ]
+      }
     },
     "/friendships/no_retweets/ids.json": {
       "POST": {
@@ -643,8 +617,7 @@
             "type": "integer"
           }
         ]
-      },
-      "GET": {}
+      }
     },
     "/friendships/lookup.json": {
       "GET": {
@@ -671,7 +644,6 @@
       }
     },
     "https://publish.twitter.com/oembed": {
-      "GET": {},
       "get": {
         "parameters": [
           {
@@ -744,7 +716,6 @@
       }
     },
     "/users/suggestions.json": {
-      "GET": {},
       "get": {
         "parameters": [
           {
@@ -761,12 +732,6 @@
           }
         ]
       }
-    },
-    "https://t.co/p5bOzH0k\" , \"indices\" : [ 97 , 118 ], \"display_url\" : \"dev.twitter.com/issues/485\" } ], \"has": {
-      "get": {}
-    },
-    "/statuses/retweets/509457288717819904.json": {
-      "GET": {}
     },
     "/favorites/create.json": {
       "POST": {
@@ -793,7 +758,6 @@
       }
     },
     "/account/update_profile_banner.json": {
-      "POST": {},
       "GET": {
         "parameters": [
           {
@@ -866,7 +830,6 @@
       }
     },
     "/collections/destroy.json": {
-      "POST": {},
       "del": {
         "parameters": [
           {
@@ -883,9 +846,6 @@
           }
         ]
       }
-    },
-    "/saved_searches/list.json": {
-      "GET": {}
     },
     "/account/settings.json": {
       "POST": {
@@ -1187,9 +1147,6 @@
         ]
       }
     },
-    "/help/languages.json": {
-      "GET": {}
-    },
     "/geo/id/:place_id.json": {
       "GET": {
         "parameters": [
@@ -1203,6 +1160,30 @@
             "in": "query",
             "name": "Name",
             "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/trends/closest.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "long",
+            "description": "required If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. -122.400612831116",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "required If provided with a long parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. 37.781157",
             "type": "integer"
           }
         ]
@@ -1244,30 +1225,6 @@
         ]
       }
     },
-    "/trends/closest.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "long",
-            "description": "required If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. -122.400612831116",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "lat",
-            "description": "required If provided with a long parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. 37.781157",
-            "type": "integer"
-          }
-        ]
-      }
-    },
     "/users/show.json": {
       "GET": {
         "parameters": [
@@ -1297,9 +1254,6 @@
           }
         ]
       }
-    },
-    "/statuses/destroy/240854986559455234.json": {
-      "POST": {}
     },
     "/collections/entries/move.json": {
       "POST": {
@@ -1476,7 +1430,6 @@
       }
     },
     "/geo/reverse_geocode.json": {
-      "GET": {},
       "del": {
         "parameters": [
           {
@@ -1524,9 +1477,6 @@
         ]
       }
     },
-    "/help/configuration.json": {
-      "GET": {}
-    },
     "/mutes/users/create.json": {
       "POST": {
         "parameters": [
@@ -1552,7 +1502,6 @@
       }
     },
     "/direct_messages/destroy.json": {
-      "POST": {},
       "del": {
         "parameters": [
           {
@@ -1575,12 +1524,6 @@
           }
         ]
       }
-    },
-    "/users/suggestions/twitter.json": {
-      "GET": {}
-    },
-    "/lists/members/destroy": {
-      "POST": {}
     },
     "/users/search.json": {
       "GET": {
@@ -1834,12 +1777,6 @@
         ]
       }
     },
-    "/help/privacy.json": {
-      "GET": {}
-    },
-    "/statuses/retweet/243149503589400576.json": {
-      "POST": {}
-    },
     "https://curator.twitter.com/broadcast/1/projects": {
       "GET": {
         "parameters": [
@@ -2015,7 +1952,6 @@
       }
     },
     "/account/update_profile_image.json": {
-      "POST": {},
       "GET": {
         "parameters": [
           {
@@ -2045,9 +1981,6 @@
         ]
       }
     },
-    "https://upload.twitter.com/1.1/media/upload.json": {
-      "POST": {}
-    },
     "/users/suggestions/:slug.json": {
       "GET": {
         "parameters": [
@@ -2072,11 +2005,7 @@
         ]
       }
     },
-    "https:\\/\\/twitter.com\\/privacy. If we make a change to this policy that, in our sole discretion, is mater": {
-      "del": {}
-    },
     "/friendships/show.json": {
-      "get": {},
       "GET": {
         "parameters": [
           {
@@ -2279,7 +2208,34 @@
           }
         ]
       },
-      "POST": {}
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "media",
+            "description": "required The raw binary file content being uploaded. Cannot be used with media_data .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "additional_owners",
+            "description": "optional A comma-separated list of user IDs to set as additional owners allowed to use the returned media_id in Tweets or Cards. Up to 100 additional owners may be specified.",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "media_data",
+            "description": "required The base64-encoded file content being uploaded. Cannot be used with media .",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
     },
     "/collections/entries/remove.json": {
       "POST": {
@@ -2322,9 +2278,6 @@
           }
         ]
       }
-    },
-    "/saved_searches/show/9569704.json": {
-      "GET": {}
     },
     "/statuses/retweets/:id.json": {
       "GET": {
@@ -2522,8 +2475,7 @@
             "type": "integer"
           }
         ]
-      },
-      "GET": {}
+      }
     },
     "/saved_searches/show/:id.json": {
       "GET": {
@@ -2542,9 +2494,6 @@
           }
         ]
       }
-    },
-    "/statuses/retweet/241259202004267009.json": {
-      "POST": {}
     },
     "/lists/members/show.json": {
       "GET": {
@@ -2946,11 +2895,7 @@
             "type": "integer"
           }
         ]
-      },
-      "GET": {}
-    },
-    "/geo/id/df51dec6f4ee2b2c.json": {
-      "GET": {}
+      }
     },
     "/application/rate_limit_status.json": {
       "GET": {
@@ -3088,8 +3033,7 @@
             "type": "integer"
           }
         ]
-      },
-      "GET": {}
+      }
     },
     "/collections/entries/curate.json": {
       "POST": {
@@ -3194,7 +3138,6 @@
       }
     },
     "/direct_messages/show.json": {
-      "GET": {},
       "del": {
         "parameters": [
           {
@@ -3211,9 +3154,6 @@
           }
         ]
       }
-    },
-    "/users/suggestions/funny/members.json": {
-      "GET": {}
     },
     "/account/update_profile.json": {
       "POST": {
@@ -3425,15 +3365,6 @@
         ]
       }
     },
-    "https\" : \"https://si0.twimg.com/profile_images/2284174758/v65oai7fxn47qv9nectx_normal.png\" , \"utc_offset\"": {
-      "get": {}
-    },
-    "https://support.twitter.com/forms/dmca \\n Email: copyright@twitter.com \\n\\n 10. Ending These Terms \\n\\n T": {
-      "post": {}
-    },
-    "/help/tos.json": {
-      "GET": {}
-    },
     "/lists/subscribers/destroy.json": {
       "POST": {
         "parameters": [
@@ -3469,9 +3400,6 @@
           }
         ]
       }
-    },
-    "/account/remove_profile_banner.json": {
-      "POST": {}
     },
     "/blocks/ids.json": {
       "GET": {
@@ -3556,9 +3484,6 @@
           }
         ]
       }
-    },
-    "https\" : \"https://twimg0-a.akamaihd.net/profile_background_images/656927849/miyt9dpjz77sc0w3d4vj.png\" , \"": {
-      "get": {}
     },
     "/lists/members/create.json": {
       "POST": {

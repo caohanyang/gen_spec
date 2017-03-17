@@ -17,11 +17,16 @@ import gate.Document;
 import gate.util.Out;
 
 public class ProcessParameter {
-   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc) throws JSONException{
+   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc, ProcessMethod processMe) throws JSONException{
 	   
 	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset());
 	   String url = sectionJson.getString("url");
 	   String action = sectionJson.getString("action");
+	   
+	   //1. we add url/action into swagger now.
+	   // because here we have known that each table have match one url
+	   // some urls would not be used.
+	   processMe.addUrl(swagger, url, action);
 	   
 	   JSONObject urlObject = swagger.getJSONObject("paths").getJSONObject(url);
 	   //1. find the action

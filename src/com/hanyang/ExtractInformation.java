@@ -66,35 +66,35 @@ public class ExtractInformation {
         	String type = new Tika().detect(listFiles[i].getPath());
         	// only detect html
         	if (type.equals("text/html")) {
-        	  genOneUrl(listFiles[i].getPath(), corpus, swagger);
+        	  getOneFile(listFiles[i].getPath(), corpus, swagger);
         	}
         }
         
-        //prune swagger
+        // 4. prune swagger
         ProcessBaseUrl processBa = new ProcessBaseUrl();
         swagger = processBa.handleBaseUrl(swagger);
         
-        // write to file
+        // 5. write to file
         writeSwagger(swagger);
           
 	}
 
-	public static void genOneUrl(String path, Corpus corpus, JSONObject swagger) throws ResourceInstantiationException, JSONException, IOException {
+	public static void getOneFile(String path, Corpus corpus, JSONObject swagger) throws ResourceInstantiationException, JSONException, IOException {
 		URL u = Paths.get(path).toUri().toURL();
         FeatureMap params = Factory.newFeatureMap();
         params.put("sourceUrl", u);
         Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
-        // 3. add doc
+        // 1. add doc
         corpus.add(doc);
         
-        // 4. get all text
+        // 2. get all text
         DocumentContent textAll = doc.getContent();
 //        Out.prln(textAll);
-        // 5. initial swagger
+        // 3. initial swagger
         ProcessMethod processMe = new ProcessMethod();
     	processMe.generateDefault(swagger);
     	
-        // 5.1 search for the GET https
+        // 4.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
         String regexAll = "(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)"+ SCHEME_PATTERN.get(0);
@@ -155,21 +155,24 @@ public class ExtractInformation {
         	}
         	
         	// Write into swagger
-        	processMe.addUrl(swagger, urlString, actionStr);
+        	// After matching table, we write url/action into swagger 
+        	// processMe.addUrl(swagger, urlString, actionStr);
         	infoJson.add(sectionJson);
         }
         
+        Out.prln("---------INFO JSON-------");
+        Out.prln(infoJson.toString());
         Out.prln(swagger.toString());
         
-        // 6.1 get original markups
+        // 5.1 get original markups
         doc.setMarkupAware(true);
        
         AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
         
-        // 6.2 get table annotation
+        // 5.2 get table annotation
         AnnotationSet annoTable = annoOrigin.get("table");          
         
-        Iterator tableIter = annoTable.iterator();
+        Iterator<Annotation> tableIter = annoTable.iterator();
         while(tableIter.hasNext()) {
         	Annotation anno = (Annotation) tableIter.next();
         	String tableText = gate.Utils.stringFor(doc, anno);
@@ -177,7 +180,7 @@ public class ExtractInformation {
         	if (processPa.isParaTable(tableText, anno, strAll)) {
         		Out.prln("==========TABLE =================");
         		Out.prln(tableText);
-        		processPa.generateParameter(swagger, tableText, strAll, infoJson, anno, doc);
+        		processPa.generateParameter(swagger, tableText, strAll, infoJson, anno, doc, processMe);
         	}
         }      
 		

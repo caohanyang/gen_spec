@@ -205,9 +205,6 @@
         ]
       }
     },
-    "/tags/puppy/media/recent": {
-      "get": {}
-    },
     "/locations/search": {
       "GET": {
         "parameters": [

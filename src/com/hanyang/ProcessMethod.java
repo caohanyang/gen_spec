@@ -22,8 +22,16 @@ public class ProcessMethod {
 	   JSONObject actionObject = new JSONObject();
 	   actionObject.put(action, new JSONObject());
 	   
-	   urlObject.put(url, actionObject);
+	   if (urlObject.isNull(url)) {
+           // if url object is null, add directly for the first time		   
+		   urlObject.put(url, actionObject);
+	   } else {
+		   // otherwise add the new action to the url
+		   JSONObject urlInterObject = urlObject.getJSONObject(url);
+		   urlInterObject.put(action, new JSONObject());
+	   }
 	   
 	   return swagger;
    }
+   
 }
