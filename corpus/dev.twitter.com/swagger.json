@@ -103,23 +103,8 @@
         ]
       }
     },
-    "/users/suggestions/:slug/members.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "description": "required The short name of list or a category twitter",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          }
-        ]
-      }
+    "/trends/available.json": {
+      "GET": {}
     },
     "/statuses/retweets_of_me.json": {
       "GET": {
@@ -457,6 +442,24 @@
         ]
       }
     },
+    "/saved_searches/destroy/62353170.json": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The ID of the saved search. 313006",
+            "type": "integer"
+          }
+        ]
+      }
+    },
     "/statuses/mentions_timeline.json": {
       "GET": {
         "parameters": [
@@ -541,36 +544,6 @@
         ]
       }
     },
-    "/mutes/users/list.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "description": "optional\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n2",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "skip_status",
-            "description": "optional When set to either true , t or 1 statuses will not be included in the returned user objects. true",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "include_entities",
-            "description": "optional The entities node will not be included when set to false . false",
-            "type": "integer"
-          }
-        ]
-      }
-    },
     "/direct_messages/new.json": {
       "del": {
         "parameters": [
@@ -596,6 +569,36 @@
             "in": "query",
             "name": "text",
             "description": "required The text of your direct message. Be sure to URL encode as necessary, and keep the message under 140 characters. Meet me behind the cafeteria after school",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/mutes/users/list.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "description": "optional\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n2",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "skip_status",
+            "description": "optional When set to either true , t or 1 statuses will not be included in the returned user objects. true",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "include_entities",
+            "description": "optional The entities node will not be included when set to false . false",
             "type": "integer"
           }
         ]
@@ -830,7 +833,7 @@
       }
     },
     "/collections/destroy.json": {
-      "del": {
+      "POST": {
         "parameters": [
           {
             "in": "query",
@@ -846,6 +849,9 @@
           }
         ]
       }
+    },
+    "/saved_searches/list.json": {
+      "GET": {}
     },
     "/account/settings.json": {
       "POST": {
@@ -893,7 +899,8 @@
             "type": "integer"
           }
         ]
-      }
+      },
+      "GET": {}
     },
     "https://twitter.com/fakekurrik/status/244204973972410368/photo/1\", \"id\": 244204973989187584, \"id_str\": \"2": {
       "POST": {
@@ -1147,47 +1154,8 @@
         ]
       }
     },
-    "/geo/id/:place_id.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "place_id",
-            "description": "required A place in the world. These IDs can be retrieved from geo/reverse_geocode. df51dec6f4ee2b2c",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          }
-        ]
-      }
-    },
-    "/trends/closest.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "long",
-            "description": "required If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. -122.400612831116",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "lat",
-            "description": "required If provided with a long parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. 37.781157",
-            "type": "integer"
-          }
-        ]
-      }
+    "/help/languages.json": {
+      "GET": {}
     },
     "/blocks/destroy.json": {
       "POST": {
@@ -1220,6 +1188,30 @@
             "in": "query",
             "name": "screen_name",
             "description": "optional The screen name of the potentially blocked user. Helpful for disambiguating when a valid screen name is also a user ID. noradio",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/trends/closest.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "long",
+            "description": "required If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. -122.400612831116",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "required If provided with a long parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair. The valid ranges for longitude is -180.0 to +180.0 (West is negative, East is positive) inclusive. 37.781157",
             "type": "integer"
           }
         ]
@@ -1411,24 +1403,6 @@
         ]
       }
     },
-    "/saved_searches/destroy/:id.json": {
-      "POST": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "id",
-            "description": "required The ID of the saved search. 313006",
-            "type": "integer"
-          }
-        ]
-      }
-    },
     "/geo/reverse_geocode.json": {
       "del": {
         "parameters": [
@@ -1476,6 +1450,9 @@
           }
         ]
       }
+    },
+    "/help/configuration.json": {
+      "GET": {}
     },
     "/mutes/users/create.json": {
       "POST": {
@@ -1776,6 +1753,9 @@
           }
         ]
       }
+    },
+    "/help/privacy.json": {
+      "GET": {}
     },
     "https://curator.twitter.com/broadcast/1/projects": {
       "GET": {
@@ -2279,6 +2259,24 @@
         ]
       }
     },
+    "/saved_searches/show/9569704.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "required The ID of the saved search. 313006",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
     "/statuses/retweets/:id.json": {
       "GET": {
         "parameters": [
@@ -2472,24 +2470,6 @@
             "in": "query",
             "name": "trim_user",
             "description": "optional When set to either true , t or 1 , each Tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object. true",
-            "type": "integer"
-          }
-        ]
-      }
-    },
-    "/saved_searches/show/:id.json": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "id",
-            "description": "required The ID of the saved search. 313006",
-            "type": "integer"
-          },
-          {
-            "in": "query",
-            "name": "Name",
-            "description": "Required Description Default Value Example",
             "type": "integer"
           }
         ]
@@ -2897,6 +2877,24 @@
         ]
       }
     },
+    "/geo/id/df51dec6f4ee2b2c.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "place_id",
+            "description": "required A place in the world. These IDs can be retrieved from geo/reverse_geocode. df51dec6f4ee2b2c",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
     "/application/rate_limit_status.json": {
       "GET": {
         "parameters": [
@@ -3138,12 +3136,30 @@
       }
     },
     "/direct_messages/show.json": {
-      "del": {
+      "GET": {
         "parameters": [
           {
             "in": "query",
             "name": "id",
             "description": "required The ID of the direct message. 587424932",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "Name",
+            "description": "Required Description Default Value Example",
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/users/suggestions/funny/members.json": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "required The short name of list or a category twitter",
             "type": "integer"
           },
           {
@@ -3365,6 +3381,9 @@
         ]
       }
     },
+    "/help/tos.json": {
+      "GET": {}
+    },
     "/lists/subscribers/destroy.json": {
       "POST": {
         "parameters": [
@@ -3400,6 +3419,9 @@
           }
         ]
       }
+    },
+    "/account/remove_profile_banner.json": {
+      "POST": {}
     },
     "/blocks/ids.json": {
       "GET": {

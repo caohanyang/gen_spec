@@ -19,10 +19,12 @@ public class ProcessBaseUrl {
    public JSONObject handleBaseUrl(JSONObject swagger) throws JSONException, MalformedURLException{
 	   //1. first remove the unrelated url
 	   List<String> urlList = pruneUrl(swagger);
-	   //2. find the common url
-	   String commonUrl = combineUrl(urlList);
-	   //3. adjust specification
-	   swagger = adjustSpec(swagger, commonUrl);
+	   if (!urlList.isEmpty()) {
+		   //2. find the common url
+		   String commonUrl = combineUrl(urlList);
+		   //3. adjust specification
+		   swagger = adjustSpec(swagger, commonUrl);
+	   }
 	   
 	   return swagger;
    }

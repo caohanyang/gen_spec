@@ -17,9 +17,9 @@ import gate.Document;
 import gate.util.Out;
 
 public class ProcessParameter {
-   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc, ProcessMethod processMe) throws JSONException{
+   public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc, ProcessMethod processMe, String page_pattern) throws JSONException{
 	   
-	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset());
+	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset(), page_pattern);
 	   String url = sectionJson.getString("url");
 	   String action = sectionJson.getString("action");
 	   
@@ -80,20 +80,36 @@ public class ProcessParameter {
 	   
    }
    
-   public JSONObject matchURL(String paraStr, String fullText, List<JSONObject> infoJson, Long paraLocation) throws JSONException {
+   public JSONObject matchURL(String paraStr, String fullText, List<JSONObject> infoJson, Long paraLocation, String page_pattern) throws JSONException {
 		JSONObject sectionObject = new JSONObject();
 	    int minimumDistance = Integer.MAX_VALUE;
+	    Out.prln("----------para location-------");
+	    Out.prln(paraLocation);
 		for (JSONObject it: infoJson){
 			JSONObject entry = it.getJSONObject("url");
 			Iterator keys = entry.keys();
 			if (keys.hasNext()) {
 				String key = (String) keys.next();
-				// search the nearest url in the prevois context 
-				if ((paraLocation - entry.getInt(key) < minimumDistance) && (paraLocation - entry.getInt(key) > 0) ) {
-					minimumDistance = (int) (paraLocation - entry.getInt(key));
-					sectionObject.put("action", it.getJSONObject("action").keys().next());
-					sectionObject.put("url", key);
+				//Rule 1: url that not far from "example..." ???
+				
+				//Rule 2: search the nearest url 
+				if (page_pattern.matches("single")) {
+					// if it's a single page, search from all the text
+					if (Math.abs(paraLocation - entry.getInt(key)) < minimumDistance ) {
+						minimumDistance = (int) Math.abs((paraLocation - entry.getInt(key)));
+						sectionObject.put("action", it.getJSONObject("action").keys().next());
+						sectionObject.put("url", key);
+					}
+				} else {
+					// multiple table mode: search only in the previous context 
+					if ((paraLocation - entry.getInt(key) < minimumDistance) && (paraLocation - entry.getInt(key) > 0) ) {
+						minimumDistance = (int) (paraLocation - entry.getInt(key));
+						sectionObject.put("action", it.getJSONObject("action").keys().next());
+						sectionObject.put("url", key);
+					}
 				}
+				
+				
 			}
 		}
 		return sectionObject;

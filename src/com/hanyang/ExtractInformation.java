@@ -46,8 +46,9 @@ public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com  dev.twitter.com
-	private static String FOLDER_PATH = "corpus/dev.twitter.com";
+	private static String FOLDER_PATH = "corpus/www.instagram.com";
 	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
+	private static List<String> PAGE_PATTERN = new ArrayList<String>(Arrays.asList("single", "multiple"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
 		Gate.init();
@@ -145,8 +146,8 @@ public class ExtractInformation {
         		if (urlString.contains("?")) {
         			urlString = urlString.split("\\?")[0].trim();
         		}
-        		Out.prln("==========real ADDRESS============");
-        		Out.prln(strAll.substring(uLocation, uLocation + 100));
+//        		Out.prln("==========real ADDRESS============");
+//        		Out.prln(strAll.substring(uLocation, uLocation + 100));
         		Out.prln("==========URL ADDRESS============");
         		Out.prln(urlString);
         		JSONObject urJson = new JSONObject();
@@ -160,9 +161,10 @@ public class ExtractInformation {
         	infoJson.add(sectionJson);
         }
         
+        // 4.2 handle info json
+        // solve the conflicts: one URL with two action
         Out.prln("---------INFO JSON-------");
         Out.prln(infoJson.toString());
-        Out.prln(swagger.toString());
         
         // 5.1 get original markups
         doc.setMarkupAware(true);
@@ -171,18 +173,50 @@ public class ExtractInformation {
         
         // 5.2 get table annotation
         AnnotationSet annoTable = annoOrigin.get("table");          
+               
+        // 5.3 for each page, set findParaTable = False
+        boolean findParaTable = false;
+        // 5.3.1 Test if the page contains multiply parameter table or not
+        Iterator<Annotation> testIter = annoTable.iterator();
+        String multiTable = PAGE_PATTERN.get(0);
+        int numTable = 0;
+        while(testIter.hasNext()) {
+           Annotation anno = (Annotation) testIter.next();
+    	   String tableText = gate.Utils.stringFor(doc, anno);
+    	   ProcessParameter processPa = new ProcessParameter();
+           if (processPa.isParaTable(tableText, anno, strAll)) {
+        	   numTable++;
+           }
+        }
+        if (numTable > 1) {
+        	// more than one parameter table in the page
+        	multiTable = "multiply";
+        }
         
+        // 5.3.2 handle the table context
         Iterator<Annotation> tableIter = annoTable.iterator();
-        while(tableIter.hasNext()) {
-        	Annotation anno = (Annotation) tableIter.next();
-        	String tableText = gate.Utils.stringFor(doc, anno);
-        	ProcessParameter processPa = new ProcessParameter();
-        	if (processPa.isParaTable(tableText, anno, strAll)) {
-        		Out.prln("==========TABLE =================");
-        		Out.prln(tableText);
-        		processPa.generateParameter(swagger, tableText, strAll, infoJson, anno, doc, processMe);
+    	while(tableIter.hasNext()) {
+    		Annotation anno = (Annotation) tableIter.next();
+    		String tableText = gate.Utils.stringFor(doc, anno);
+    		ProcessParameter processPa = new ProcessParameter();
+    		if (processPa.isParaTable(tableText, anno, strAll)) {
+    			findParaTable = true;
+    			Out.prln("==========TABLE =================");
+    			Out.prln(tableText);
+    			processPa.generateParameter(swagger, tableText, strAll, infoJson, anno, doc, processMe, multiTable);
+    		}
+    	}  
+    	
+    	// 5.4 In case of the method doesn't have parameter
+    	// fix then.....
+        if (!findParaTable) {
+        	// can't find table 
+        	if (!infoJson.isEmpty()) {
+        		// In case of the method doesn't have parameter
+        		// add the noPara url
+        		processMe.addNoParaUrl(swagger, strAll, infoJson);
         	}
-        }      
+        } 
 		
 	}
 	
