@@ -1,5 +1,8 @@
 package com.hanyang;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +18,8 @@ import org.json.JSONObject;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.Document;
+import gate.SimpleAnnotation;
+import gate.util.OffsetComparator;
 import gate.util.Out;
 
 public class ProcessParameter {
@@ -42,26 +48,87 @@ public class ProcessParameter {
    
    public JSONArray parseParameter(String paraStr, Annotation anno, Document doc) throws JSONException{
 	   JSONArray paraArray = new JSONArray();
-	   Long startOffset = anno.getStartNode().getOffset();
-	   Long endOffset = anno.getEndNode().getOffset();
-	   AnnotationSet trSet = doc.getAnnotations("Original markups").get("tr", startOffset, endOffset);
+	   Long startTr = anno.getStartNode().getOffset();
+	   Long endTr = anno.getEndNode().getOffset();
+	   AnnotationSet trSet = doc.getAnnotations("Original markups").get("tr", startTr, endTr);
+	   List trList = new ArrayList(trSet);
 	   
-	   //Iterate the row element
-	   Iterator trIter = trSet.iterator();
+	   //sor the list by offset
+	   Collections.sort(trList, new OffsetComparator());
 	   
-	   while(trIter.hasNext()){
-		   Annotation trElement = (Annotation) trIter.next();
+	   // Iterate the row element
+//	   Iterator<Annotation> trIter = trSet.iterator();
+	   boolean titleRow = true; // first time check the first row 
+	   // Set defaut property key name
+	   int NAME_INDEX = -1;
+	   int DESCRIPTION_INDEX = -1;
+	   int TYPE_INDEX = -1;
+	   int REQUIRED_INDEX = -1;
+	   
+	   for (int i = 0; i < trList.size(); i++){
+		   Annotation trElement = (Annotation) trList.get(i);
 		   String trStr = gate.Utils.stringFor(doc, trElement);
+		   Long startTd = trElement.getStartNode().getOffset();
+		   Long endTd = trElement.getEndNode().getOffset();
+		   // add offset 1 to avoid extract less td annotation
+		   AnnotationSet tdSet = doc.getAnnotations("Original markups").get("td", startTd, endTd + 1);
+           List tdList = new ArrayList(tdSet);
+           Collections.sort(tdList, new OffsetComparator());
+           
+		   // If it's first time, check the rowname
+		   if (titleRow) {
+			   // check the first row
+			   if (StringUtils.containsIgnoreCase(trStr, "name") || StringUtils.containsIgnoreCase(trStr, "id") || StringUtils.containsIgnoreCase(trStr, "description")) {
+			       // check the property name
+				   for (int j = 0; j < tdList.size(); j++) {
+					   Annotation tdElement = (Annotation) tdList.get(j);
+				    	  String tdStr = gate.Utils.stringFor(doc, tdElement);
+				    	  if (!tdStr.isEmpty()) {
+				    		  if (StringUtils.containsIgnoreCase(tdStr, "name")) {
+				    			  NAME_INDEX = j;
+				    		  } else if (StringUtils.containsIgnoreCase(tdStr, "description")) {
+				    			  DESCRIPTION_INDEX = j;
+				    		  } else if (StringUtils.containsIgnoreCase(tdStr, "example")) {
+				    			  TYPE_INDEX = j;
+				    		  } else if (StringUtils.containsIgnoreCase(tdStr, "require")) {
+				    			  REQUIRED_INDEX = j;
+				    		  }
+				    	  } 
+				   }
+				   
+			    	  
+			   
+			   }
+			   
+			   titleRow = false;
+			   continue;
+		   } 
 		   
+		   // set defaut value
 		   String key = trStr.split(" ")[0];
 		   String value = trStr.substring(trStr.indexOf(trStr.split(" ")[1]));
 		   JSONObject keyObject = new JSONObject();
 		   keyObject.put("name", key);
 		   keyObject.put("description", value);
-		   // fix 1: need to solve
 		   keyObject.put("in", "query");
-		   // fix 2: need to know type
 		   keyObject.put("type", "integer");
+		   keyObject.put("required", "required");
+		   
+		   // if we have already identified the key-value
+		   // change the value to the new one
+		   if (NAME_INDEX != -1) {
+			   keyObject.put("name", gate.Utils.stringFor(doc, (SimpleAnnotation) tdList.get(NAME_INDEX)));
+		   } 
+		   if (DESCRIPTION_INDEX != -1) {
+			   keyObject.put("description", gate.Utils.stringFor(doc, (SimpleAnnotation) tdList.get(DESCRIPTION_INDEX)));
+		   }
+		   if (TYPE_INDEX != -1) {
+			   String type = gate.Utils.stringFor(doc, (SimpleAnnotation) tdList.get(TYPE_INDEX));
+			   keyObject.put("type", extactType(type));
+		   }
+		   if (REQUIRED_INDEX != -1) {
+			   keyObject.put("required", gate.Utils.stringFor(doc, (SimpleAnnotation) tdList.get(REQUIRED_INDEX)));
+		   }
 		   
 		   paraArray.put(keyObject);
 		   
@@ -70,7 +137,17 @@ public class ProcessParameter {
 	   return paraArray;
    }
 
-   public Map<String, Integer> genUrlLocation (String fullText, List<String> urlList) {
+   public String extactType(String type) {
+	if (StringUtils.isNumeric(type)) {
+		return "integer";
+	} else if ("true".equalsIgnoreCase(type) || "false".equalsIgnoreCase(type)) {
+		return "boolean";
+	}
+	return "integer";
+}
+
+
+public Map<String, Integer> genUrlLocation (String fullText, List<String> urlList) {
 	   Map<String, Integer> urlLocation = new HashMap<String, Integer>();
 	   for (String element: urlList) {
 		   int location = fullText.indexOf(element);
