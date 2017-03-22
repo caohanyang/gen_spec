@@ -45,8 +45,8 @@ import com.google.gson.JsonParser;
 public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
-	// corpus/www.instagram.com  dev.twitter.com
-	private static String FOLDER_PATH = "corpus/www.instagram.com";
+	// corpus/www.instagram.com  dev.twitter.com www.twilio.com youtube
+	private static String FOLDER_PATH = "corpus/youtube";
 	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
 	private static List<String> PAGE_PATTERN = new ArrayList<String>(Arrays.asList("single", "multiple"));
 	

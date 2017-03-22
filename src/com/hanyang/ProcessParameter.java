@@ -77,8 +77,10 @@ public class ProcessParameter {
            
 		   // If it's first time, check the rowname
 		   if (titleRow) {
+			   //close checking the title row.
+			   titleRow = false;
 			   // check the first row
-			   if (StringUtils.containsIgnoreCase(trStr, "name") || StringUtils.containsIgnoreCase(trStr, "id") || StringUtils.containsIgnoreCase(trStr, "description")) {
+			   if (StringUtils.containsIgnoreCase(trStr, "name") || StringUtils.containsIgnoreCase(trStr, "description")) {
 			       // check the property name
 				   for (int j = 0; j < tdList.size(); j++) {
 					   Annotation tdElement = (Annotation) tdList.get(j);
@@ -95,13 +97,10 @@ public class ProcessParameter {
 				    		  }
 				    	  } 
 				   }
-				   
-			    	  
-			   
+				   // match the title row, continue
+				   continue;
 			   }
 			   
-			   titleRow = false;
-			   continue;
 		   } 
 		   
 		   // set defaut value

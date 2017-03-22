@@ -3,27 +3,66 @@
   "paths": {
     "/users/{user-id}/": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/self/": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/media/{media-id}/comments/{comment-id}": {
       "DEL": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/self/follows": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/search": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "A query string.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "count",
@@ -46,6 +85,13 @@
         "parameters": [
           {
             "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
             "name": "access_token",
             "description": "A valid access token.",
             "type": "integer",
@@ -66,6 +112,13 @@
         "parameters": [
           {
             "in": "query",
+            "name": "max_id",
+            "description": "Return media after this max_id.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
             "name": "access_token",
             "description": "A valid access token.",
             "type": "integer",
@@ -83,12 +136,27 @@
     },
     "/media/{media-id}": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/tags/{tag-name}/media/recent": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of tagged media to return.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -115,7 +183,15 @@
     },
     "/media/shortcode/D": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/tags/search": {
@@ -133,7 +209,15 @@
     },
     "/tags/{tag-name}": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/tags/puppy/media/recent": {
@@ -142,6 +226,13 @@
     "/locations/search": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the center search coordinate. If used, lng is required.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -178,6 +269,13 @@
         "parameters": [
           {
             "in": "query",
+            "name": "text",
+            "description": "Text to post as a comment on the media object as specified in media-id.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
             "name": "access_token",
             "description": "A valid access token.",
             "type": "integer",
@@ -186,12 +284,27 @@
         ]
       },
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/self/media/recent/": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "max_id",
@@ -218,28 +331,75 @@
     },
     "/users/self/requested-by": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/self/followed-by": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/media/{media-id}/likes": {
       "POST": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       },
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       },
       "DEL": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/users/{user-id}/relationship": {
       "POST": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "action",
@@ -250,12 +410,27 @@
         ]
       },
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     },
     "/media/search": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "distance",
@@ -285,6 +460,13 @@
         "parameters": [
           {
             "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
             "name": "max_id",
             "description": "Return media earlier than this max_id.",
             "type": "integer",
@@ -309,7 +491,15 @@
     },
     "/locations/{location-id}": {
       "GET": {
-        "parameters": []
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       }
     }
   },
