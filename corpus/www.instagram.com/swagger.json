@@ -1,9 +1,30 @@
 {
   "basePath": "/v1",
   "paths": {
-    "/users/{user-id}/": {
+    "/users/{user-id}/media/recent": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "Return media earlier than this max_id.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "min_id",
+            "description": "Return media later than this min_id.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -14,7 +35,7 @@
         ]
       }
     },
-    "/users/self/": {
+    "/users/{user-id}": {
       "GET": {
         "parameters": [
           {
@@ -28,7 +49,7 @@
       }
     },
     "/media/{media-id}/comments/{comment-id}": {
-      "DEL": {
+      "DELETE": {
         "parameters": [
           {
             "in": "query",
@@ -43,6 +64,40 @@
     "/users/self/follows": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self/media/recent": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Count of media to return.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "max_id",
+            "description": "Return media earlier than this max_id.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "min_id",
+            "description": "Return media later than this min_id.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -295,30 +350,9 @@
         ]
       }
     },
-    "/users/self/media/recent/": {
+    "/users/self": {
       "GET": {
         "parameters": [
-          {
-            "in": "query",
-            "name": "count",
-            "description": "Count of media to return.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "max_id",
-            "description": "Return media earlier than this max_id.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "min_id",
-            "description": "Return media later than this min_id.",
-            "type": "integer",
-            "required": "required"
-          },
           {
             "in": "query",
             "name": "access_token",
@@ -356,6 +390,17 @@
       }
     },
     "/media/{media-id}/likes": {
+      "DELETE": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
       "POST": {
         "parameters": [
           {
@@ -368,17 +413,6 @@
         ]
       },
       "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      },
-      "DEL": {
         "parameters": [
           {
             "in": "query",
@@ -449,40 +483,6 @@
             "in": "query",
             "name": "lat",
             "description": "Latitude of the center search coordinate. If used, lng is required.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "/users/{user-id}/media/recent/": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "count",
-            "description": "Count of media to return.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "max_id",
-            "description": "Return media earlier than this max_id.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "min_id",
-            "description": "Return media later than this min_id.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
             "type": "integer",
             "required": "required"
           }

@@ -45,10 +45,11 @@ import com.google.gson.JsonParser;
 public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
-	// corpus/www.instagram.com  dev.twitter.com www.twilio.com youtube
+	// corpus/www.instagram.com dev.twitter.com www.twilio.com youtube
 	private static String FOLDER_PATH = "corpus/youtube";
 	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
 	private static List<String> PAGE_PATTERN = new ArrayList<String>(Arrays.asList("single", "multiple"));
+	private static List<String> DELETE_PATTERN = new ArrayList<String>(Arrays.asList("del", "delete"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
 		Gate.init();
@@ -64,6 +65,10 @@ public class ExtractInformation {
         
         // 3. create doc
         for (int i = 0; i < listFiles.length; i++) {
+        	// print the file name
+        	Out.prln("=============File name=======================");
+            Out.prln(listFiles[i].getPath());
+        	Out.prln("=============================================");
         	String type = new Tika().detect(listFiles[i].getPath());
         	// only detect html
         	if (type.equals("text/html")) {
@@ -98,7 +103,7 @@ public class ExtractInformation {
         // 4.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
-        String regexAll = "(?si)((get)|(post)|(del)|(put)|(patch)){1}\\s(.*?)"+ SCHEME_PATTERN.get(0);
+        String regexAll = "(?si)((get)|(post)|("+ DELETE_PATTERN.get(1) +")|(put)|(patch)){1}\\s(.*?)"+ SCHEME_PATTERN.get(0);
         Pattern p = Pattern.compile(regexAll);
         Matcher matcher = p.matcher(strAll); 
         String actionStr=null, urlString=null;
@@ -115,7 +120,7 @@ public class ExtractInformation {
         	Out.prln(matchStr);
             
         	// match reversed action        	
-        	Pattern action = Pattern.compile("((teg)|(tsop)|(led)|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
+        	Pattern action = Pattern.compile("((teg)|(tsop)|("+ new StringBuilder(DELETE_PATTERN.get(1)).reverse().toString() +")|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
         	// match the reversed string, from right to left
         	Matcher matcherAction = action.matcher(new StringBuilder(matchStr).reverse());
         	// find the first match
@@ -143,9 +148,8 @@ public class ExtractInformation {
         		int uLocation = startIndex + endpointMatcher.start();
         		urlString = matchStr.substring(endpointMatcher.start()).split("\n")[0].trim();
         		// handle url, make it short and clean
-        		if (urlString.contains("?")) {
-        			urlString = urlString.split("\\?")[0].trim();
-        		}
+        		urlString = processMe.cleanUrl(urlString);
+        		
 //        		Out.prln("==========real ADDRESS============");
 //        		Out.prln(strAll.substring(uLocation, uLocation + 100));
         		Out.prln("==========URL ADDRESS============");

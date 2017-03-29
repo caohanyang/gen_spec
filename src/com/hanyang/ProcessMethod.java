@@ -69,5 +69,27 @@ public class ProcessMethod {
 		  return properPair;
 	}
 
+	public String cleanUrl(String urlString) {
+		// clean the url
+        // user/user-id?asdfsadf  =>  user/user-id
+		if (urlString.contains("?")) {
+			urlString = urlString.split("\\?")[0].trim();
+		}
+		// user/user-id authentication => user/user-id
+		if (urlString.contains(" ")) {
+			urlString = urlString.split(" ")[0].trim();
+		}
+		// user/user-id/     => user/user-id
+		if (urlString.endsWith("/")) {
+			urlString = urlString.substring(0, urlString.lastIndexOf("/"));
+		}
+		// user/user-id.json  => user/user-id
+//		String urlEnd = urlString.substring(urlString.lastIndexOf("/"));
+		if (urlString.lastIndexOf(".json") != -1) {
+			urlString = urlString.substring(0, urlString.lastIndexOf(".json"));
+		}
+		return urlString;
+	}
+
    
 }

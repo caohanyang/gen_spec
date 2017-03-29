@@ -26,36 +26,36 @@ public class ProcessParameter {
    public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson, Annotation anno, Document doc, ProcessMethod processMe, String page_pattern) throws JSONException{
 	   
 	   JSONObject sectionJson = matchURL(paraStr, fullText, infoJson, anno.getStartNode().getOffset(), page_pattern);
-	   String url = sectionJson.getString("url");
-	   String action = sectionJson.getString("action");
 	   
-	   //1. we add url/action into swagger now.
-	   // because here we have known that each table have match one url
-	   // some urls would not be used.
-	   processMe.addUrl(swagger, url, action);
-	   
-	   JSONObject urlObject = swagger.getJSONObject("paths").getJSONObject(url);
-	   //1. find the action
-	   JSONObject paraAll = new JSONObject();
-	   // parser the parameters
-	   JSONArray paraArray = parseParameter(paraStr, anno, doc);
-	   paraAll.put("parameters", paraArray);
-	   urlObject.put(action, paraAll);
+	   // if the sectionJson is null, showing that it doesn't match
+	   if (sectionJson.length() != 0) {
+		   
+		   String url = sectionJson.getString("url");
+		   String action = sectionJson.getString("action");
+		   
+		   //1. we add url/action into swagger now.
+		   // because here we have known that each table have match one url
+		   // some urls would not be used.
+		   processMe.addUrl(swagger, url, action);
+		   
+		   JSONObject urlObject = swagger.getJSONObject("paths").getJSONObject(url);
+		   //1. find the action
+		   JSONObject paraAll = new JSONObject();
+		   // parser the parameters
+		   JSONArray paraArray = parseParameter(paraStr, anno, doc);
+		   paraAll.put("parameters", paraArray);
+		   urlObject.put(action, paraAll);
+	   }
 	   
 	   return swagger;
    }
    
    
    public JSONArray parseParameter(String paraStr, Annotation anno, Document doc) throws JSONException{
+	   // Here we need to get tbody, not the whole table annotation
+	   List trList = getTbody(paraStr, anno, doc);   
+	   
 	   JSONArray paraArray = new JSONArray();
-	   Long startTr = anno.getStartNode().getOffset();
-	   Long endTr = anno.getEndNode().getOffset();
-	   AnnotationSet trSet = doc.getAnnotations("Original markups").get("tr", startTr, endTr);
-	   List trList = new ArrayList(trSet);
-	   
-	   //sor the list by offset
-	   Collections.sort(trList, new OffsetComparator());
-	   
 	   // Iterate the row element
 //	   Iterator<Annotation> trIter = trSet.iterator();
 	   boolean titleRow = true; // first time check the first row 
@@ -136,7 +136,31 @@ public class ProcessParameter {
 	   return paraArray;
    }
 
-   public String extactType(String type) {
+   public List getTbody(String paraStr, Annotation anno, Document doc) {
+	   // We need to get the precise tbody tag, in the parameter table
+	   Long startTbody = anno.getStartNode().getOffset();
+	   Long endTbody = anno.getEndNode().getOffset();
+	   AnnotationSet tbodySet = doc.getAnnotations("Original markups").get("tbody", startTbody, endTbody);
+	   if (tbodySet.size() == 1) {
+		   Annotation tbodyAnno = tbodySet.iterator().next();
+		   Long startTr = tbodyAnno.getStartNode().getOffset();
+		   Long endTr = tbodyAnno.getEndNode().getOffset();
+		   AnnotationSet trSet = doc.getAnnotations("Original markups").get("tr", startTr, endTr);
+
+		   List trList = new ArrayList(trSet);
+		   
+		   //sort the list by offset
+		   Collections.sort(trList, new OffsetComparator());
+		   
+		   return trList;
+	   }
+	   
+	   return null;
+	
+   }
+
+
+public String extactType(String type) {
 	if (StringUtils.isNumeric(type)) {
 		return "integer";
 	} else if ("true".equalsIgnoreCase(type) || "false".equalsIgnoreCase(type)) {
@@ -198,7 +222,14 @@ public Map<String, Integer> genUrlLocation (String fullText, List<String> urlLis
 		
 		// find previous text
 		int tableLocation = anno.getStartNode().getOffset().intValue();
-		String appendTableText = strAll.substring(tableLocation - 20,  anno.getEndNode().getOffset().intValue());
+		String appendTableText;
+		// the "parameter" string must not far from the startNode
+		if (anno.getEndNode().getOffset().intValue() - tableLocation > 100) {
+			// if the table is to big, just check the 100 character
+			appendTableText = strAll.substring(tableLocation - 20,  tableLocation + 100);
+		} else {
+			appendTableText = strAll.substring(tableLocation - 20,  anno.getEndNode().getOffset().intValue());
+		}
 		if (Pattern.compile("parameter", Pattern.CASE_INSENSITIVE).matcher(appendTableText).find()) {
 			return true;
 		}
