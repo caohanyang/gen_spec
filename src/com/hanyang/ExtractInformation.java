@@ -46,7 +46,7 @@ public class ExtractInformation {
 
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com dev.twitter.com www.twilio.com youtube
-	private static String FOLDER_PATH = "corpus/youtube";
+	private static String FOLDER_PATH = "corpus/www.twilio.com";
 	private static List<String> SCHEME = new ArrayList<String>(Arrays.asList("https", "http"));
 	private static List<String> TEMPLATE = new ArrayList<String>(Arrays.asList("table", "list"));
 	private static List<String> NUMBER = new ArrayList<String>(Arrays.asList("single", "multiple"));
@@ -215,26 +215,28 @@ public class ExtractInformation {
 		
 	}
 
-	private static void handleTable(JSONObject swagger, String number, Document doc, ProcessMethod processMe,
+	private static void handleTable(JSONObject swagger, String templeNum, Document doc, ProcessMethod processMe,
 			String strAll, List<JSONObject> infoJson, AnnotationSet annoTable) throws JSONException {
 		// 5.3 for each page, set findParaTable = False
         boolean findParaTable = false;
         // 5.3.1 Test if the page contains multiply parameter table or not
         Iterator<Annotation> testIter = annoTable.iterator();
-        String multiTable = number;
-        int numTable = 0;
+        String multiTable = templeNum;
+//        int numTable = 0;
         while(testIter.hasNext()) {
            Annotation anno = (Annotation) testIter.next();
     	   String tableText = gate.Utils.stringFor(doc, anno);
     	   ProcessParameter processPa = new ProcessParameter();
            if (processPa.isParaTable(tableText, anno, strAll)) {
-        	   numTable++;
+//        	   numTable++;
            }
         }
-        if (numTable > 1) {
-        	// more than one parameter table in the page
-        	multiTable = "multiply";
-        }
+        
+        // comment 
+//        if (numTable > 1) {
+//        	// more than one parameter table in the page
+//        	multiTable = "multiply";
+//        }
         
         // 5.3.2 handle the table context
         Iterator<Annotation> tableIter = annoTable.iterator();

@@ -1,35 +1,257 @@
 {
   "basePath": "/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
   "paths": {
-    "http:\\/\\/www.twilio.com\\/docs\\/errors\\/21201\"": {
-      "put": {
+    "https://api.twilio.com/2010-04-01/Accounts/{TestAccountSid}/IncomingPhoneNumbers": {
+      "POST": {}
+    },
+    "/AvailablePhoneNumbers/US/L": {
+      "post": {
         "parameters": [
           {
             "in": "query",
-            "name": "PageSize",
-            "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+            "name": "NearNumber",
+            "description": "Given a phone number, find a geographically close number within Distance miles. Distance defaults to 25 miles.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "NearLatLong",
+            "description": "Given a latitude/longitude pair lat,long find geographically close numbers within Distance miles.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "Distance",
+            "description": "Specifies the search radius for a Near- query in miles. If not specified this defaults to 25 miles. Maximum searchable distance is 500 miles.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "InPostalCode",
+            "description": "Limit results to a particular postal code. Given a phone number, search within the same postal code as that number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "InRegion",
+            "description": "Limit results to a particular region (i.e. State/Province). Given a phone number, search within the same Region as that number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "InRateCenter",
+            "description": "Limit results to a specific rate center, or given a phone number search within the same rate center as that number. Requires InLata to be set as well.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "InLata",
+            "description": "Limit results to a specific Local access and transport area ( LATA ). Given a phone number, search within the same LATA as that number.",
             "type": "integer",
             "required": "required"
           }
         ]
       }
     },
-    "https://www.twilio.com/console": {
-      "Get": {
-        "parameters": []
+    "/Usage/Records/LastMonth.js": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Category",
+            "description": "Only include usage of this usage category .",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "StartDate",
+            "description": "Only include usage that has occurred on or after this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, StartDate\u003d-30days will make StartDate be 30 days before today.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "EndDate",
+            "description": "Only include usage that has occurred on or before this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, EndDate\u003d+30days will make EndDate be 30 days from today.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "IncludeSubaccounts",
+            "description": "true to include usage from the master account and all subaccounts. false to only retrieve usage from the specified account. IncludeSubaccounts is true by default.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "http://www.example.com/sipdial.xml\"": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "To",
+            "description": "The SIP URI to which you want to connect",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "https://preview.twilio.com/porting/PortOrders": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "company_name",
+            "description": "Name of the company that owns the porting phone number. Please note that this is the name we will use to populate the “Business Name” field in the LOA associated with this port request.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "billing_phone_number",
+            "description": "The main billing phone number on the account (with your current provider/carrier) that is associated with the porting phone number in this port request. This must be in E.164 format, e.g., +16175551212.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "account_number",
+            "description": "Account number of the account (with your current provider/carrier) that is associated with the porting phone number in this port request. This is mandatory for Wireless numbers but optional for Landline and Toll Free numbers.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "pin_number",
+            "description": "PIN number of the account (with your current provider/carrier) that is associated with the porting phone number in this port request. This is mandatory for Wireless numbers but optional for Landline and Toll Free numbers.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "ssn_last_four",
+            "description": "Last four digits of the social security number of the person that owns the porting phone number. Please note that this person must be the one who is authorized to and will sign the LOA. This is mandatory for Wireless numbers but optional for Landline and Toll Free numbers.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "current_carrier",
+            "description": "Name of the current provider/carrier of the porting phone number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "activation_date",
+            "description": "Desired Firm Order Commitment (FOC) date and time, given as GMT RFC 2822 format – i.e., the date and time at which the number will port. This will be overridden if the earliest possible FOC date is on a later date.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "status_callback",
+            "description": "The URL that Twilio will POST to each time the port request status changes to one of Delivered, Failed, or Completed.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "cc_emails",
+            "description": "Array of email address(es) of the person/people whom Twilio should notify each time the port request status changes to one of Delivered, Failed, or Completed.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
       },
-      "delete": {}
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "number",
+            "description": "Porting phone number in E.164 format, e.g., +16175551212.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "iso_country",
+            "description": "The ISO 3166-1 alpha-2 country code in the service address associated with the porting phone number, e.g., US.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "region",
+            "description": "Name of the region in the service address associated with the porting phone number. This can be a 2 letter state code in US, e.g., CA.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "Name of the city in the service address associated with the porting phone number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "postal_code",
+            "description": "Zip code or postal code in the service address associated with the porting phone number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "street",
+            "description": "Name of the street in the service address associated with the porting phone number.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "first_name",
+            "description": "First name of the person that owns the porting phone number. Please note that this is the name we will use to populate the “First Name” field in the LOA associated with this port request, and that this person must be the one who is authorized to and will sign the LOA.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "last_name",
+            "description": "Last name of the person that owns the porting phone number. Please note that this is the name we will use to populate the “Last Name” field in the LOA associated with this port request, and that this person must be the one who is authorized to and will sign the LOA.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email address of the person that owns the porting phone number. Please note that this person must be the one who is authorized to and will sign the LOA.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/Messages": {
+      "POST": {}
     },
     "/Applications": {
       "GET": {
         "parameters": []
       }
     },
-    "http://demo.twilio.com/docs/voice.xml\"": {
-      "POST": {}
-    },
     "HTTP": {
-      "post": {
+      "DELETE": {
         "parameters": [
           {
             "in": "query",
@@ -86,249 +308,6 @@
         "parameters": [
           {
             "in": "query",
-            "name": "Twilio will make a request to this url when the trigger fires.",
-            "description": "Twilio will make a request to this url when the trigger fires.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "The HTTP method Twilio will use when making a request to the CallbackUrl. GET or POST .",
-            "description": "The HTTP method Twilio will use when making a request to the CallbackUrl. GET or POST .",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      },
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "VoiceUrl",
-            "description": "The URL that Twilio should request when somebody dials the new phone number. The VoiceURL will no longer be used if a VoiceApplicationSid or a TrunkSid is set.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceMethod",
-            "description": "The HTTP method that should be used to request the VoiceUrl . Must be either GET or POST . Defaults to POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceFallbackUrl",
-            "description": "A URL that Twilio will request if an error occurs requesting or executing the TwiML at Url .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceFallbackMethod",
-            "description": "The HTTP method that should be used to request the VoiceFallbackUrl . Either GET or POST . Defaults to POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "StatusCallback",
-            "description": "The URL that Twilio will request to pass status parameters (such as call ended) to your application.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "StatusCallbackMethod",
-            "description": "The HTTP method Twilio will use to make requests to the StatusCallback URL. Either GET or POST . Defaults to POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceCallerIdLookup",
-            "description": "Do a lookup of a caller\u0027s name from the CNAM database and post it to your app. Either true or false . Defaults to false .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceApplicationSid",
-            "description": "The 34 character sid of the application Twilio should use to handle phone calls to the new number. If a VoiceApplicationSid is present, Twilio will ignore all of the voice urls above and use those set on the application. Setting a VoiceApplicationSid will automatically delete your TrunkSid and vice versa.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "TrunkSid",
-            "description": "The 34 character sid of the Trunk Twilio should use to handle phone calls to this number. If a TrunkSid is present, Twilio will ignore all of the voice urls and voice applications above and use those set on the Trunk. Setting a TrunkSid will automatically delete your VoiceApplicationSid and vice versa.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsUrl",
-            "description": "The URL that Twilio should request when somebody sends an SMS to the phone number.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsMethod",
-            "description": "The HTTP method that should be used to request the SmsUrl . Must be either GET or POST . Defaults to POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsFallbackUrl",
-            "description": "A URL that Twilio will request if an error occurs requesting or executing the TwiML defined by SmsUrl .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsFallbackMethod",
-            "description": "The HTTP method that should be used to request the SmsFallbackUrl . Must be either GET or POST . Defaults to POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsApplicationSid",
-            "description": "The 34 character sid of the application Twilio should use to handle SMSs sent to the new number. If a SmsApplicationSid is present, Twilio will ignore all of the SMS urls above and use those set on the application.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "ApiVersion",
-            "description": "The Twilio REST API version to use for incoming calls made to this number. If omitted, uses 2010-04-01 .",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      },
-      "Get": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "ApiVersion",
-            "description": "Calls to this phone number will start a new TwiML session with this API version. Either 2010-04-01 or 2008-08-01 .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceUrl",
-            "description": "The URL that Twilio should request when somebody dials the phone number. The VoiceURL will no longer be used if a VoiceApplicationSid or a TrunkSid is set.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceMethod",
-            "description": "The HTTP method that should be used to request the VoiceUrl . Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceFallbackUrl",
-            "description": "A URL that Twilio will request if an error occurs requesting or executing the TwiML defined by VoiceUrl .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceFallbackMethod",
-            "description": "The HTTP method that should be used to request the VoiceFallbackUrl . Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "StatusCallback",
-            "description": "The URL that Twilio will request to pass status parameters (such as call ended) to your application.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "StatusCallbackMethod",
-            "description": "The HTTP method Twilio will use to make requests to the StatusCallback URL. Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceCallerIdLookup",
-            "description": "Do a lookup of a caller\u0027s name from the CNAM database and post it to your app. Either true or false .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "VoiceApplicationSid",
-            "description": "The 34 character sid of the application Twilio should use to handle phone calls to this number. If a VoiceApplicationSid is present, Twilio will ignore all of the voice urls above and use those set on the application instead. Setting a VoiceApplicationSid will automatically delete your TrunkSid and vice versa.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "TrunkSid",
-            "description": "The 34 character sid of the Trunk Twilio should use to handle phone calls to this number. If a TrunkSid is present, Twilio will ignore all of the voice urls and voice applications above and use those set on the Trunk. Setting a TrunkSid will automatically delete your VoiceApplicationSid and vice versa.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsUrl",
-            "description": "The URL that Twilio should request when somebody sends an SMS to the new phone number.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsMethod",
-            "description": "The HTTP method that should be used to request the SmsUrl . Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsFallbackUrl",
-            "description": "A URL that Twilio will request if an error occurs requesting or executing the TwiML defined by SmsUrl .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsFallbackMethod",
-            "description": "The HTTP method that should be used to request the SmsFallbackUrl . Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "SmsApplicationSid",
-            "description": "The 34 character sid of the application Twilio should use to handle SMSs sent to this number. If a SmsApplicationSid is present, Twilio will ignore all of the SMS urls above and use those set on the application instead.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "AccountSid",
-            "description": "The unique 34 character id of the account to which you wish to transfer this phone number. See Exchanging Numbers Between Subaccounts .",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      },
-      "geT": {
-        "parameters": [
-          {
-            "in": "query",
             "name": "TriggerBy",
             "description": "The field in the UsageRecord that will fire the trigger. One of count , usage , or price as described in the UsageRecords documentation . The default is usage .",
             "type": "integer",
@@ -350,147 +329,344 @@
           }
         ]
       },
+      "GET": {},
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "CallStatus",
+            "description": "A descriptive status for the call. The value is one of queued , initiated , ringing , in-progress , busy , failed , or no-answer . See the CallStatus section for more details.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "CallDuration",
+            "description": "The duration in seconds of the just-completed call. Only present in the completed event.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "RecordingUrl",
+            "description": "The URL of the phone call\u0027s recorded audio. This parameter is included only if Record\u003dtrue is set on the REST API request and does not include recordings initiated in other ways. RecordingUrl is only present in the completed event. The recording file may not yet be accessible when the Status Callback is sent. Use RecordingStatusCallback for reliable notification on when the recording is available for access.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "RecordingSid",
+            "description": "The unique ID of the Recording from this call. RecordingSid is only present in the completed event.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "RecordingDuration",
+            "description": "The duration of the recorded audio (in seconds). RecordingDuration is only present in the completed event. To get a final accurate recording duration after any trimming of silence, use RecordingStatusCallback .",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "Timestamp",
+            "description": "The timestamp when the event was fired, given as UTC in RFC 2822 format.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "CallbackSource",
+            "description": "A string that describes the source of the webhook. This is provided to help disambiguate why the webhook was made. On Status Callbacks, this value is always call-progress-events .",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "SequenceNumber",
+            "description": "The order in which the events were fired, starting from 0 . Although events are fired in order, they are made as separate HTTP requests and there is no guarantee they will arrive in the same order.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "geT": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "UsageCategory",
+            "description": "The trigger will watch this usage category. One of the supported usage categories .",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "TriggerValue",
+            "description": "The trigger will fire when usage reaches this value. For convenience, you can use an offset like +30 , which tells Twilio to create the UsageTrigger with its TriggerValue 30 units higher than the current usage. (just be sure to urlencode the + as %2B ).",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "CallbackUrl",
+            "description": "Twilio will make a request to this url when the trigger fires.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Only return the Address resources with friendly names that exactly match this name.",
+            "description": "Only return the Address resources with friendly names that exactly match this name.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "Only return the Address resources in this country.",
+            "description": "Only return the Address resources in this country.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "PUT": {
+        "parameters": []
+      }
+    },
+    "http:\\/\\/www.twilio.com\\/docs\\/errors\\/21201\"": {
       "put": {
         "parameters": [
           {
             "in": "query",
-            "name": "AuthorizeRedirectUrl",
-            "description": "The URL the user\u0027s browser will redirect to after Twilio authenticates the user and obtains authorization for this Connect App.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "DeauthorizeCallbackUrl",
-            "description": "The URL to which Twilio will send a request when a user de-authorizes this Connect App.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "DeauthorizeCallbackMethod",
-            "description": "The HTTP method to be used when making a request to the DeauthorizeCallbackUrl . Either GET or POST .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "Permissions",
-            "description": "A comma-separated list of permssions you will request from users of this ConnectApp. Valid permssions are get-all or post-all .",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "Description",
-            "description": "A more detailed human readable description of the Connect App.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "CompanyName",
-            "description": "The company name for this Connect App.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "HomepageUrl",
-            "description": "The public URL where users can obtain more information about this Connect App.",
+            "name": "PageSize",
+            "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
             "type": "integer",
             "required": "required"
           }
         ]
       }
     },
-    "/AuthorizedConnectApps": {
-      "post": {}
+    "https://www.twilio.com/console": {
+      "put": {
+        "parameters": []
+      }
     },
-    "/Calls/FeedbackSummary": {
-      "POST": {
+    "https://c1.staticflickr.com/3/2899/14341091933_1e92e62d12_b.jpg\"": {
+      "put": {
         "parameters": [
           {
             "in": "query",
-            "name": "StartDate",
-            "description": "The first date for which feedback entries are included in this Feedback Summary, formatted as YYYY-MM-DD. All dates are in UTC.",
+            "name": "MessageStatus",
+            "description": "The status of the message. Message delivery information is reflected in message status. The possible values are described here .",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
-            "name": "EndDate",
-            "description": "The last date for which feedback entries are included in this Feedback Summary, formatted as YYYY-MM-DD. All dates are in UTC.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "AccountSid",
-            "description": "The Account that reported the feedback entry.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "IncludeSubaccounts",
-            "description": "true if the feedback summary includes subaccounts, false otherwise.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "Status",
-            "description": "The status of the feedback summary can be queued, in-progress, completed, or failed.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "CallCount",
-            "description": "The total number of calls.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "CallFeedbackCount",
-            "description": "The total number of calls with a feedback entry.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "QualityScoreAverage",
-            "description": "The average QualityScore of the feedback entries.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "QualityScoreMedian",
-            "description": "The median QualityScore of the feedback entries.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "QualityScoreStandardDeviation",
-            "description": "The standard deviation of the quality scores.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "Issues",
-            "description": "A list of all the issues experienced. The list includes the issue name, the number of occurrences and percentage of calls that experienced this issue.",
+            "name": "ErrorCode",
+            "description": "The error code (if any) associated with your message. If your message status is failed or undelivered , the ErrorCode can give you more information about the failure. If the message was delivered successfully, no ErrorCode will be present. The possible values are described here .",
             "type": "integer",
             "required": "required"
           }
         ]
       }
     },
-    "/IncomingPhoneNumbers": {
+    "/SIP/Domains/SD32a3c4970093": {
+      "POST": {}
+    },
+    "/Calls/CAe03b7cd806070d1f32": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Issue",
+            "description": "One or more issues experienced during the call. The issues can be: imperfect-audio , dropped-call , incorrect-caller-id , post-dial-delay , digits-not-captured , audio-latency , or one-way-audio .",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/Messages/MM800f449d0399ed0": {
+      "Get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "accepted",
+            "description": "Twilio has received your API request to send a message with a Messaging Service and a From number is being dynamically selected. This is still the initial status when sending with a Messaging Service and the From parameter.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "queued",
+            "description": "The API request to send a message was successful and the message is queued to be sent out. This is the initial status when you are not using a Messaging Service.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "sending",
+            "description": "Twilio is in the process of dispatching your message to the nearest upstream carrier in the network.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "sent",
+            "description": "The message was successfully accepted by the nearest upstream carrier.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "receiving",
+            "description": "The inbound message has been received by Twilio and is currently being processed.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "received",
+            "description": "On inbound messages only. The inbound message was received by one of your Twilio numbers.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "delivered",
+            "description": "Twilio has received confirmation of message delivery from the upstream carrier, and, where available, the destination handset.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "undelivered",
+            "description": "Twilio has received a delivery receipt indicating that the message was not delivered. This can happen for a number of reasons including carrier content filtering, availability of the destination handset, etc.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "failed",
+            "description": "The message could not be sent. This can happen for various reasons including queue overflows, account suspensions and media errors (in the case of MMS). Twilio does not charge you for failed messages.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/SMS/Messages/SM800f449d039": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "queued",
+            "description": "The API request to send an SMS message was successful and the message is queued to be sent out.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "sending",
+            "description": "Twilio is in the process of dispatching your message to the nearest upstream carrier in the SMS network.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "sent",
+            "description": "The message was sent to the nearest upstream carrier, and that carrier accepted the message.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "failed",
+            "description": "The message could not be sent, most likely because the \"To\" number is non-existent.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "received",
+            "description": "On inbound messages only. The message was received by one of your Twilio numbers.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "http:\\/\\/www.google.com\"": {
+      "POST": {}
+    },
+    "/Calls/CA42ed11f93dc08b9520": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "queued",
+            "description": "The call is ready and waiting in line before going out.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "ringing",
+            "description": "The call is currently ringing.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "in-progress",
+            "description": "The call was answered and is currently in progress.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "canceled",
+            "description": "The call was hung up while it was queued or ringing.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "completed",
+            "description": "The call was answered and has ended normally.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "busy",
+            "description": "The caller received a busy signal.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "failed",
+            "description": "The call could not be completed as dialed, most likely because the phone number was non-existent.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "no-answer",
+            "description": "The call ended without being answered.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/SIP/IpAccessControlLists/A": {
       "POST": {}
     }
   },

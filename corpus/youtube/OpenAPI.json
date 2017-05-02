@@ -1969,35 +1969,112 @@
           {
             "in": "query",
             "name": "badRequest",
-            "description": "(400) invalidChannelId The channelId parameter specified an invalid channel ID.",
+            "description": "(400) incompatibleParameters The request specifies two or more parameters that cannot be used in the same request.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "badRequest",
-            "description": "(400) invalidLocation The location and/or locationRadius parameter value was formatted incorrectly.",
+            "description": "(400) invalidFilters The request specifies an invalid filter parameter.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "badRequest",
-            "description": "(400) invalidRelevanceLanguage The relevanceLanguage parameter value was formatted incorrectly.",
+            "description": "(400) invalidPageToken The request specifies an invalid page token.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "badRequest",
-            "description": "(400) invalidSearchFilter The request contains an invalid combination of search filters and/or restrictions. Note that you must set the type parameter to video if you set a value for the eventType , videoCaption , videoCategoryId , videoDefinition , videoDimension , videoDuration , videoEmbeddable , videoLicense , videoSyndicated , or videoType parameters.",
+            "description": "(400) missingRequiredParameter The request is missing a required parameter.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "badRequest",
-            "description": "(400) invalidVideoId The relatedToVideo parameter specified an invalid video ID.",
+            "description": "(400) unexpectedParameter The request specifies an unexpected parameter.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) accountDelegationForbidden The authenticated user cannot act on behalf of the specified Google account.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) authenticatedUserAccountClosed The YouTube account of the authenticated user is closed. In case the authenticated user is acting on behalf of another Google account, then this error refers to the latter.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) authenticatedUserAccountSuspended The YouTube account of the authenticated user is suspended. In case the authenticated user is acting on behalf of another Google account, then this error refers to the latter.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) authenticatedUserNotChannel For this request the authenticated user must resolve to a channel, but does not. If your request is authenticated and uses the onBehalfOfContentOwner delegation parameter, then you should also set the onBehalfOfContentOwnerChannel parameter.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) channelClosed The channel identified in the request has been closed.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) channelNotFound The channel identified in the request cannot be found.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) channelSuspended The channel identified in the request has been suspended.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) cmsUserAccountNotFound The CMS user is not allowed to act on behalf of the specified content owner.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) insufficientCapabilities The CMS user has insufficient capabilities.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "forbidden",
+            "description": "(403) insufficientPermissions The OAuth 2.0 token provided for the request specifies scopes that are insufficient for accessing the requested data.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "notFound",
+            "description": "(404) contentOwnerAccountNotFound The specified content owner account was not found.",
             "type": "integer",
             "required": "required"
           }
