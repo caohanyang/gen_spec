@@ -47,9 +47,9 @@ public class ExtractInformation {
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com dev.twitter.com www.twilio.com youtube
 	private static String FOLDER_PATH = "corpus/youtube";
-	private static List<String> SCHEME_PATTERN = new ArrayList<String>(Arrays.asList("https", "http"));
-	private static List<String> PAGE_PATTERN = new ArrayList<String>(Arrays.asList("single", "multiple"));
-	private static List<String> DELETE_PATTERN = new ArrayList<String>(Arrays.asList("del", "delete"));
+	private static List<String> SCHEME = new ArrayList<String>(Arrays.asList("https", "http"));
+	private static List<String> NUM_TABLE = new ArrayList<String>(Arrays.asList("single", "multiple"));
+	private static List<String> ABBREV_DELETE = new ArrayList<String>(Arrays.asList("del", "delete"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
 		Gate.init();
@@ -59,7 +59,29 @@ public class ExtractInformation {
         File folder = new File(FOLDER_PATH);
         File[] listFiles = folder.listFiles();
         
-        // 2. initial the specification
+        // 2. generate swagger according to pattern
+        for (Iterator<String> sIterator = SCHEME.iterator(); sIterator.hasNext();) {
+        	String scheme = sIterator.next();
+        	
+			for (Iterator<String> nIterator = NUM_TABLE.iterator(); nIterator.hasNext();) {		
+				String number = nIterator.next();
+				
+				for (Iterator<String> dIterator = ABBREV_DELETE.iterator(); dIterator.hasNext();) {
+					String abbrev = dIterator.next();
+					// generate different swagger
+					generateSwagger(corpus, listFiles, scheme, number, abbrev);
+				}
+			}
+		}
+        
+       // 3. compare the json files and select the final one.
+        selectSwagger(folder);
+          
+	}
+
+	public static void generateSwagger(Corpus corpus, File[] listFiles, String scheme, String number, String abbrev)
+			throws ResourceInstantiationException, JSONException, IOException, MalformedURLException {
+		// 2. initial the specification
         GenerateMain mainObject = new GenerateMain();
         JSONObject swagger = mainObject.generateStructure();
         
@@ -72,7 +94,7 @@ public class ExtractInformation {
         	String type = new Tika().detect(listFiles[i].getPath());
         	// only detect html
         	if (type.equals("text/html")) {
-        	  getOneFile(listFiles[i].getPath(), corpus, swagger);
+        	  getOneFile(listFiles[i].getPath(), corpus, swagger, scheme, number, abbrev);
         	}
         }
         
@@ -81,11 +103,12 @@ public class ExtractInformation {
         swagger = processBa.handleBaseUrl(swagger);
         
         // 5. write to file
-        writeSwagger(swagger);
-          
+        writeSwagger(swagger, scheme, number, abbrev);
+        
 	}
 
-	public static void getOneFile(String path, Corpus corpus, JSONObject swagger) throws ResourceInstantiationException, JSONException, IOException {
+
+	public static void getOneFile(String path, Corpus corpus, JSONObject swagger, String scheme, String number, String abbrev) throws ResourceInstantiationException, JSONException, IOException {
 		URL u = Paths.get(path).toUri().toURL();
         FeatureMap params = Factory.newFeatureMap();
         params.put("sourceUrl", u);
@@ -103,7 +126,7 @@ public class ExtractInformation {
         // 4.1 search for the GET https
         String strAll = textAll.toString();
         // Fix 1: suppose the len(content between get and http) < 40
-        String regexAll = "(?si)((get)|(post)|("+ DELETE_PATTERN.get(1) +")|(put)|(patch)){1}\\s(.*?)"+ SCHEME_PATTERN.get(0);
+        String regexAll = "(?si)((get)|(post)|("+ abbrev +")|(put)|(patch)){1}\\s(.*?)"+ scheme;
         Pattern p = Pattern.compile(regexAll);
         Matcher matcher = p.matcher(strAll); 
         String actionStr=null, urlString=null;
@@ -120,7 +143,7 @@ public class ExtractInformation {
         	Out.prln(matchStr);
             
         	// match reversed action        	
-        	Pattern action = Pattern.compile("((teg)|(tsop)|("+ new StringBuilder(DELETE_PATTERN.get(1)).reverse().toString() +")|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
+        	Pattern action = Pattern.compile("((teg)|(tsop)|("+ new StringBuilder(abbrev).reverse().toString() +")|(tup)|(hctap))", Pattern.CASE_INSENSITIVE);
         	// match the reversed string, from right to left
         	Matcher matcherAction = action.matcher(new StringBuilder(matchStr).reverse());
         	// find the first match
@@ -140,7 +163,7 @@ public class ExtractInformation {
         		Out.prln(actionStr);
         	}
         	// match endpoint
-        	String regexHttp = SCHEME_PATTERN.get(0);
+        	String regexHttp = scheme;
         	Pattern endpoint = Pattern.compile(regexHttp, Pattern.CASE_INSENSITIVE);
         	Matcher endpointMatcher = endpoint.matcher(matchStr);
         	if(endpointMatcher.find()){
@@ -182,7 +205,7 @@ public class ExtractInformation {
         boolean findParaTable = false;
         // 5.3.1 Test if the page contains multiply parameter table or not
         Iterator<Annotation> testIter = annoTable.iterator();
-        String multiTable = PAGE_PATTERN.get(0);
+        String multiTable = number;
         int numTable = 0;
         while(testIter.hasNext()) {
            Annotation anno = (Annotation) testIter.next();
@@ -224,9 +247,14 @@ public class ExtractInformation {
 		
 	}
 	
-	public static void writeSwagger(JSONObject swagger) throws IOException {
+	public static void writeSwagger(JSONObject swagger, String scheme, String number, String abbrev) throws IOException {
 		// Print pretty swagger
-        FileWriter fileWriter = new FileWriter(FOLDER_PATH + "/swagger.json");
+		String fileName = scheme + "_" + number + "_" + abbrev + ".json";
+        writeFile(swagger.toString(), fileName);
+	}
+
+	public static void writeFile(String swagger, String fileName) throws IOException {
+		FileWriter fileWriter = new FileWriter(FOLDER_PATH + "/" + fileName);
         String swString = swagger.toString();
         JsonParser parser = new JsonParser();
         JsonElement jelement = parser.parse(swString);
@@ -236,6 +264,27 @@ public class ExtractInformation {
         
 		fileWriter.write(prettyJson);
 		fileWriter.close();
+	}
+	
+
+	public static void selectSwagger(File folder) throws IOException {
+       File[] listNew = folder.listFiles();
+       String finalName = "OpenAPI.json";
+       File finalFile = new File(FOLDER_PATH + "/" + finalName);
+       
+       for (int i = 0; i < listNew.length; i++) {
+    	   String type = new Tika().detect(listNew[i].getPath());
+	       	// only detect .json
+	       	if (type.equals("application/json")) {
+	       		// ignore final file
+               if (listNew[i].getName() != finalName) {
+            	   // select the maximum size file
+            	   if (listNew[i].length() > finalFile.length()) {
+            		   writeFile(new String(Files.readAllBytes(listNew[i].toPath())), finalName);
+            	   }
+               }
+	       	}
+       }
 	}
 
 }
