@@ -236,6 +236,19 @@
         ]
       }
     },
+    "/media/shortcode/D": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
     "/tags/search": {
       "GET": {
         "parameters": [
@@ -430,19 +443,6 @@
           }
         ]
       },
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "http://instagram.com/p/tsxp1hhQTG": {
       "GET": {
         "parameters": [
           {

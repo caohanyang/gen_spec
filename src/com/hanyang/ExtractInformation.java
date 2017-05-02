@@ -48,7 +48,8 @@ public class ExtractInformation {
 	// corpus/www.instagram.com dev.twitter.com www.twilio.com youtube
 	private static String FOLDER_PATH = "corpus/youtube";
 	private static List<String> SCHEME = new ArrayList<String>(Arrays.asList("https", "http"));
-	private static List<String> NUM_TABLE = new ArrayList<String>(Arrays.asList("single", "multiple"));
+	private static List<String> TEMPLATE = new ArrayList<String>(Arrays.asList("table", "list"));
+	private static List<String> NUMBER = new ArrayList<String>(Arrays.asList("single", "multiple"));
 	private static List<String> ABBREV_DELETE = new ArrayList<String>(Arrays.asList("del", "delete"));
 	
 	public static void main(String[] args) throws GateException, JSONException, IOException {		
@@ -63,13 +64,18 @@ public class ExtractInformation {
         for (Iterator<String> sIterator = SCHEME.iterator(); sIterator.hasNext();) {
         	String scheme = sIterator.next();
         	
-			for (Iterator<String> nIterator = NUM_TABLE.iterator(); nIterator.hasNext();) {		
-				String number = nIterator.next();
+			for (Iterator<String> tIterator = TEMPLATE.iterator(); tIterator.hasNext(); ) {
+				String template = tIterator.next();
 				
-				for (Iterator<String> dIterator = ABBREV_DELETE.iterator(); dIterator.hasNext();) {
-					String abbrev = dIterator.next();
-					// generate different swagger
-					generateSwagger(corpus, listFiles, scheme, number, abbrev);
+				for (Iterator<String> nIterator = NUMBER.iterator(); nIterator.hasNext();) {		
+					String number = nIterator.next();
+					
+					for (Iterator<String> dIterator = ABBREV_DELETE.iterator(); dIterator.hasNext();) {
+						String abbrev = dIterator.next();
+						// generate different swagger
+						generateSwagger(corpus, listFiles, scheme, template, number, abbrev);
+						System.gc();
+					}
 				}
 			}
 		}
@@ -79,7 +85,7 @@ public class ExtractInformation {
           
 	}
 
-	public static void generateSwagger(Corpus corpus, File[] listFiles, String scheme, String number, String abbrev)
+	public static void generateSwagger(Corpus corpus, File[] listFiles, String scheme, String template, String number, String abbrev)
 			throws ResourceInstantiationException, JSONException, IOException, MalformedURLException {
 		// 2. initial the specification
         GenerateMain mainObject = new GenerateMain();
@@ -94,7 +100,7 @@ public class ExtractInformation {
         	String type = new Tika().detect(listFiles[i].getPath());
         	// only detect html
         	if (type.equals("text/html")) {
-        	  getOneFile(listFiles[i].getPath(), corpus, swagger, scheme, number, abbrev);
+        	  getOneFile(listFiles[i].getPath(), corpus, swagger, scheme, template, number, abbrev);
         	}
         }
         
@@ -103,12 +109,12 @@ public class ExtractInformation {
         swagger = processBa.handleBaseUrl(swagger);
         
         // 5. write to file
-        writeSwagger(swagger, scheme, number, abbrev);
+        writeSwagger(swagger, scheme, template, number, abbrev);
         
 	}
 
 
-	public static void getOneFile(String path, Corpus corpus, JSONObject swagger, String scheme, String number, String abbrev) throws ResourceInstantiationException, JSONException, IOException {
+	public static void getOneFile(String path, Corpus corpus, JSONObject swagger, String scheme, String template, String number, String abbrev) throws ResourceInstantiationException, JSONException, IOException {
 		URL u = Paths.get(path).toUri().toURL();
         FeatureMap params = Factory.newFeatureMap();
         params.put("sourceUrl", u);
@@ -125,8 +131,8 @@ public class ExtractInformation {
     	
         // 4.1 search for the GET https
         String strAll = textAll.toString();
-        // Fix 1: suppose the len(content between get and http) < 40
-        String regexAll = "(?si)((get)|(post)|("+ abbrev +")|(put)|(patch)){1}\\s(.*?)"+ scheme;
+        // Fix 1: suppose the len(content between get and http) < 40 + "://"
+        String regexAll = "(?si)((get)|(post)|("+ abbrev +")|(put)|(patch)){1}\\s(.*?)"+ scheme ;
         Pattern p = Pattern.compile(regexAll);
         Matcher matcher = p.matcher(strAll); 
         String actionStr=null, urlString=null;
@@ -198,10 +204,20 @@ public class ExtractInformation {
        
         AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
         
-        // 5.2 get table annotation
-        AnnotationSet annoTable = annoOrigin.get("table");          
                
-        // 5.3 for each page, set findParaTable = False
+        if (template =="table") {
+        	// 5.2 get table annotation
+            AnnotationSet annoTable = annoOrigin.get("table");   
+            handleTable(swagger, number, doc, processMe, strAll, infoJson, annoTable); 
+        } else if (template == "list") {
+        	
+        }
+		
+	}
+
+	private static void handleTable(JSONObject swagger, String number, Document doc, ProcessMethod processMe,
+			String strAll, List<JSONObject> infoJson, AnnotationSet annoTable) throws JSONException {
+		// 5.3 for each page, set findParaTable = False
         boolean findParaTable = false;
         // 5.3.1 Test if the page contains multiply parameter table or not
         Iterator<Annotation> testIter = annoTable.iterator();
@@ -243,13 +259,12 @@ public class ExtractInformation {
         		// add the noPara url
         		processMe.addNoParaUrl(swagger, strAll, infoJson);
         	}
-        } 
-		
+        }
 	}
 	
-	public static void writeSwagger(JSONObject swagger, String scheme, String number, String abbrev) throws IOException {
+	public static void writeSwagger(JSONObject swagger, String scheme, String template, String number, String abbrev) throws IOException {
 		// Print pretty swagger
-		String fileName = scheme + "_" + number + "_" + abbrev + ".json";
+		String fileName = scheme + "_" + template + "_" + number + "_" + abbrev + ".json";
         writeFile(swagger.toString(), fileName);
 	}
 
