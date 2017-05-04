@@ -48,8 +48,8 @@ public class ExtractInformation {
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com dev.twitter.com www.twilio.com www.youtube.com
 	// www.flickr.com
-	private static String FOLDER_PATH = "corpus/www.flickr.com";
-	private static String API_NAME = "flickr";
+	public static String FOLDER_PATH = "corpus/www.flickr.com";
+	public static String API_NAME = "flickr";
 	// "https", "http"
 	private static List<String> SCHEME = new ArrayList<String>(Arrays.asList("null"));
 	// "table", 
@@ -97,35 +97,16 @@ public class ExtractInformation {
 		// 2. initial the specification
 		GenerateMain mainObject = new GenerateMain();
 		JSONObject swagger = mainObject.generateStructure();
-
-		// 3. different mode
-		if (scheme == "null") {
-		   searchBaseUrl(listFiles, corpus, swagger);
-		} else {
-			for (int i = 0; i < listFiles.length; i++) {
-				// print the file name
-				Out.prln("=============File name=======================");
-				Out.prln(listFiles[i].getPath());
-				String type = new Tika().detect(listFiles[i].getPath());
-				// only detect html
-				if (type.equals("text/html")) {
-					executeOneFile(listFiles[i].getPath(), corpus, swagger, scheme, template, number, abbrev);
-				}
-			}
-		}
-
-		// 4. prune swagger
 		ProcessBaseUrl processBa = new ProcessBaseUrl();
-		swagger = processBa.handleBaseUrl(swagger);
-
-		// 5. write to file
-		writeSwagger(swagger, scheme, template, number, abbrev);
-
-	}
-
-	public static void searchBaseUrl(File[] listFiles, Corpus corpus, JSONObject swagger) throws MalformedURLException, ResourceInstantiationException, JSONException {
-		// define the list of baseUrl
-		List<String> baseUrlList = new ArrayList<String>();
+		String baseUrl = null;
+		// 3. different mode
+		// if it's null mode, find the common base url first
+		if (scheme == "null") {
+		   baseUrl = processBa.searchBaseUrl(listFiles, corpus, API_NAME);
+		   Out.prln(baseUrl);
+		}
+		
+		// 4. check each html file
 		for (int i = 0; i < listFiles.length; i++) {
 			// print the file name
 			Out.prln("=============File name=======================");
@@ -133,56 +114,20 @@ public class ExtractInformation {
 			String type = new Tika().detect(listFiles[i].getPath());
 			// only detect html
 			if (type.equals("text/html")) {
-				URL u = Paths.get(listFiles[i].getPath()).toUri().toURL();
-				FeatureMap params = Factory.newFeatureMap();
-				params.put("sourceUrl", u);
-				Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
-				// 1. add doc
-				corpus.add(doc);
-				// 2. get all text
-				DocumentContent textAll = doc.getContent();
-				// 3. initial swagger
-				ProcessMethod processMe = new ProcessMethod();
-				processMe.generateDefault(swagger);
-                
-				// 4.1 search for the GET https
-				String strAll = textAll.toString();
-				// Fix 1: suppose the len(content between get and http) < 40 + "://"
-				String regexRest = "(?si)rest.+request";
-				String regexHttp = "(?si)((http)|(https)){1}://";
-				Pattern pRest = Pattern.compile(regexRest);
-				Matcher matcherREST = pRest.matcher(strAll);
-				while (matcherREST.find()) {
-					// first find the page which contains REST + request
-					Pattern pHttp = Pattern.compile(regexHttp);
-					Matcher matcherHttp = pHttp.matcher(strAll);
-					while (matcherHttp.find()) {
-						// Fix 2: suppose the URL length < 40
-						String matchStrNull = strAll.substring(matcherHttp.start()).split("\n")[0].trim();
-						// final API endpoint must contain API_NAME
-						matchStrNull = processMe.constrainUrl(matchStrNull, API_NAME);
-						if (matchStrNull != null) {
-							Out.prln(matchStrNull);
-							baseUrlList.add(matchStrNull);
-						}
-					}
-				}
-				
+				executeFile(listFiles[i].getPath(), corpus, swagger, scheme, template, number, abbrev, baseUrl);
 			}
 		}
 		
-		Out.prln(baseUrlList);
-		
-        //find the base url
-//		ProcessBaseUrl processbase = new ProcessBaseUrl();
-//		String base = processbase.combineUrl(baseUrlList);
-		Map<Object, Long> counts =
-				baseUrlList.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-		Out.prln(counts);
+		// 4. prune swagger
+		swagger = processBa.handleBaseUrl(swagger);
+
+		// 5. write to file
+		writeSwagger(swagger, scheme, template, number, abbrev);
+
 	}
 
-	public static void executeOneFile(String path, Corpus corpus, JSONObject swagger, String scheme, String template,
-			String number, String abbrev) throws ResourceInstantiationException, JSONException, IOException {
+	public static void executeFile(String path, Corpus corpus, JSONObject swagger, String scheme, String template,
+			String number, String abbrev, String baseUrl) throws ResourceInstantiationException, JSONException, IOException {
 		URL u = Paths.get(path).toUri().toURL();
 		FeatureMap params = Factory.newFeatureMap();
 		params.put("sourceUrl", u);
@@ -196,7 +141,75 @@ public class ExtractInformation {
 		// 3. initial swagger
 		ProcessMethod processMe = new ProcessMethod();
 		processMe.generateDefault(swagger);
+		
+		if (scheme == "null") {
+			nullMode(swagger, template, number, abbrev, doc, textAll, processMe, baseUrl, API_NAME);
+		} else {
+			httpMode(swagger, scheme, template, number, abbrev, doc, textAll, processMe);
+		}
+        
 
+	}
+
+	private static void nullMode(JSONObject swagger, String template, String number, String abbrev, Document doc,
+			DocumentContent textAll, ProcessMethod processMe, String baseUrl, String aPI_NAME) throws JSONException {
+		String strAll = textAll.toString();
+		String actionStr = null, urlString = null;
+		List<JSONObject> infoJson = new ArrayList<JSONObject>();
+		// 1 get original markups
+		doc.setMarkupAware(true);
+
+		AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
+		AnnotationSet annoH1 = annoOrigin.get("h1");
+		
+		Iterator<Annotation> urlIter = annoH1.iterator();
+		while (urlIter.hasNext()) {
+			Annotation anno = (Annotation) urlIter.next();
+			String urlText = gate.Utils.stringFor(doc, anno);
+			JSONObject sectionJson = new JSONObject();
+			
+			if (processMe.isUrl(urlText, anno, strAll, aPI_NAME)) {
+				urlString = urlText;
+				actionStr = processMe.findAction(urlString);
+				Out.prln("==========Url Action=================");
+				Out.prln(urlText + "  " + actionStr);
+				
+				int location = anno.getStartNode().getOffset().intValue();
+				//set url/action in the json
+				JSONObject acJson = new JSONObject();
+				acJson.put(actionStr, location);
+				sectionJson.put("action", acJson);
+				JSONObject urJson = new JSONObject();
+				urJson.put(urlString, location);
+				sectionJson.put("url", urJson);
+			}
+			
+			infoJson.add(sectionJson);
+		}
+		
+		Out.prln("---------INFO JSON-------");
+		Out.prln(infoJson.toString());
+		
+		extractParameter(swagger, template, number, doc, processMe, strAll, infoJson, annoOrigin);
+		
+	}
+
+	private static void extractParameter(JSONObject swagger, String template, String number, Document doc,
+			ProcessMethod processMe, String strAll, List<JSONObject> infoJson, AnnotationSet annoOrigin)
+			throws JSONException {
+		if (template == "table") {
+			// 5.2 get table annotation
+			AnnotationSet annoTable = annoOrigin.get("table");
+			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoTable);
+		} else if (template == "list") {
+			AnnotationSet annoList = annoOrigin.get("dl");
+			// 5.3 get list annotation
+			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoList);
+		}
+	}
+
+	private static void httpMode(JSONObject swagger, String scheme, String template, String number, String abbrev,
+			Document doc, DocumentContent textAll, ProcessMethod processMe) throws JSONException {
 		// 4.1 search for the GET https
 		String strAll = textAll.toString();
 		// Fix 1: suppose the len(content between get and http) < 40 + "://"
@@ -274,16 +287,7 @@ public class ExtractInformation {
 
 		AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
 
-		if (template == "table") {
-			// 5.2 get table annotation
-			AnnotationSet annoTable = annoOrigin.get("table");
-			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoTable);
-		} else if (template == "list") {
-			AnnotationSet annoList = annoOrigin.get("dl");
-			// 5.3 get list annotation
-			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoList);
-		}
-
+		extractParameter(swagger, template, number, doc, processMe, strAll, infoJson, annoOrigin);
 	}
 
 	private static void handleTemplate(JSONObject swagger, String templateNum, String template, Document doc,

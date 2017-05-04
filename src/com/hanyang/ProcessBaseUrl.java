@@ -1,18 +1,32 @@
 package com.hanyang;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.tika.Tika;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import gate.Corpus;
+import gate.Document;
+import gate.DocumentContent;
+import gate.Factory;
+import gate.FeatureMap;
+import gate.creole.ResourceInstantiationException;
 import gate.util.Out;
 
 public class ProcessBaseUrl {
@@ -171,6 +185,80 @@ public class ProcessBaseUrl {
 
 		Out.prln(pathObject);
 		return swagger;
+	}
+	
+	public String searchBaseUrl(File[] listFiles, Corpus corpus, String API_NAME) throws MalformedURLException, ResourceInstantiationException, JSONException {
+		// define the list of baseUrl
+		List<String> baseUrlList = new ArrayList<String>();
+		ProcessMethod processMe = new ProcessMethod();
+		for (int i = 0; i < listFiles.length; i++) {
+			// print the file name
+//			Out.prln("=============File name=======================");
+//			Out.prln(listFiles[i].getPath());
+			String type = new Tika().detect(listFiles[i].getPath());
+			// only detect html
+			if (type.equals("text/html")) {
+				URL u = Paths.get(listFiles[i].getPath()).toUri().toURL();
+				FeatureMap params = Factory.newFeatureMap();
+				params.put("sourceUrl", u);
+				Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
+				// 1. add doc
+				corpus.add(doc);
+				// 2. get all text
+				DocumentContent textAll = doc.getContent();
+                
+				// 4.1 search for the GET https
+				String strAll = textAll.toString();
+				// Fix 1: suppose the len(content between get and http) < 40 + "://"
+				String regexRest = "(?si)rest.+request";
+				String regexHttp = "(?si)((http)|(https)){1}://";
+				Pattern pRest = Pattern.compile(regexRest);
+				Matcher matcherREST = pRest.matcher(strAll);
+				while (matcherREST.find()) {
+					// first find the page which contains REST + request
+					Pattern pHttp = Pattern.compile(regexHttp);
+					Matcher matcherHttp = pHttp.matcher(strAll);
+					while (matcherHttp.find()) {
+						// Fix 2: suppose the URL length < 40
+						String matchStrNull = strAll.substring(matcherHttp.start()).split("\n")[0].trim();
+						// final API endpoint must contain API_NAME
+						matchStrNull = processMe.constrainUrl(matchStrNull, API_NAME);
+						if (matchStrNull != null) {
+							Out.prln(matchStrNull);
+							baseUrlList.add(matchStrNull);
+						}
+					}
+				}
+				
+			}
+		}
+		
+		Out.prln(baseUrlList);
+		
+        //find the base url
+		Map<Object, Long> counts =
+				baseUrlList.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		
+		Map<Object, Long> sortedMap = processMe.sortByValues(counts);
+//		Out.prln(sortedMap);
+		
+		// select top 2
+		if (sortedMap.size() == 0) {
+			return null;
+		} else if (sortedMap.size() == 1) {
+			return (String) sortedMap.entrySet().iterator().next().getKey();
+		} else {
+			Object[] sortedArray = sortedMap.keySet().toArray();
+			// select top 2, who contains api
+			for (int i = 0; i< 2; i++) {
+				if (sortedArray[i].toString().contains("api")) {
+					return sortedArray[i].toString();
+				}
+			}
+			
+			// if they don't contain api, just return the first one
+			return sortedArray[0].toString();
+		}
 	}
 
 }
