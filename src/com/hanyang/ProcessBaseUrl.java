@@ -30,16 +30,33 @@ import gate.creole.ResourceInstantiationException;
 import gate.util.Out;
 
 public class ProcessBaseUrl {
-	public JSONObject handleBaseUrl(JSONObject swagger) throws JSONException, MalformedURLException {
+	public JSONObject handleBaseUrl(JSONObject swagger, String scheme, String baseUrl) throws JSONException, MalformedURLException {
+		
+		if (scheme == "null") {
+			swagger = nullBaseUrl(swagger, scheme, baseUrl);
+		} else {
+			swagger = httpBaseUrl(swagger, scheme);
+		}
+       
+		return swagger;
+	}
+
+	private JSONObject nullBaseUrl(JSONObject swagger, String scheme, String baseUrl) throws MalformedURLException, JSONException {
+		
+		// 1. adjust specification
+		swagger = adjustSpec(swagger, scheme, baseUrl);
+		return swagger;
+	}
+
+	private JSONObject httpBaseUrl(JSONObject swagger, String scheme) throws JSONException, MalformedURLException {
 		// 1. first remove the unrelated url
 		List<String> urlList = pruneUrl(swagger);
 		if (!urlList.isEmpty()) {
 			// 2. find the common url
 			String commonUrl = combineUrl(urlList);
 			// 3. adjust specification
-			swagger = adjustSpec(swagger, commonUrl);
+			swagger = adjustSpec(swagger, scheme, commonUrl);
 		}
-
 		return swagger;
 	}
 
@@ -135,23 +152,21 @@ public class ProcessBaseUrl {
 
 	}
 
-	public JSONObject adjustSpec(JSONObject swagger, String commonUrl) throws MalformedURLException, JSONException {
-		URL url = new URL(commonUrl);
+	public JSONObject adjustSpec(JSONObject swagger, String scheme, String baseUrl) throws MalformedURLException, JSONException {
+		URL url = new URL(baseUrl);
 		// 1. add host, basePath, scheme
 		String host = url.getHost();
 		String basePath = url.getPath();
-		String scheme = url.getProtocol();
+		String schemes = url.getProtocol();
 		JSONArray scheArr = new JSONArray();
 		swagger.put("host", host);
 		swagger.put("basePath", basePath);
-		scheArr.put(scheme);
+		scheArr.put(schemes);
 		swagger.put("schemes", scheArr);
 
 		// 2. short internal urls
 		JSONObject pathObject = swagger.getJSONObject("paths");
 		Map<String, Pair<String, JSONObject>> modiMap = new HashMap<String, Pair<String, JSONObject>>();
-		// List<Map<String, JSONObject>> modiList = new ArrayList<Map<String,
-		// JSONObject>>();
 		// construct new object
 		for (int i = 0; i < pathObject.names().length(); i++) {
 
@@ -162,19 +177,26 @@ public class ProcessBaseUrl {
 					keyUrl = keyUrl.substring(0, keyUrl.length() - 1);
 				}
 			}
-
-			// if url contains commonUrl
-			if (keyUrl.contains(commonUrl)) {
-				String retainStr = keyUrl.substring(commonUrl.length());
-				String originStr = (String) pathObject.names().get(i);
-				JSONObject originValue = (JSONObject) pathObject.get(originStr);
-
-				Pair<String, JSONObject> replacedJson = Pair.of(retainStr, originValue);
-				// replacedJson.put(retainStr, originValue);
-
-				modiMap.put(originStr, replacedJson);
-				// modiList.add(modiMap);
+           
+			String originStr = null, retainStr=null;
+			
+			if (scheme == "null") {
+				originStr = (String) pathObject.names().get(i);
+				retainStr = "?method" + "=" + originStr;
+				
+			} else {
+				// if url contains commonUrl
+				if (keyUrl.contains(baseUrl)) {
+					retainStr = keyUrl.substring(baseUrl.length());
+					originStr = (String) pathObject.names().get(i);
+				}
 			}
+			JSONObject originValue = (JSONObject) pathObject.get(originStr);
+			
+			Pair<String, JSONObject> replacedJson = Pair.of(retainStr, originValue);
+			// replacedJson.put(retainStr, originValue);
+			
+			modiMap.put(originStr, replacedJson);
 		}
 
 		// remove and add new object

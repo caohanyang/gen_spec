@@ -119,7 +119,7 @@ public class ExtractInformation {
 		}
 		
 		// 4. prune swagger
-		swagger = processBa.handleBaseUrl(swagger);
+		swagger = processBa.handleBaseUrl(swagger, scheme, baseUrl);
 
 		// 5. write to file
 		writeSwagger(swagger, scheme, template, number, abbrev);
@@ -156,6 +156,7 @@ public class ExtractInformation {
 		String strAll = textAll.toString();
 		String actionStr = null, urlString = null;
 		List<JSONObject> infoJson = new ArrayList<JSONObject>();
+		Out.prln(infoJson);
 		// 1 get original markups
 		doc.setMarkupAware(true);
 
@@ -184,19 +185,14 @@ public class ExtractInformation {
 				sectionJson.put("url", urJson);
 			}
 			
-			infoJson.add(sectionJson);
+			if (sectionJson.length() > 0) {
+				infoJson.add(sectionJson);
+			}
 		}
 		
 		Out.prln("---------INFO JSON-------");
 		Out.prln(infoJson.toString());
 		
-		extractParameter(swagger, template, number, doc, processMe, strAll, infoJson, annoOrigin);
-		
-	}
-
-	private static void extractParameter(JSONObject swagger, String template, String number, Document doc,
-			ProcessMethod processMe, String strAll, List<JSONObject> infoJson, AnnotationSet annoOrigin)
-			throws JSONException {
 		if (template == "table") {
 			// 5.2 get table annotation
 			AnnotationSet annoTable = annoOrigin.get("table");
@@ -206,6 +202,7 @@ public class ExtractInformation {
 			// 5.3 get list annotation
 			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoList);
 		}
+		
 	}
 
 	private static void httpMode(JSONObject swagger, String scheme, String template, String number, String abbrev,
@@ -286,8 +283,20 @@ public class ExtractInformation {
 		doc.setMarkupAware(true);
 
 		AnnotationSet annoOrigin = doc.getAnnotations("Original markups");
-
-		extractParameter(swagger, template, number, doc, processMe, strAll, infoJson, annoOrigin);
+       
+		// 6. if info json != null
+		if (infoJson.isEmpty()) {
+			Out.prln("sdfasf");
+		}
+		if (template == "table") {
+			// 5.2 get table annotation
+			AnnotationSet annoTable = annoOrigin.get("table");
+			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoTable);
+		} else if (template == "list") {
+			AnnotationSet annoList = annoOrigin.get("dl");
+			// 5.3 get list annotation
+			handleTemplate(swagger, number, template, doc, processMe, strAll, infoJson, annoList);
+		}
 	}
 
 	private static void handleTemplate(JSONObject swagger, String templateNum, String template, Document doc,
@@ -299,15 +308,16 @@ public class ExtractInformation {
 		Iterator<Annotation> testIter = annoTemplate.iterator();
 		String templateNumber = templateNum;
 		// int numTemplate = 0;
-		while (testIter.hasNext()) {
-			Annotation anno = (Annotation) testIter.next();
-			String templateText = gate.Utils.stringFor(doc, anno);
-			ProcessParameter processPa = new ProcessParameter();
-			if (processPa.isParaTemplate(templateText, anno, strAll)) {
-				// numTemplate++;
-			}
-		}
-
+//		while (testIter.hasNext()) {
+//			Annotation anno = (Annotation) testIter.next();
+//			String templateText = gate.Utils.stringFor(doc, anno);
+//			ProcessParameter processPa = new ProcessParameter();
+//			if (processPa.isParaTemplate(templateText, anno, strAll)) {
+//				// numTemplate++;
+//			}
+//		}
+    
+		Out.prln(findParaTemplate);
 		// if (numTemplate > 1) {
 		// // more than one parameter template in the page
 		// multiTemplate = "multiply";
@@ -321,7 +331,7 @@ public class ExtractInformation {
 			ProcessParameter processPa = new ProcessParameter();
 			if (processPa.isParaTemplate(templateText, anno, strAll)) {
 				findParaTemplate = true;
-				Out.prln("==========TABLE =================");
+				Out.prln("==========TABLE or LIST=================");
 				Out.prln(templateText);
 				processPa.generateParameter(swagger, templateText, strAll, infoJson, anno, doc, processMe,
 						templateNumber, template);
@@ -353,7 +363,7 @@ public class ExtractInformation {
 		JsonParser parser = new JsonParser();
 		JsonElement jelement = parser.parse(swString);
 
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 		String prettyJson = gson.toJson(jelement);
 
 		fileWriter.write(prettyJson);

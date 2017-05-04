@@ -60,9 +60,51 @@ public class ProcessParameter {
 		if (template == "table") {
 			paraArray = parseTable(paraStr, anno, doc);
 		} else if (template == "list") {
-			paraArray = parseTable(paraStr, anno, doc);
+			paraArray = parseList(paraStr, anno, doc);
 		}
 
+		return paraArray;
+	}
+
+	private JSONArray parseList(String paraStr, Annotation anno, Document doc) throws JSONException {
+		JSONArray paraArray = new JSONArray();
+		Long startDl = anno.getStartNode().getOffset();
+		Long endDl = anno.getEndNode().getOffset();
+		
+		AnnotationSet dtSet = doc.getAnnotations("Original markups").get("dt", startDl, endDl + 1);
+		
+		//get dt list and sort
+		List dtList = new ArrayList(dtSet);
+		Collections.sort(dtList, new OffsetComparator());
+		
+		
+		//get dd
+		for (int i = 0; i < dtList.size(); i++) {
+			Annotation dtElement = (Annotation) dtList.get(i);
+			Long endDt = dtElement.getEndNode().getOffset();
+			
+			String dtStr = gate.Utils.stringFor(doc, dtElement);
+			if (!dtStr.isEmpty()) {
+				// find value
+				AnnotationSet ddSet = doc.getAnnotations("Original markups").get("dd", endDt, endDt + 100);
+				//get dd list and sort
+				List ddList = new ArrayList(ddSet);
+				Collections.sort(ddList, new OffsetComparator());
+				// each time get the first dd (nearest dd)
+				Annotation ddElement = (Annotation) ddList.get(0);
+				String ddStr = gate.Utils.stringFor(doc, ddElement);
+				//construct json
+				JSONObject keyObject = new JSONObject();
+				keyObject.put("name", dtStr);
+				keyObject.put("description", ddStr);
+				keyObject.put("in", "query");
+				keyObject.put("type", "integer");
+				keyObject.put("required", "required");
+				paraArray.put(keyObject);
+			}
+			
+		}
+		
 		return paraArray;
 	}
 
@@ -237,16 +279,16 @@ public class ProcessParameter {
 		// maybe in the table maybe doesn't contain str "parameter"
 
 		// find previous text
-		int tableLocation = anno.getStartNode().getOffset().intValue();
-		String appendTableText;
+		int templateLocation = anno.getStartNode().getOffset().intValue();
+		String appendTemplateText;
 		// the "parameter" string must not far from the startNode
-		if (anno.getEndNode().getOffset().intValue() - tableLocation > 100) {
+		if (anno.getEndNode().getOffset().intValue() - templateLocation > 100) {
 			// if the table is to big, just check the 100 character
-			appendTableText = strAll.substring(tableLocation - 20, tableLocation + 100);
+			appendTemplateText = strAll.substring(templateLocation - 20, templateLocation + 100);
 		} else {
-			appendTableText = strAll.substring(tableLocation - 20, anno.getEndNode().getOffset().intValue());
+			appendTemplateText = strAll.substring(templateLocation - 20, anno.getEndNode().getOffset().intValue());
 		}
-		if (Pattern.compile("parameter", Pattern.CASE_INSENSITIVE).matcher(appendTableText).find()) {
+		if (Pattern.compile("(parameter)|(argument)", Pattern.CASE_INSENSITIVE).matcher(appendTemplateText).find()) {
 			return true;
 		}
 		return false;
