@@ -10,7 +10,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "The phone number to verify. Should be formatted with a \u0027+\u0027 and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
+            "description": "The phone number to verify. Should be formatted with a '+' and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
             "type": "integer",
             "required": "required"
           }
@@ -102,7 +102,7 @@
           {
             "in": "query",
             "name": "DateCreated",
-            "description": "Only show recordings created on the given date. Should be formatted as YYYY-MM-DD . You can also specify inequality, such as DateCreated\u003c\u003dYYYY-MM-DD for recordings generated at or before midnight on a date, and DateCreated\u003e\u003dYYYY-MM-DD for recordings generated at or after midnight on a date.",
+            "description": "Only show recordings created on the given date. Should be formatted as YYYY-MM-DD . You can also specify inequality, such as DateCreated<=YYYY-MM-DD for recordings generated at or before midnight on a date, and DateCreated>=YYYY-MM-DD for recordings generated at or after midnight on a date.",
             "type": "integer",
             "required": "required"
           }
@@ -198,7 +198,7 @@
           {
             "in": "query",
             "name": "RecordingSource",
-            "description": "The type of call that created this recording. For recordings initiated when Record\u003dtrue is set on the REST API, OutboundAPI will be returned..",
+            "description": "The type of call that created this recording. For recordings initiated when Record=true is set on the REST API, OutboundAPI will be returned..",
             "type": "integer",
             "required": "required"
           }
@@ -248,7 +248,7 @@
           {
             "in": "query",
             "name": "DateSent",
-            "description": "Only show messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent\u003d2009-07-06 . You can also specify inequality, such as DateSent\u003c\u003dYYYY-MM-DD for messages that were sent on or before midnight on a date, and DateSent\u003e\u003dYYYY-MM-DD for messages sent on or after midnight on a date.",
+            "description": "Only show messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent=2009-07-06 . You can also specify inequality, such as DateSent<=YYYY-MM-DD for messages that were sent on or before midnight on a date, and DateSent>=YYYY-MM-DD for messages sent on or after midnight on a date.",
             "type": "integer",
             "required": "required"
           }

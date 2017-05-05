@@ -1,7 +1,7 @@
 {
-  "basePath": "/v1/users/se",
+  "basePath": "/v1",
   "paths": {
-    "https://api.instagram.com/v1/users/{user-id}/media/recent": {
+    "/users/{user-id}/media/recent": {
       "GET": {
         "parameters": [
           {
@@ -35,7 +35,46 @@
         ]
       }
     },
-    "lf/media/recent": {
+    "/users/{user-id}": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/media/{media-id}/comments/{comment-id}": {
+      "DELETE": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self/follows": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self/media/recent": {
       "GET": {
         "parameters": [
           {
@@ -69,9 +108,23 @@
         ]
       }
     },
-    "lf/followed-by": {
+    "/users/search": {
       "GET": {
         "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "A query string.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Number of users to return.",
+            "type": "integer",
+            "required": "required"
+          },
           {
             "in": "query",
             "name": "access_token",
@@ -82,41 +135,7 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/media/search": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "distance",
-            "description": "Default is 1km (distance\u003d1000), max distance is 5km.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "lng",
-            "description": "Longitude of the center search coordinate. If used, lat is required.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "lat",
-            "description": "Latitude of the center search coordinate. If used, lng is required.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "lf/media/liked": {
+    "/users/self/media/liked": {
       "GET": {
         "parameters": [
           {
@@ -143,33 +162,7 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/users/{user-id}": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "lf/follows": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "https://api.instagram.com/v1/locations/{location-id}": {
+    "/locations/{location-id}/media/recent": {
       "GET": {
         "parameters": [
           {
@@ -196,27 +189,7 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/media/{media-id}/comments": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "text",
-            "description": "Text to post as a comment on the media object as specified in media-id.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
-    "lf/requested-by": {
+    "/media/{media-id}": {
       "GET": {
         "parameters": [
           {
@@ -229,7 +202,7 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/tags/{tag-name}": {
+    "/tags/{tag-name}/media/recent": {
       "GET": {
         "parameters": [
           {
@@ -263,7 +236,200 @@
         ]
       }
     },
-    "https://api.instagram.com/v1/media/{media-id}": {
+    "/tags/search": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "A valid access token.",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/tags/{tag-name}": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/tags/puppy/media/recent": {
+      "get": {}
+    },
+    "/locations/search": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the center search coordinate. If used, lng is required.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "distance",
+            "description": "Default is 500m (distance=500), max distance is 750.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "lng",
+            "description": "Longitude of the center search coordinate. If used, lat is required.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "facebook_places_id",
+            "description": "Returns a location mapped off of a Facebook places id. If used, lat and lng are not required.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/media/{media-id}/comments": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "text",
+            "description": "Text to post as a comment on the media object as specified in media-id.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self/requested-by": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/self/followed-by": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/media/{media-id}/likes": {
+      "DELETE": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
+    "/users/{user-id}/relationship": {
+      "POST": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "follow | unfollow | approve | ignore",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      },
       "GET": {
         "parameters": [
           {
@@ -289,7 +455,7 @@
         ]
       }
     },
-    "lf": {
+    "/media/search": {
       "GET": {
         "parameters": [
           {
@@ -298,27 +464,34 @@
             "description": "A valid access token.",
             "type": "integer",
             "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "distance",
+            "description": "Default is 1km (distance=1000), max distance is 5km.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "lng",
+            "description": "Longitude of the center search coordinate. If used, lat is required.",
+            "type": "integer",
+            "required": "required"
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the center search coordinate. If used, lng is required.",
+            "type": "integer",
+            "required": "required"
           }
         ]
       }
     },
-    "arch": {
+    "/locations/{location-id}": {
       "GET": {
         "parameters": [
-          {
-            "in": "query",
-            "name": "q",
-            "description": "A query string.",
-            "type": "integer",
-            "required": "required"
-          },
-          {
-            "in": "query",
-            "name": "count",
-            "description": "Number of users to return.",
-            "type": "integer",
-            "required": "required"
-          },
           {
             "in": "query",
             "name": "access_token",

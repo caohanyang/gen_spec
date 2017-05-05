@@ -21,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gate.Corpus;
 import gate.Document;
 import gate.DocumentContent;
 import gate.Factory;
@@ -30,34 +29,36 @@ import gate.creole.ResourceInstantiationException;
 import gate.util.Out;
 
 public class ProcessBaseUrl {
-	public JSONObject handleBaseUrl(JSONObject swagger, String scheme, String baseUrl) throws JSONException, MalformedURLException {
+	public JSONObject handleBaseUrl(JSONObject openAPI, String mode, String baseUrl) throws JSONException, MalformedURLException {
 		
-		if (scheme == "null") {
-			swagger = nullBaseUrl(swagger, scheme, baseUrl);
+		if (mode == "null") {
+			openAPI = nullBaseUrl(openAPI, mode, baseUrl);
 		} else {
-			swagger = httpBaseUrl(swagger, scheme);
+			openAPI = httpBaseUrl(openAPI, mode);
 		}
        
-		return swagger;
+		return openAPI;
 	}
 
-	private JSONObject nullBaseUrl(JSONObject swagger, String scheme, String baseUrl) throws MalformedURLException, JSONException {
+	private JSONObject nullBaseUrl(JSONObject openAPI, String mode, String baseUrl) throws MalformedURLException, JSONException {
 		
 		// 1. adjust specification
-		swagger = adjustSpec(swagger, scheme, baseUrl);
-		return swagger;
+		if (baseUrl!=null) {
+			openAPI = adjustSpec(openAPI, mode, baseUrl);
+		}
+		return openAPI;
 	}
 
-	private JSONObject httpBaseUrl(JSONObject swagger, String scheme) throws JSONException, MalformedURLException {
+	private JSONObject httpBaseUrl(JSONObject openAPI, String mode) throws JSONException, MalformedURLException {
 		// 1. first remove the unrelated url
-		List<String> urlList = pruneUrl(swagger);
+		List<String> urlList = pruneUrl(openAPI);
 		if (!urlList.isEmpty()) {
 			// 2. find the common url
 			String commonUrl = combineUrl(urlList);
 			// 3. adjust specification
-			swagger = adjustSpec(swagger, scheme, commonUrl);
+			openAPI = adjustSpec(openAPI, mode, commonUrl);
 		}
-		return swagger;
+		return openAPI;
 	}
 
 	public String combineUrl(List<String> urlList) {
@@ -124,10 +125,10 @@ public class ProcessBaseUrl {
 		return a.substring(0, minLength);
 	}
 
-	public List<String> pruneUrl(JSONObject swagger) throws JSONException {
+	public List<String> pruneUrl(JSONObject openAPI) throws JSONException {
 		List<String> urlList = new ArrayList<String>();
-		JSONObject pathObject = swagger.getJSONObject("paths");
-		Iterator pathIter = pathObject.keys();
+		JSONObject pathObject = openAPI.getJSONObject("paths");
+		Iterator<?> pathIter = pathObject.keys();
 		while (pathIter.hasNext()) {
 			urlList.add(pathIter.next().toString());
 		}
@@ -152,20 +153,24 @@ public class ProcessBaseUrl {
 
 	}
 
-	public JSONObject adjustSpec(JSONObject swagger, String scheme, String baseUrl) throws MalformedURLException, JSONException {
+	public JSONObject adjustSpec(JSONObject openAPI, String scheme, String baseUrl) throws MalformedURLException, JSONException {
 		URL url = new URL(baseUrl);
 		// 1. add host, basePath, scheme
 		String host = url.getHost();
 		String basePath = url.getPath();
 		String schemes = url.getProtocol();
 		JSONArray scheArr = new JSONArray();
-		swagger.put("host", host);
-		swagger.put("basePath", basePath);
+		openAPI.put("host", host);
+		openAPI.put("basePath", basePath);
 		scheArr.put(schemes);
-		swagger.put("schemes", scheArr);
+		openAPI.put("schemes", scheArr);
 
 		// 2. short internal urls
-		JSONObject pathObject = swagger.getJSONObject("paths");
+		JSONObject pathObject = openAPI.getJSONObject("paths");
+		// if pathObject is null, return directly
+		if (pathObject.length() == 0) 
+			return openAPI;
+		
 		Map<String, Pair<String, JSONObject>> modiMap = new HashMap<String, Pair<String, JSONObject>>();
 		// construct new object
 		for (int i = 0; i < pathObject.names().length(); i++) {
@@ -189,6 +194,9 @@ public class ProcessBaseUrl {
 				if (keyUrl.contains(baseUrl)) {
 					retainStr = keyUrl.substring(baseUrl.length());
 					originStr = (String) pathObject.names().get(i);
+				} else {
+					// doestn't contain 
+					continue;
 				}
 			}
 			JSONObject originValue = (JSONObject) pathObject.get(originStr);
@@ -206,10 +214,10 @@ public class ProcessBaseUrl {
 		}
 
 		Out.prln(pathObject);
-		return swagger;
+		return openAPI;
 	}
 	
-	public String searchBaseUrl(File[] listFiles, Corpus corpus, String API_NAME) throws MalformedURLException, ResourceInstantiationException, JSONException {
+	public String searchBaseUrl(File[] listFiles, String API_NAME) throws MalformedURLException, ResourceInstantiationException, JSONException {
 		// define the list of baseUrl
 		List<String> baseUrlList = new ArrayList<String>();
 		ProcessMethod processMe = new ProcessMethod();
@@ -224,8 +232,6 @@ public class ProcessBaseUrl {
 				FeatureMap params = Factory.newFeatureMap();
 				params.put("sourceUrl", u);
 				Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
-				// 1. add doc
-				corpus.add(doc);
 				// 2. get all text
 				DocumentContent textAll = doc.getContent();
                 

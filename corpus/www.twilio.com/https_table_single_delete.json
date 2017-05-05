@@ -38,14 +38,14 @@
           {
             "in": "query",
             "name": "StartDate",
-            "description": "Only include usage that has occurred on or after this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, StartDate\u003d-30days will make StartDate be 30 days before today.",
+            "description": "Only include usage that has occurred on or after this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, StartDate=-30days will make StartDate be 30 days before today.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "EndDate",
-            "description": "Only include usage that has occurred on or before this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, EndDate\u003d+30days will make EndDate be 30 days from today.",
+            "description": "Only include usage that has occurred on or before this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, EndDate=+30days will make EndDate be 30 days from today.",
             "type": "integer",
             "required": "required"
           },
@@ -77,7 +77,7 @@
           {
             "in": "query",
             "name": "activation_date",
-            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date\u003d2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date\u003c\u003d2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date\u003e\u003d2009-07-06.",
+            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date=2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date<=2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date>=2009-07-06.",
             "type": "integer",
             "required": "required"
           },
@@ -91,7 +91,7 @@
           {
             "in": "query",
             "name": "date_created",
-            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created\u003d2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
+            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created=2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
             "type": "integer",
             "required": "required"
           },
@@ -125,7 +125,7 @@
           {
             "in": "query",
             "name": "ApiVersion",
-            "description": "Requests to this application\u0027s URLs will start a new TwiML session with this API version. Either 2010-04-01 or 2008-08-01 .",
+            "description": "Requests to this application's URLs will start a new TwiML session with this API version. Either 2010-04-01 or 2008-08-01 .",
             "type": "integer",
             "required": "required"
           },
@@ -174,7 +174,7 @@
           {
             "in": "query",
             "name": "VoiceCallerIdLookup",
-            "description": "Do a lookup of a caller\u0027s name from the CNAM database and post it to your app. Either true or false .",
+            "description": "Do a lookup of a caller's name from the CNAM database and post it to your app. Either true or false .",
             "type": "integer",
             "required": "required"
           },
@@ -216,7 +216,7 @@
           {
             "in": "query",
             "name": "MessageStatusCallback",
-            "description": "Twilio will make a POST request to this URL to pass status parameters (such as sent or failed) to your application if you use the /Messages endpoint to send the message and specify this application\u0027s Sid as the ApplicationSid on an outgoing SMS request .",
+            "description": "Twilio will make a POST request to this URL to pass status parameters (such as sent or failed) to your application if you use the /Messages endpoint to send the message and specify this application's Sid as the ApplicationSid on an outgoing SMS request .",
             "type": "integer",
             "required": "required"
           }
@@ -243,7 +243,7 @@
           {
             "in": "query",
             "name": "Status",
-            "description": "Either canceled or completed . Specifying canceled will attempt to hangup calls that are queued or ringing but not affect calls already in progress. Specifying completed will attempt to hang up a call even if it\u0027s already in progress.",
+            "description": "Either canceled or completed . Specifying canceled will attempt to hangup calls that are queued or ringing but not affect calls already in progress. Specifying completed will attempt to hang up a call even if it's already in progress.",
             "type": "integer",
             "required": "required"
           }
@@ -269,7 +269,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "The phone number you want to purchase. The number should be formatted starting with a \u0027+\u0027 followed by the country code and the number in E.164 format e.g., \u0027+15105555555\u0027. You must include this to have your POST succeed.",
+            "description": "The phone number you want to purchase. The number should be formatted starting with a '+' followed by the country code and the number in E.164 format e.g., '+15105555555'. You must include this to have your POST succeed.",
             "type": "integer",
             "required": "required"
           }
@@ -280,7 +280,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "Only show the incoming phone number resources that match this pattern. You can specify partial numbers and use \u0027*\u0027 as a wildcard for any digit.",
+            "description": "Only show the incoming phone number resources that match this pattern. You can specify partial numbers and use '*' as a wildcard for any digit.",
             "type": "integer",
             "required": "required"
           },
@@ -378,7 +378,7 @@
           {
             "in": "query",
             "name": "DateSent",
-            "description": "Only show SMS messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent\u003d2009-07-06 . You can also specify inequality, such as DateSent\u003c\u003dYYYY-MM-DD for SMS messages that were sent on or before midnight on a date, and DateSent\u003e\u003dYYYY-MM-DD for SMS messages sent on or after midnight on a date.",
+            "description": "Only show SMS messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent=2009-07-06 . You can also specify inequality, such as DateSent<=YYYY-MM-DD for SMS messages that were sent on or before midnight on a date, and DateSent>=YYYY-MM-DD for SMS messages sent on or after midnight on a date.",
             "type": "integer",
             "required": "required"
           }
@@ -563,7 +563,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "The phone number you want to purchase. The number should be formatted starting with a \u0027+\u0027 followed by the country code and the number in E.164 format e.g., \u0027+15105555555\u0027. You must include this to have your POST succeed.",
+            "description": "The phone number you want to purchase. The number should be formatted starting with a '+' followed by the country code and the number in E.164 format e.g., '+15105555555'. You must include this to have your POST succeed.",
             "type": "integer",
             "required": "required"
           }
@@ -596,7 +596,7 @@
           {
             "in": "query",
             "name": "unconfirmed",
-            "description": "The message has not yet arrived at the To phone number. Note that this may mean the message has failed or it is still pending. For the purposes of the Message Feedback API, these two states are considered the same. Your application should not POST this value as it will be automatically set when the initial HTTP POST is includes ProvideFeedback\u003dtrue .",
+            "description": "The message has not yet arrived at the To phone number. Note that this may mean the message has failed or it is still pending. For the purposes of the Message Feedback API, these two states are considered the same. Your application should not POST this value as it will be automatically set when the initial HTTP POST is includes ProvideFeedback=true .",
             "type": "integer",
             "required": "required"
           },
@@ -710,7 +710,7 @@
           {
             "in": "query",
             "name": "Contains",
-            "description": "A pattern to match phone numbers on. Valid characters are \u0027*\u0027 and [0-9a-zA-Z] . The \u0027*\u0027 character will match any single digit. See Example 2 above.",
+            "description": "A pattern to match phone numbers on. Valid characters are '*' and [0-9a-zA-Z] . The '*' character will match any single digit. See Example 2 above.",
             "type": "integer",
             "required": "required"
           },
@@ -772,7 +772,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "The phone number to verify. Should be formatted with a \u0027+\u0027 and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
+            "description": "The phone number to verify. Should be formatted with a '+' and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
             "type": "integer",
             "required": "required"
           }
@@ -871,7 +871,7 @@
           {
             "in": "query",
             "name": "To",
-            "description": "The destination phone number. Format with a \u0027+\u0027 and country code e.g., +16175551212 ( E.164 format).",
+            "description": "The destination phone number. Format with a '+' and country code e.g., +16175551212 ( E.164 format).",
             "type": "integer",
             "required": "required"
           }
@@ -896,7 +896,7 @@
           {
             "in": "query",
             "name": "DateSent",
-            "description": "Only show messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent\u003d2009-07-06 . You can also specify inequality, such as DateSent\u003c\u003dYYYY-MM-DD for messages that were sent on or before midnight on a date, and DateSent\u003e\u003dYYYY-MM-DD for messages sent on or after midnight on a date.",
+            "description": "Only show messages sent on this date (in GMT format), given as YYYY-MM-DD . Example: DateSent=2009-07-06 . You can also specify inequality, such as DateSent<=YYYY-MM-DD for messages that were sent on or before midnight on a date, and DateSent>=YYYY-MM-DD for messages sent on or after midnight on a date.",
             "type": "integer",
             "required": "required"
           }
@@ -1076,7 +1076,7 @@
           {
             "in": "query",
             "name": "DateCreated",
-            "description": "Only show recordings created on the given date. Should be formatted as YYYY-MM-DD . You can also specify inequality, such as DateCreated\u003c\u003dYYYY-MM-DD for recordings generated at or before midnight on a date, and DateCreated\u003e\u003dYYYY-MM-DD for recordings generated at or after midnight on a date.",
+            "description": "Only show recordings created on the given date. Should be formatted as YYYY-MM-DD . You can also specify inequality, such as DateCreated<=YYYY-MM-DD for recordings generated at or before midnight on a date, and DateCreated>=YYYY-MM-DD for recordings generated at or after midnight on a date.",
             "type": "integer",
             "required": "required"
           }
@@ -1110,7 +1110,7 @@
           {
             "in": "query",
             "name": "ShortCode",
-            "description": "Only show the ShortCode resources that match this pattern. You can specify partial numbers and use \u0027*\u0027 as a wildcard for any digit.",
+            "description": "Only show the ShortCode resources that match this pattern. You can specify partial numbers and use '*' as a wildcard for any digit.",
             "type": "integer",
             "required": "required"
           },
@@ -1169,7 +1169,7 @@
           {
             "in": "query",
             "name": "AuthorizeRedirectUrl",
-            "description": "The URL the user\u0027s browser will redirect to after Twilio authenticates the user and obtains authorization for this Connect App.",
+            "description": "The URL the user's browser will redirect to after Twilio authenticates the user and obtains authorization for this Connect App.",
             "type": "integer",
             "required": "required"
           },
@@ -1423,7 +1423,7 @@
           {
             "in": "query",
             "name": "Contains",
-            "description": "A pattern to match phone numbers on. Valid characters are \u0027*\u0027 and [0-9a-zA-Z] . The \u0027*\u0027 character will match any single digit. See Example 2 and Example 3 below.",
+            "description": "A pattern to match phone numbers on. Valid characters are '*' and [0-9a-zA-Z] . The '*' character will match any single digit. See Example 2 and Example 3 below.",
             "type": "integer",
             "required": "required"
           },
@@ -1508,7 +1508,7 @@
           {
             "in": "query",
             "name": "HoldUrl",
-            "description": "The \u0027HoldUrl\u0027 attribute lets you specify a URL for music that plays when a participant is held. The URL may be an MP3, a WAV or a TwiML document that uses \u003cPlay\u003e \u003cSay\u003e or \u003cRedirect\u003e.",
+            "description": "The 'HoldUrl' attribute lets you specify a URL for music that plays when a participant is held. The URL may be an MP3, a WAV or a TwiML document that uses <Play> <Say> or <Redirect>.",
             "type": "integer",
             "required": "required"
           },
@@ -1565,7 +1565,7 @@
           {
             "in": "query",
             "name": "Contains",
-            "description": "A pattern to match phone numbers on. Valid characters are \u0027*\u0027 and [0-9a-zA-Z] . The \u0027*\u0027 character will match any single digit. See Example 2 below.",
+            "description": "A pattern to match phone numbers on. Valid characters are '*' and [0-9a-zA-Z] . The '*' character will match any single digit. See Example 2 below.",
             "type": "integer",
             "required": "required"
           },

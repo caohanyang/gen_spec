@@ -151,7 +151,7 @@
           {
             "in": "query",
             "name": "cursor",
-            "description": "\nCauses the results to be broken into pages. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n",
+            "description": "\nCauses the results to be broken into pages. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title=”Using cursors to navigate collections”] for more information.\n",
             "type": "integer",
             "required": "semi-optional"
           },
@@ -334,7 +334,7 @@
           {
             "in": "query",
             "name": "cursor",
-            "description": "\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n",
+            "description": "\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title=”Using cursors to navigate collections”] for more information.\n",
             "type": "integer",
             "required": "optional"
           },
@@ -786,7 +786,7 @@
           {
             "in": "query",
             "name": "omit_script",
-            "description": "When set to true , t or 1 the \u003cscript\u003e responsible for loading widgets.js will not be returned. Your webpages should include their own reference to widgets.js for use across all Twitter widgets including Embedded Tweets .",
+            "description": "When set to true , t or 1 the <script> responsible for loading widgets.js will not be returned. Your webpages should include their own reference to widgets.js for use across all Twitter widgets including Embedded Tweets .",
             "type": "boolean",
             "required": "optional"
           },
@@ -1363,7 +1363,7 @@
           {
             "in": "query",
             "name": "include_entities",
-            "description": "Entities are ON by default in API 1.1, each tweet includes a node called “entities”. This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. You can omit entities from the result by using include_entities\u003dfalse",
+            "description": "Entities are ON by default in API 1.1, each tweet includes a node called “entities”. This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. You can omit entities from the result by using include_entities=false",
             "type": "integer",
             "required": "optional"
           },
@@ -1451,7 +1451,7 @@
           {
             "in": "query",
             "name": "count",
-            "description": "Specifies the number of Tweets to try and retrieve, up to a maximum of 200 per distinct request. The value of count is best thought of as a limit to the number of Tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts\u003d1 when using this API method.",
+            "description": "Specifies the number of Tweets to try and retrieve, up to a maximum of 200 per distinct request. The value of count is best thought of as a limit to the number of Tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts=1 when using this API method.",
             "type": "integer",
             "required": "optional"
           },
@@ -2240,7 +2240,7 @@
           {
             "in": "query",
             "name": "cursor",
-            "description": "\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n",
+            "description": "\nCauses the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title=”Using cursors to navigate collections”] for more information.\n",
             "type": "integer",
             "required": "optional"
           }
@@ -2376,7 +2376,7 @@
           {
             "in": "query",
             "name": "cursor",
-            "description": "\nCauses the list of connections to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n",
+            "description": "\nCauses the list of connections to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title=”Using cursors to navigate collections”] for more information.\n",
             "type": "integer",
             "required": "semi-optional"
           },
@@ -3085,7 +3085,7 @@
           {
             "in": "query",
             "name": "count",
-            "description": "Specifies the number of Tweets to try and retrieve, up to a maximum of 200. The value of count is best thought of as a limit to the number of tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts\u003d1 when using this API method.",
+            "description": "Specifies the number of Tweets to try and retrieve, up to a maximum of 200. The value of count is best thought of as a limit to the number of tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts=1 when using this API method.",
             "type": "integer",
             "required": "optional"
           },
@@ -3235,7 +3235,7 @@
           {
             "in": "query",
             "name": "cursor",
-            "description": "\nCauses the list of connections to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title\u003d”Using cursors to navigate collections”] for more information.\n",
+            "description": "\nCauses the list of connections to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first “page.”\n\nThe response from the API will include a previous_cursor and next_cursor to allow paging back and forth. See [node:10362, title=”Using cursors to navigate collections”] for more information.\n",
             "type": "integer",
             "required": "semi-optional"
           },
@@ -3345,7 +3345,7 @@
           {
             "in": "query",
             "name": "attribute:street_address",
-            "description": "This parameter searches for places which have this given street address. There are other well-known, and application specific attributes available. Custom attributes are also permitted. Learn more about [node:208, title\u003d”Place Attributes”].",
+            "description": "This parameter searches for places which have this given street address. There are other well-known, and application specific attributes available. Custom attributes are also permitted. Learn more about [node:208, title=”Place Attributes”].",
             "type": "integer",
             "required": "optional"
           },

@@ -236,19 +236,6 @@
         ]
       }
     },
-    "/media/shortcode/D": {
-      "GET": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "access_token",
-            "description": "A valid access token.",
-            "type": "integer",
-            "required": "required"
-          }
-        ]
-      }
-    },
     "/tags/search": {
       "GET": {
         "parameters": [
@@ -298,7 +285,7 @@
           {
             "in": "query",
             "name": "distance",
-            "description": "Default is 500m (distance\u003d500), max distance is 750.",
+            "description": "Default is 500m (distance=500), max distance is 750.",
             "type": "integer",
             "required": "required"
           },
@@ -455,6 +442,19 @@
         ]
       }
     },
+    "http://instagram.com/p/tsxp1hhQTG": {
+      "GET": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "access_token",
+            "description": "A valid access token.",
+            "type": "integer",
+            "required": "required"
+          }
+        ]
+      }
+    },
     "/media/search": {
       "GET": {
         "parameters": [
@@ -468,7 +468,7 @@
           {
             "in": "query",
             "name": "distance",
-            "description": "Default is 1km (distance\u003d1000), max distance is 5km.",
+            "description": "Default is 1km (distance=1000), max distance is 5km.",
             "type": "integer",
             "required": "required"
           },

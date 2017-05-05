@@ -72,14 +72,14 @@
           {
             "in": "query",
             "name": "StartDate",
-            "description": "Only include usage that has occurred on or after this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, StartDate\u003d-30days will make StartDate be 30 days before today.",
+            "description": "Only include usage that has occurred on or after this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, StartDate=-30days will make StartDate be 30 days before today.",
             "type": "integer",
             "required": "required"
           },
           {
             "in": "query",
             "name": "EndDate",
-            "description": "Only include usage that has occurred on or before this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, EndDate\u003d+30days will make EndDate be 30 days from today.",
+            "description": "Only include usage that has occurred on or before this date. Format is YYYY-MM-DD. All dates are in GMT. As a convenience, you can also specify offsets to today. For example, EndDate=+30days will make EndDate be 30 days from today.",
             "type": "integer",
             "required": "required"
           },
@@ -263,7 +263,7 @@
           {
             "in": "query",
             "name": "activation_date",
-            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date\u003d2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date\u003c\u003d2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date\u003e\u003d2009-07-06.",
+            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date=2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date<=2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date>=2009-07-06.",
             "type": "integer",
             "required": "required"
           },
@@ -277,7 +277,7 @@
           {
             "in": "query",
             "name": "date_created",
-            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created\u003d2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
+            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created=2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
             "type": "integer",
             "required": "required"
           },
@@ -349,7 +349,7 @@
           {
             "in": "query",
             "name": "RecordingUrl",
-            "description": "The URL of the phone call\u0027s recorded audio. This parameter is included only if Record\u003dtrue is set on the REST API request and does not include recordings initiated in other ways. RecordingUrl is only present in the completed event. The recording file may not yet be accessible when the Status Callback is sent. Use RecordingStatusCallback for reliable notification on when the recording is available for access.",
+            "description": "The URL of the phone call's recorded audio. This parameter is included only if Record=true is set on the REST API request and does not include recordings initiated in other ways. RecordingUrl is only present in the completed event. The recording file may not yet be accessible when the Status Callback is sent. Use RecordingStatusCallback for reliable notification on when the recording is available for access.",
             "type": "integer",
             "required": "required"
           },

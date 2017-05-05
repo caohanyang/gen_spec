@@ -13,17 +13,17 @@ import gate.Annotation;
 import gate.util.Out;
 
 public class ProcessMethod {
-	public JSONObject generateDefault(JSONObject swagger) throws JSONException {
+	public JSONObject generateDefault(JSONObject openAPI) throws JSONException {
 
 		// Add path in the top level
-		if (swagger.isNull("paths") == true) {
-			swagger.put("paths", new JSONObject());
+		if (openAPI.isNull("paths") == true) {
+			openAPI.put("paths", new JSONObject());
 		}
-		return swagger;
+		return openAPI;
 	}
 
-	public JSONObject addUrl(JSONObject swagger, String url, String action) throws JSONException {
-		JSONObject urlObject = swagger.getJSONObject("paths");
+	public JSONObject addUrl(JSONObject openAPI, String url, String action) throws JSONException {
+		JSONObject urlObject = openAPI.getJSONObject("paths");
 		Out.prln("---------match--action-------------");
 		Out.prln(action);
 		JSONObject actionObject = new JSONObject();
@@ -38,16 +38,16 @@ public class ProcessMethod {
 			urlInterObject.put(action, new JSONObject());
 		}
 
-		return swagger;
+		return openAPI;
 	}
 
-	public void addNoParaUrl(JSONObject swagger, String strAll, List<JSONObject> infoJson) throws JSONException {
+	public void addNoParaUrl(JSONObject openAPI, String strAll, List<JSONObject> infoJson) throws JSONException {
 		// choose the most proper url/action pair
 		Pair<String, String> properPair = solveConflicts(strAll, infoJson);
 		// handle it badly, need to fix:
 		String action = properPair.getKey();
 		String url = properPair.getValue();
-		addUrl(swagger, url, action);
+		addUrl(openAPI, url, action);
 	}
 
 	public Pair<String, String> solveConflicts(String strAll, List<JSONObject> infoJson) throws JSONException {

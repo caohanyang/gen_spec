@@ -23,7 +23,7 @@ import gate.util.OffsetComparator;
 import gate.util.Out;
 
 public class ProcessParameter {
-	public JSONObject generateParameter(JSONObject swagger, String paraStr, String fullText, List<JSONObject> infoJson,
+	public JSONObject generateParameter(JSONObject openAPI, String paraStr, String fullText, List<JSONObject> infoJson,
 			Annotation anno, Document doc, ProcessMethod processMe, String templateNumber, String template)
 			throws JSONException {
 
@@ -38,9 +38,9 @@ public class ProcessParameter {
 			// 1. we add url/action into swagger now.
 			// because here we have known that each table have match one url
 			// some urls would not be used.
-			processMe.addUrl(swagger, url, action);
+			processMe.addUrl(openAPI, url, action);
 
-			JSONObject urlObject = swagger.getJSONObject("paths").getJSONObject(url);
+			JSONObject urlObject = openAPI.getJSONObject("paths").getJSONObject(url);
 			// 1. find the action
 			JSONObject paraAll = new JSONObject();
 			// parser the parameters
@@ -49,7 +49,7 @@ public class ProcessParameter {
 			urlObject.put(action, paraAll);
 		}
 
-		return swagger;
+		return openAPI;
 	}
 
 	public JSONArray parseParameter(String paraStr, Annotation anno, Document doc, String template)

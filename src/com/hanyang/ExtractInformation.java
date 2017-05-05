@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import gate.Annotation;
 import gate.AnnotationSet;
-import gate.Corpus;
 import gate.Document;
 import gate.DocumentContent;
 import gate.Factory;
@@ -48,28 +47,27 @@ public class ExtractInformation {
 	/** The Corpus Pipeline application to contain ANNIE */
 	// corpus/www.instagram.com dev.twitter.com www.twilio.com www.youtube.com
 	// www.flickr.com
-	public static String FOLDER_PATH = "corpus/www.flickr.com";
-	public static String API_NAME = "flickr";
-	// "https", "http"
-	private static List<String> SCHEME = new ArrayList<String>(Arrays.asList("null"));
-	// "table", 
-	private static List<String> TEMPLATE = new ArrayList<String>(Arrays.asList("list"));
+	public static String FOLDER_PATH = "corpus/www.instagram.com";
+	public static String API_NAME = "instagram";
+	// "https", "http", "null"
+	private static List<String> MODE = new ArrayList<String>(Arrays.asList("https", "http", "null"));
+	// "table", "list"
+	private static List<String> TEMPLATE = new ArrayList<String>(Arrays.asList("table", "list"));
 	// "single", 
-	private static List<String> NUMBER = new ArrayList<String>(Arrays.asList("multiple"));
+	private static List<String> NUMBER = new ArrayList<String>(Arrays.asList("single", "multiple"));
 	// , "delete"
-	private static List<String> ABBREV_DELETE = new ArrayList<String>(Arrays.asList("del"));
+	private static List<String> ABBREV_DELETE = new ArrayList<String>(Arrays.asList("del", "delete"));
 
 	public static void main(String[] args) throws GateException, JSONException, IOException {
 		Gate.init();
 
 		// 1. create corpus
-		Corpus corpus = Factory.newCorpus("Test HTML Corpus");
 		File folder = new File(FOLDER_PATH);
 		File[] listFiles = folder.listFiles();
 
 		// 2. generate swagger according to pattern
-		for (Iterator<String> sIterator = SCHEME.iterator(); sIterator.hasNext();) {
-			String scheme = sIterator.next();
+		for (Iterator<String> sIterator = MODE.iterator(); sIterator.hasNext();) {
+			String mode = sIterator.next();
 
 			for (Iterator<String> tIterator = TEMPLATE.iterator(); tIterator.hasNext();) {
 				String template = tIterator.next();
@@ -80,7 +78,7 @@ public class ExtractInformation {
 					for (Iterator<String> dIterator = ABBREV_DELETE.iterator(); dIterator.hasNext();) {
 						String abbrev = dIterator.next();
 						// generate different swagger
-						generateSwagger(corpus, listFiles, scheme, template, number, abbrev);
+						generateOpenAPI(listFiles, mode, template, number, abbrev);
 						System.gc();
 					}
 				}
@@ -88,21 +86,21 @@ public class ExtractInformation {
 		}
 
 		// 3. compare the json files and select the final one.
-		selectSwagger(folder);
+		selectOpenAPI(folder);
 
 	}
 
-	public static void generateSwagger(Corpus corpus, File[] listFiles, String scheme, String template, String number,
+	public static void generateOpenAPI(File[] listFiles, String mode, String template, String number,
 			String abbrev) throws ResourceInstantiationException, JSONException, IOException, MalformedURLException {
 		// 2. initial the specification
 		GenerateMain mainObject = new GenerateMain();
-		JSONObject swagger = mainObject.generateStructure();
+		JSONObject openAPI = mainObject.generateStructure();
 		ProcessBaseUrl processBa = new ProcessBaseUrl();
 		String baseUrl = null;
 		// 3. different mode
 		// if it's null mode, find the common base url first
-		if (scheme == "null") {
-		   baseUrl = processBa.searchBaseUrl(listFiles, corpus, API_NAME);
+		if (mode == "null") {
+		   baseUrl = processBa.searchBaseUrl(listFiles, API_NAME);
 		   Out.prln(baseUrl);
 		}
 		
@@ -114,26 +112,24 @@ public class ExtractInformation {
 			String type = new Tika().detect(listFiles[i].getPath());
 			// only detect html
 			if (type.equals("text/html")) {
-				executeFile(listFiles[i].getPath(), corpus, swagger, scheme, template, number, abbrev, baseUrl);
+				executeFile(listFiles[i].getPath(), openAPI, mode, template, number, abbrev, baseUrl);
 			}
 		}
 		
 		// 4. prune swagger
-		swagger = processBa.handleBaseUrl(swagger, scheme, baseUrl);
+		openAPI = processBa.handleBaseUrl(openAPI, mode, baseUrl);
 
 		// 5. write to file
-		writeSwagger(swagger, scheme, template, number, abbrev);
+		writeOpenAPI(openAPI, mode, template, number, abbrev);
 
 	}
 
-	public static void executeFile(String path, Corpus corpus, JSONObject swagger, String scheme, String template,
+	public static void executeFile(String path, JSONObject swagger, String scheme, String template,
 			String number, String abbrev, String baseUrl) throws ResourceInstantiationException, JSONException, IOException {
 		URL u = Paths.get(path).toUri().toURL();
 		FeatureMap params = Factory.newFeatureMap();
 		params.put("sourceUrl", u);
 		Document doc = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
-		// 1. add doc
-		corpus.add(doc);
 
 		// 2. get all text
 		DocumentContent textAll = doc.getContent();
@@ -350,7 +346,7 @@ public class ExtractInformation {
 		}
 	}
 
-	public static void writeSwagger(JSONObject swagger, String scheme, String template, String number, String abbrev)
+	public static void writeOpenAPI(JSONObject swagger, String scheme, String template, String number, String abbrev)
 			throws IOException {
 		// Print pretty swagger
 		String fileName = scheme + "_" + template + "_" + number + "_" + abbrev + ".json";
@@ -370,7 +366,7 @@ public class ExtractInformation {
 		fileWriter.close();
 	}
 
-	public static void selectSwagger(File folder) throws IOException {
+	public static void selectOpenAPI(File folder) throws IOException {
 		File[] listNew = folder.listFiles();
 		String finalName = "OpenAPI.json";
 		File finalFile = new File(FOLDER_PATH + "/" + finalName);

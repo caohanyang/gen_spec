@@ -23,7 +23,7 @@
           {
             "in": "query",
             "name": "PhoneNumber",
-            "description": "The phone number to verify. Should be formatted with a \u0027+\u0027 and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
+            "description": "The phone number to verify. Should be formatted with a '+' and country code e.g., +16175551212 ( E.164 format). Twilio will also accept unformatted US numbers e.g., (415) 555-1212, 415-555-1212.",
             "type": "integer",
             "required": "required"
           }
@@ -184,7 +184,7 @@
           {
             "in": "query",
             "name": "activation_date",
-            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date\u003d2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date\u003c\u003d2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date\u003e\u003d2009-07-06.",
+            "description": "Only retrieve the list of port orders comprising phone numbers that are scheduled to become active on a particular date, in GMT RFC 2822 format, e.g., activation_date=2009-07-06. Inequality can also be specified to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or before midnight on a particular date, e.g. activation_date<=2009-07-06, or to retrieve the list of port orders comprising phone numbers that are scheduled to become active on or after midnight on a particular date, e.g. activation_date>=2009-07-06.",
             "type": "integer",
             "required": "required"
           },
@@ -198,7 +198,7 @@
           {
             "in": "query",
             "name": "date_created",
-            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created\u003d2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
+            "description": "Only retrieve the list of port orders that were created on a particular date, in GMT RFC 2822 format, e.g., date_created=2009-07-06. Inequality can be specified to retrieve the list of port orders that were created before or after a particular date as well.",
             "type": "integer",
             "required": "required"
           },
@@ -291,7 +291,7 @@
           {
             "in": "query",
             "name": "RecordingSource",
-            "description": "The type of call that created this recording. For recordings initiated when Record\u003dtrue is set on the REST API, OutboundAPI will be returned..",
+            "description": "The type of call that created this recording. For recordings initiated when Record=true is set on the REST API, OutboundAPI will be returned..",
             "type": "integer",
             "required": "required"
           }
